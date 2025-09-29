@@ -2,7 +2,7 @@
 session_start();
 $email = $_SESSION['email'];
 $nama_staff = $_SESSION['nama_staff'];
-$nim = $_SESSION['nim'];
+$nik = $_SESSION['nik'];
 ?>
 
 <!DOCTYPE html>
@@ -15,14 +15,31 @@ $nim = $_SESSION['nim'];
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
     <link rel="stylesheet" href="../static/style/font.css">
+    <link rel="stylesheet" href="../static/style/sidebar.css">
+
+    <style>
+        body {
+            background-color: #F4F5F6;
+        }
+
+        .content {
+            width: calc(100%-20rem);
+            margin-left: 20rem;
+        }
+    </style>
 </head>
 
 <body class="font-poppins">
-    Dashboard Page
+    <?php
+    include('../component/sidebar.php')
+    ?>
+    <div class="content">
+        Dashboard Page
 
-    <h1><?= $email ?></h1>
-    <h1><?= $nama_staff ?></h1>
-    <h1><?= $nim ?></h1>
+        <h1><?= $email ?></h1>
+        <h1><?= $nama_staff ?></h1>
+        <h1><?= $nik ?></h1>
+    </div>
 </body>
 
 </html>
