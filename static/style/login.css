@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.container .title {
+  background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.75),
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.75)
+    ),
+    url("../img/loginBackground.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.no-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.container .title img {
+  width: 200px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 10px white);
+}
+
+.formLogin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formLogin .formWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formLogin form {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formLogin h2 {
+  font-size: 80px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.background-fixed {
+  display: none;
+}
+
+@media screen and (max-width: 746px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .container .title {
+    display: none;
+  }
+
+  .formLogin {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .formLogin {
+    background-image: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.75)
+      ),
+      url("../img/loginBackground.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .formLogin .formWrapper {
+    width: 90%;
+    height: 90%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    backdrop-filter: blur(2px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+  }
+}
