@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 session_start();
 if (!isset($_SESSION['nik'])) {
     header("Location: ../login.php");
@@ -8,7 +8,7 @@ if (!isset($_SESSION['nik'])) {
 $email = $_SESSION['email'];
 $nama_staff = $_SESSION['nama_staff'];
 $nik = $_SESSION['nik'];
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,11 +39,18 @@ $nik = $_SESSION['nik'];
     include('../component/sidebar.php')
     ?>
     <div class="content">
-        Dashboard Page
+        <h1>Data Staff Akademik</h1>
+        <div>
+            <tr>
+                <td>
+                    
+                </td>
+            </tr>
+        </div>
 
-        <h1><?= $email ?></h1>
+        <!-- <h1><?= $email ?></h1>
         <h1><?= $nama_staff ?></h1>
-        <h1><?= $nik ?></h1>
+        <h1><?= $nik ?></h1> -->
     </div>
 </body>
 
