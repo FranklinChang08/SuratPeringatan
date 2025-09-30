@@ -23,10 +23,6 @@ $nik = $_SESSION['nik'];
             background-color: #F4F5F6;
         }
 
-        .content {
-            width: calc(100%-20rem);
-            margin-left: 20rem;
-        }
     </style>
 </head>
 
