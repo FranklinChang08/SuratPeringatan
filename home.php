@@ -1,8 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['nik'])) {
+    header("Location: ./login.php");
+    exit;
+}
+
 $email = $_SESSION['email'];
-$nama_mahasiswa = $_SESSION['nama_mahasiswa'];
-$nim = $_SESSION['nim'];
+$nama_staff = $_SESSION['nama_staff'];
+$nik = $_SESSION['nik'];
 ?>
 
 <!DOCTYPE html>
