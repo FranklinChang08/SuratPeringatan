@@ -1,15 +1,3 @@
-<!-- <?php
-session_start();
-if (!isset($_SESSION['nik'])) {
-    header("Location: ../login.php");
-    exit;
-}
-
-$email = $_SESSION['email'];
-$nama_staff = $_SESSION['nama_staff'];
-$nik = $_SESSION['nik'];
-?> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,94 +12,173 @@ $nik = $_SESSION['nik'];
     <link rel="stylesheet" href="../static/style/dashboard.css">
 
     <style>
-        body {
-            background-color: #F4F5F6;
+        /* Buat custom backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(1000px) !important;
+            -webkit-backdrop-filter: blur(1000px) !important;
         }
 
+        .modal-backdrop.show {
+            background-color: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(100px);
+            -webkit-backdrop-filter: blur(100px);
+        }
+
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
     </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </head>
 
-<body class="font-poppins">
+<body class="bg-light-subtle font-poppins">
     <?php
     include('../component/sidebar.php')
     ?>
-    <!-- Main Content -->
+
     <div class="main-content">
-        <!-- Header -->
-        <div class="header">
-            <h1 class="page-title">Data Staff Akademik</h1>
-            <div class="user-profile">G</div>
-        </div>
-
-        <!-- Content -->
-        <div class="content">
-            <!-- Toolbar -->
-            <div class="toolbar">
-                <div class="toolbar-left">
-                    <button class="btn btn-primary" onclick="tambahStaff()">
-                        ➕ Tambah Staff
-                    </button>
-                    <button class="btn btn-secondary" onclick="importData()">
-                        📁 Import
-                    </button>
+        <header class="header">
+            <h2 class="fw-bold">Data Mahasiswa</h2>
+            <div class="account">
+                <div class="account-desc">
+                    <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
+                    <h2 class="email">gilang@gmail.com</h2>
                 </div>
-                <input type="text" class="search-box" placeholder="🔍" onkeyup="cariStaff(this.value)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
             </div>
+        </header>
 
-            <!-- Table -->
-            <div class="table-container">
-                <div class="table-wrapper">
-                    <div class="watermark">
-                        <img src="../static/img/logo.png" alt="">
-                    </div>
-                    <table id="staffTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Staff</th>
-                                <th>NIK</th>
-                                <th>Email</th>
-                                <th>Mata Kuliah</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Budi A.Md Kom</td>
-                                <td>123456789</td>
-                                <td>budi@polibatam.ac.id</td>
-                                <td>Pengantar Proyek Perangkat Lunak</td>
-                                <td class="action-buttons">
-                                    <button class="action-btn" onclick="editStaff(1)">✏️</button>
-                                    <button class="action-btn" onclick="hapusStaff(1)">🗑️</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <section id="tableMahasiswa" class="tableMahasiswa">
+            <div class="container">
+                <div class="button">
+                    <div class="button-group">
+                        <button type="button" class="btn btn-primary font-poppins" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                                <path d="M5 12h14" />
+                                <path d="M12 5v14" />
+                            </svg>
+                            Tambah Mahasiswa</button>
 
-                <!-- Pagination -->
-                <div class="pagination">
-                    <div class="pagination-info">
-                        20 dari 100
+                        <button class="btn btn-primary font-poppins">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-output-icon lucide-folder-output">
+                                <path d="M2 7.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-1.5" />
+                                <path d="M2 13h10" />
+                                <path d="m5 10-3 3 3 3" />
+                            </svg>
+                            Import</button>
                     </div>
-                    <div class="pagination-controls">
-                        <button class="page-btn">‹</button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">4</button>
-                        <button class="page-btn">5</button>
-                        <button class="page-btn">›</button>
-                    </div>
+
+                    <form action="" class="form-search">
+                        <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+                                <path d="m21 21-4.34-4.34" />
+                                <circle cx="11" cy="11" r="8" />
+                            </svg></label>
+                        <input type="text" name="search" id="search" placeholder="Cari...">
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
-        <!-- <h1><?= $email ?></h1>
-        <h1><?= $nama_staff ?></h1>
-        <h1><?= $nik ?></h1> -->
+            <div class="container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Mahasiswa</th>
+                            <th>Email</th>
+                            <th>Jurusan</th>
+                            <th>Prodi</th>
+                            <th>Kelas</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Gilang Ramdhan</td>
+                            <td>gilang@gmail.com</td>
+                            <td>Teknik Informatika</td>
+                            <td>D3 Teknik Informatika</td>
+                            <td>A - Pagi</td>
+                            <td class="d-flex align-items-center">
+                                <a href="" class="btn btn-warning me-2 py-1 px-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
+                                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                        <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                                    </svg>
+                                </a>
+                                <form action="">
+                                    <button class="btn btn-danger py-1 px-2" type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M10 11v6" />
+                                            <path d="M14 11v6" />
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                            <path d="M3 6h18" />
+                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="POST">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama Mahasiswa</label>
+                                    <input type="text" class="form-control" id="nama" placeholder="Masukkan nama mahasiswa">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
+                                    <input type="text" class="form-control" id="nim" placeholder="Masukkan nim mahasiswa...">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jurusan" class="form-label">Jurusan</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Pilih jurusan Mahasiswa</option>
+                                        <option value="if">Teknik Informatika</option>
+                                        <option value="mesin">Teknik Mesin</option>
+                                        <option value="elektro">Teknik Elektro</option>
+                                        <option value="mb">Manejement Bisni</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="prodi" class="form-label">Program Studi</label>
+                                    <input type="text" class="form-control" id="prodi" placeholder="Masukkan nim mahasiswa...">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kelas" class="form-label">Kelas</label>
+                                    <input type="text" class="form-control" id="kelas" placeholder="Masukkan nim mahasiswa...">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Masukkan email mahasiswa">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 

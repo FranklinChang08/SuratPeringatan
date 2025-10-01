@@ -1,10 +1,10 @@
 <div class="sidebar-container">
     <div class="wrapper">
-        <div class="sidebar-title">
+        <div class="sidebar-title py-2">
             <img src="../static/img/logo.png" alt="">
-            <h2>Surat Peringatan</h2>
+            <h2 class="fw-bold">Surat Peringatan</h2>
         </div>
-        <ul>
+        <ul class="mt-4">
             <li>
                 <a href="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users">
@@ -42,16 +42,6 @@
             </li>
         </ul>
         <div class="logout-form">
-            <div class="account">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
-                <div>
-                    <h2 class="nama"><?= $nama_staff ?></h2>
-                    <h2 class="email"><?= $email ?></h2>
-                </div>
-            </div>
             <form action="../logout.php" method="POST">
                 <button type="submit">
                     <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
@@ -68,7 +58,7 @@
 
 <div class="menu-container">
     <ul>
-        <li>
+        <li class="list-menu">
             <a href="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -78,7 +68,7 @@
                 </svg>
             </a>
         </li>
-        <li>
+        <li class="list-menu">
             <a href="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scroll-text-icon lucide-scroll-text">
                     <path d="M15 12h-5" />
@@ -88,7 +78,7 @@
                 </svg>
             </a>
         </li>
-        <li>
+        <li class="list-menu">
             <a href="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-notebook-icon lucide-notebook">
                     <path d="M2 6h4" />
@@ -100,7 +90,7 @@
                 </svg>
             </a>
         </li>
-        <li>
+        <li class="list-menu">
             <a href="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
                     <path d="m16 17 5-5-5-5" />

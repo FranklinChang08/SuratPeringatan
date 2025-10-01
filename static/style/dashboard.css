@@ -1,192 +1,160 @@
-/* ===== Reset & Font ===== */
+:root {
+  --primary: #1e88e5;
+  --warning: #fdd835;
+  --destroy: #e53935;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #F4F5F6;
-    color: #333;
+  background-color: #f4f5f6;
 }
 
-/* ===== Main Content ===== */
 .main-content {
-    margin-left: 20rem; /* menyesuaikan dengan sidebar */
-    padding: 1.5rem;
+  margin-left: 20rem;
+  width: calc(100%-20rem);
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
+.main-content .header {
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.page-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #222;
+.main-content .header .account .account-desc {
+  text-align: end;
 }
 
-.user-profile {
-    width: 40px;
-    height: 40px;
-    background-color: #0A1D56;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.main-content .header .account svg {
+  border: black solid 1px;
+  width: 35px;
+  height: 35px;
+  aspect-ratio: 35px;
+  border-radius: 100%;
+  padding: 0.5rem;
 }
 
-/* ===== Toolbar ===== */
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+.main-content .header .account {
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.toolbar-left {
-    display: flex;
-    gap: 0.5rem;
+.main-content .header .account .email {
+  font-weight: 400;
+  font-size: 12px;
 }
 
-.btn {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
-    transition: 0.3s;
+.tableMahasiswa {
+  padding: 1rem;
 }
 
-.btn-primary {
-    background-color: #28a745;
-    color: white;
+.tableMahasiswa .container {
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
 }
 
-.btn-primary:hover {
-    background-color: #218838;
+.tableMahasiswa .container .button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.btn-secondary {
-    background-color: #007bff;
-    color: white;
+.tableMahasiswa .container .button .button-group {
+  display: flex;
+  gap: 8px;
 }
 
-.btn-secondary:hover {
-    background-color: #0056b3;
+.tableMahasiswa .container .button .btnTambah,
+.tableMahasiswa .container .button .btnImport {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.search-box {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    width: 220px;
+.tableMahasiswa .container .button .btnTambah {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: white;
 }
 
-/* ===== Table ===== */
-.table-container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.tableMahasiswa .container .button .btnImport {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: white;
 }
 
-.table-wrapper {
-    position: relative;
-    overflow: hidden;
+.tableMahasiswa .container .button .form-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0 0.5rem;
+  border-radius: 8px;
 }
 
-.watermark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.1;
-    z-index: 0;
+.tableMahasiswa .container .button .form-search label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
 }
 
-.watermark img {
-    width: 200px;
+.tableMahasiswa .container .button form input {
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
-
 table {
-    width: 100%;
-    border-collapse: collapse;
-    position: relative;
-    z-index: 1;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
 }
 
 thead {
-    background-color: #0A1D56;
-    color: white;
+  background: #f1f5f9;
 }
 
-th, td {
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+th,
+td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+tbody tr:nth-child(odd) {
+  background: #f9fafb;
 }
 
 tbody tr:hover {
-    background-color: #f8f9fa;
+  background: #f1f5f9;
 }
 
-/* Action buttons */
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-}
 
-.action-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-}
 
-.action-btn:hover {
-    transform: scale(1.2);
-}
-
-/* ===== Pagination ===== */
-.pagination {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.pagination-info {
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.pagination-controls {
-    display: flex;
-    gap: 0.3rem;
-    justify-content: center;
-    flex: 1;
-}
-
-.page-btn {
-    padding: 0.4rem 0.8rem;
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.page-btn.active {
-    background-color: #0A1D56;
-    color: white;
-    font-weight: bold;
-}
-
-.page-btn:hover {
-    background-color: #ddd;
+@media screen and (max-width: 746px) {
+  .main-content {
+    margin: 0;
+    width: 100%;
+  }
 }
