@@ -41,12 +41,8 @@
 
     <div class="main-content">
         <header class="header">
-            <h2 class="fw-bold">Data Mahasiswa</h2>
+            <h2 class="fw-bold">Data Pelanggaran</h2>
             <div class="account">
-                <div class="account-desc">
-                    <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 class="email">gilang@gmail.com</h2>
-                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
@@ -56,8 +52,8 @@
 
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
-                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-md-row">
-                    <div class="button-group mb-2 mb-md-0">
+                <div class="button">
+                    <div class="button-group">
                         <button type="button" class="btn btn-primary font-poppins" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                                 <path d="M5 12h14" />
@@ -89,10 +85,10 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Mahasiswa</th>
-                            <th>Email</th>
-                            <th>Jurusan</th>
-                            <th>Prodi</th>
-                            <th>Kelas</th>
+                            <th>Jenis SP</th>
+                            <th>Jenis Pelanggaran</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -100,10 +96,10 @@
                         <tr>
                             <td>1</td>
                             <td>Gilang Ramdhan</td>
-                            <td>gilang@gmail.com</td>
-                            <td>Teknik Informatika</td>
-                            <td>D3 Teknik Informatika</td>
-                            <td>A - Pagi</td>
+                            <td>Surat Peringatan 1</td>
+                            <td>Mahasiswa yang tidak masuk sebanyak 5%</td>
+                            <td>14 September 2025</td>
+                            <td>Active</td>
                             <td class="d-flex align-items-center">
                                 <a href="" class="btn btn-warning me-2 py-1 px-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
@@ -133,40 +129,26 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+                            <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Manejement Pelanggaran</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="" method="POST">
                                 <div class="mb-3">
-                                    <label for="nama" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" class="form-control" id="nama" placeholder="Masukkan nama mahasiswa">
+                                    <label for="nama" class="form-label">Mahasiswa</label>
+                                    <input type="text" class="form-control" id="nama">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
-                                    <input type="text" class="form-control" id="nim" placeholder="Masukkan nim mahasiswa...">
+                                    <label for="nim" class="form-label">Jenis Surat Peringatan</label>
+                                    <input type="text" class="form-control" id="nim">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jurusan" class="form-label">Jurusan</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Pilih jurusan Mahasiswa</option>
-                                        <option value="if">Teknik Informatika</option>
-                                        <option value="mesin">Teknik Mesin</option>
-                                        <option value="elektro">Teknik Elektro</option>
-                                        <option value="mb">Manejement Bisni</option>
-                                    </select>
+                                    <label for="prodi" class="form-label">Tanggal</label>
+                                    <input type="text" class="form-control" id="prodi">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="prodi" class="form-label">Program Studi</label>
-                                    <input type="text" class="form-control" id="prodi" placeholder="Masukkan nim mahasiswa...">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="kelas" class="form-label">Kelas</label>
-                                    <input type="text" class="form-control" id="kelas" placeholder="Masukkan nim mahasiswa...">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Masukkan email mahasiswa">
+                                    <label for="kelas" class="form-label">Status Pelanggaran</label>
+                                    <input type="text" class="form-control" id="kelas">
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
