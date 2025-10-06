@@ -58,72 +58,7 @@ body {
   padding: 1rem;
 }
 
-.tableMahasiswa .container {
-  background-color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1rem;
-}
 
-.tableMahasiswa .container .button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.tableMahasiswa .container .button .button-group {
-  display: flex;
-  gap: 8px;
-}
-
-.tableMahasiswa .container .button .btnTambah,
-.tableMahasiswa .container .button .btnImport {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.tableMahasiswa .container .button .btnTambah {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--primary);
-  color: white;
-}
-
-.tableMahasiswa .container .button .btnImport {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--primary);
-  color: white;
-}
-
-.tableMahasiswa .container .button .form-search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid #ccc;
-  padding: 0 0.5rem;
-  border-radius: 8px;
-}
-
-.tableMahasiswa .container .button .form-search label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.tableMahasiswa .container .button form input {
-  padding: 0.5rem;
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
 table {
   width: 100%;
   border-collapse: collapse;
