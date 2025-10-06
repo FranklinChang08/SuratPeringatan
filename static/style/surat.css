@@ -6,39 +6,66 @@
   padding: 20px;
 }
 
-.card-body {
+.card-body2 {
   width: 250px;               
-  background-color: #ff7a21;  
+  background-color: white ;  
   border-radius: 10px;        
   color: #222;
   display: flex;              
-  align-items: center;        
+  align-items: right;        
   justify-content: space-between;
   padding: 15px 20px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
+  height: 100%;
 }
 
-.card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  position: absolute;
-  margin: 0;
-  width: 18;
-  height: 18;
-  top: 15px;
-  left: 20px;
+.card-title2 {
+    flex: 1;
+    margin: 0;
+    display: block;
 }
 
-.card-icon {
-  width: 28px;
-  height: 28px;
-  stroke: #222;
-  position: absolute;
-  right: 15px;
-  bottom: 17px;
-  transition: stroke 0.2s ease;
+.card-icon2 {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 8px;
+    position: relative;
+    bottom: -80px;
+    right: -3px;
+}
+.header-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-tambah {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    white-space: nowrap; /* Agar teks tidak wrap */
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+.input-cari {
+    flex: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    display: block;
+    margin-top: 2rem;
+    margin-right: 2rem;
 }
 /* === Area form SP === */
 .sp-form {
@@ -53,10 +80,18 @@
   flex-wrap: wrap;
   position: relative;
   z-index: 1; /* pastikan form tidak menutupi elemen lain */
+  width: 100%;
 }
 
 /* form di bawah tombol “Tambah SP” */
-.card-group .container .button {
+.card-group2 .container .button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.card-group2 .container .formseacrh {
   display: flex;
   align-items: center;
   justify-content: flex-start;
