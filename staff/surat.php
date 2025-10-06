@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
     <link rel="stylesheet" href="../static/style/dashboard.css">
+    <link rel="stylesheet" href="../static/style/surat.css">
 
     <style>
         /* Buat custom backdrop */
@@ -28,7 +29,8 @@
         .modal-backdrop {
             transition: opacity 0.3s ease;
         }
-        .tableMahasiswa .container {
+
+        .card-group .container {
   background-color: white;
   padding: 0.5rem;
   border-radius: 8px;
@@ -36,19 +38,19 @@
   margin-bottom: 1rem;
 }
 
-.tableMahasiswa .container .button {
+.card-group .container .button {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.tableMahasiswa .container .button .button-group {
+.card-group .container .button .button-group {
   display: flex;
   gap: 8px;
 }
 
-.tableMahasiswa .container .button .btnTambah,
-.tableMahasiswa .container .button .btnImport {
+.card-group .container .button .btnTambah,
+.card-group .container .button .btnImport {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -56,7 +58,7 @@
   font-weight: 600;
 }
 
-.tableMahasiswa .container .button .btnTambah {
+.card-group .container .button .btnTambah {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -64,7 +66,7 @@
   color: white;
 }
 
-.tableMahasiswa .container .button .btnImport {
+.card-group .container .button .btnImport {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -72,7 +74,7 @@
   color: white;
 }
 
-.tableMahasiswa .container .button .form-search {
+.card-group .container .button .form-search {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -81,14 +83,14 @@
   border-radius: 8px;
 }
 
-.tableMahasiswa .container .button .form-search label {
+.card-group .container .button .form-search label {
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(0, 0, 0, 0.5);
 }
 
-.tableMahasiswa .container .button form input {
+.card-group .container .button form input {
   padding: 0.5rem;
   border: none;
   outline: none;
@@ -106,9 +108,8 @@
     ?>
 
     <div class="main-content">
-        
         <header class="header">
-            <h2 class="fw-bold">Data Mahasiswa </h2>
+            <h2 class="fw-bold">Data Mahasiswa</h2>
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
@@ -121,78 +122,75 @@
             </div>
         </header>
 
-        <section id="tableMahasiswa" class="tableMahasiswa">
+        <section id="card-group" class="card-group">
+            
             <div class="container">
-                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-md-row">
-                    <div class="button-group mb-2 mb-md-0">
-                        <button type="button" class="btn btn-primary font-poppins" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
-                                <path d="M5 12h14" />
-                                <path d="M12 5v14" />
-                            </svg>
-                            Tambah Mahasiswa</button>
+                <div class="button">
+                    <div class="button-group">
+    <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v6.0h6.0a.5.5 0 0 1 0 1h-6.0v6.0a.5.5 0 0 1-1 0v-6.0H1.5a.5.5 0 0 1 0-1h6.0V1.5A.5.5 0 0 1 8 1z"/>
+      </svg>
+      Tambah SP
+    </button>
+  </div>
 
-                        <button class="btn btn-primary font-poppins">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-output-icon lucide-folder-output">
-                                <path d="M2 7.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-1.5" />
-                                <path d="M2 13h10" />
-                                <path d="m5 10-3 3 3 3" />
-                            </svg>
-                            Import</button>
+  <form action="" class="form-search">
+    <input type="text" placeholder="Cari..." />
+  </form>
+</div>
+
+<!-- Tambahkan bagian ini di bawah -->
+<div class="sp-form">
+  <div class="sp-left">
+    <label for="nama-sp">Nama SP</label>
+    <input type="text" id="nama-sp" placeholder="Masukkan nama surat peringatan">
+  </div>
+
+  <div class="sp-right">
+    <label for="status-sp">Status SP</label>
+    <select id="status-sp">
+      <option value="">Pilih status</option>
+      <option value="active">Activate</option>
+      <option value="nonactive">Deactivate</option>
+    </select>
+  </div>
+
+  <div class="sp-buttons">
+    <button type="button" class="btn btn-success">Tambah</button>
+    <button type="button" class="btn btn-danger">Cancel</button>
+  </div>
+</div>
+
+                        
                     </div>
-
-                    <form action="" class="form-search">
-                        <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
-                                <path d="m21 21-4.34-4.34" />
-                                <circle cx="11" cy="11" r="8" />
-                            </svg></label>
-                        <input type="text" name="search" id="search" placeholder="Cari...">
-                    </form>
-                </div>
-            </div>
             <div class="container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>Email</th>
-                            <th>Jurusan</th>
-                            <th>Prodi</th>
-                            <th>Kelas</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Gilang Ramdhan</td>
-                            <td>gilang@gmail.com</td>
-                            <td>Teknik Informatika</td>
-                            <td>D3 Teknik Informatika</td>
-                            <td>A - Pagi</td>
-                            <td class="d-flex align-items-center">
-                                <a href="" class="btn btn-warning me-2 py-1 px-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
-                                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-                                    </svg>
-                                </a>
-                                <form action="">
-                                    <button class="btn btn-danger py-1 px-2" type="submit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M10 11v6" />
-                                            <path d="M14 11v6" />
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                            <path d="M3 6h18" />
-                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+ <div class="card" style="width: 15rem; height: 10rem">
+  <div class="card-body">
+    <h4 class="card-title">Surat Peringatan 1 </h4>
+  <div class="card-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+   </svg>
+  </div>
+</div>
+ </div>
+ <div class="card" style="width: 15rem; height: 10rem">
+    <div class="card-body">
+  <!-- <div class="card-body"> -->
+    <h4 class="card-title">Surat Peringatan 1</h4>
+  <div class="card-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+  </div>
+</div>
+ </div>
+ <div class="card" style="width: 15rem; height: 10rem">
+  <div class="card-body">
+    <h4 class="card-title">Surat Peringatan 1</h4>
+   <div class="card-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+</div>
+</div>
+                        </div>
             </div>
 
             <!-- Modal -->
