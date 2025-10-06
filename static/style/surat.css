@@ -1,18 +1,19 @@
 .container {
-  display: flex;              
-  flex-wrap: wrap;            
-  gap: 35px;                 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
   justify-content: flex-start;
   padding: 20px;
 }
 
-.card-body2 {
-  width: 250px;               
-  background-color: white ;  
-  border-radius: 10px;        
+
+.card-body {
+  width: 250px;
+  background-color: #ff7a21;
+  border-radius: 10px;
   color: #222;
-  display: flex;              
-  align-items: right;        
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 15px 20px;
   cursor: pointer;
@@ -75,7 +76,7 @@
   background-color: #ffffff;
   padding: 1rem 1.2rem;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-top: 1rem;
   flex-wrap: wrap;
   position: relative;
@@ -100,7 +101,8 @@
 }
 
 /* biar input dan select sejajar */
-.sp-left, .sp-right {
+.sp-left,
+.sp-right {
   display: flex;
   flex-direction: column;
 }
@@ -152,7 +154,7 @@
   justify-content: space-between;
   color: #000;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: 0.3s ease;
 }
 

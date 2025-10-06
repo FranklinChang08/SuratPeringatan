@@ -30,73 +30,73 @@
       transition: opacity 0.3s ease;
     }
 
-    .card-group2 .container {
-      background-color: white;
-      padding: 0.5rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      margin-bottom: 1rem;
-    }
+        .card-group .container {
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
+}
 
-    .card-group2 .container .button {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.card-group .container .button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .card-group2 .container .button .button-group {
-      display: flex;
-      gap: 8px;
-    }
+.card-group .container .button .button-group {
+  display: flex;
+  gap: 8px;
+}
 
-    .card-group2 .container .button .btnTambah,
-    .card-group2 .container .button .btnImport {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      font-weight: 600;
-    }
+.card-group .container .button .btnTambah,
+.card-group .container .button .btnImport {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+}
 
-    .card-group2 .container .button .btnTambah {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background-color: var(--primary);
-      color: white;
-    }
+.card-group .container .button .btnTambah {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+}
 
-    .card-group2 .container .button .btnImport {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background-color: var(--primary);
-      color: white;
-    }
+.card-group .container .button .btnImport {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+}
 
-    .card-group2 .container .button .form-search {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      border: 1px solid #ccc;
-      padding: 0 0.5rem;
-      border-radius: 8px;
-    }
+.card-group .container .button .form-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0 0.5rem;
+  border-radius: 8px;
+}
 
-    .card-group2 .container .button .form-search label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(0, 0, 0, 0.5);
-    }
+.card-group .container .button .form-search label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+}
 
-    .card-group2 .container .button form input {
-      padding: 0.5rem;
-      border: none;
-      outline: none;
-      background-color: transparent;
-    }
-  </style>
+.card-group .container .button form input {
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+    </style>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -122,11 +122,22 @@
       </div>
     </header>
 
-    <section id="card-group" class="card-group">
+        <section id="card-group" class="card-group">
+            
+            <div class="container">
+                <div class="button">
+                    <div class="button-group">
+    <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v6.0h6.0a.5.5 0 0 1 0 1h-6.0v6.0a.5.5 0 0 1-1 0v-6.0H1.5a.5.5 0 0 1 0-1h6.0V1.5A.5.5 0 0 1 8 1z"/>
+      </svg>
+      Tambah SP
+    </button>
+  </div>
 
-<div class="header-container">
-    <button class="btn-tambah">+ Tambah SP</button>
-    <input type="text" class="input-cari" placeholder="Cari...">
+  <form action="" class="form-search">
+    <input type="text" placeholder="Cari..." />
+  </form>
 </div>
 
         <!-- Tambahkan bagian ini di bawah -->
@@ -145,58 +156,42 @@
             </select>
           </div>
 
-          <div class="sp-buttons">
-            <button type="button" class="btn btn-success">Tambah</button>
-            <button type="button" class="btn btn-danger">Cancel</button>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="card" style="width: 15rem; height: 10rem">
-          <div class="card-body2">
-            <h4 class="card-title2">Surat Peringatan 1 </h4>
-            <div class="card-icon2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
-                <path d="M10 11v6" />
-                <path d="M14 11v6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                <path d="M3 6h18" />
-                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              </svg>
-              </svg>
+  <div class="sp-buttons">
+    <button type="button" class="btn btn-success">Tambah</button>
+    <button type="button" class="btn btn-danger">Cancel</button>
+  </div>
+</div>
+
+                        
+                    </div>
+            <div class="container">
+ <div class="card" style="width: 15rem; height: 10rem">
+  <div class="card-body">
+    <h4 class="card-title">Surat Peringatan 1 </h4>
+  <div class="card-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+   </svg>
+  </div>
+</div>
+ </div>
+ <div class="card" style="width: 15rem; height: 10rem">
+    <div class="card-body">
+  <!-- <div class="card-body"> -->
+    <h4 class="card-title">Surat Peringatan 1</h4>
+  <div class="card-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+  </div>
+</div>
+ </div>
+ <div class="card" style="width: 15rem; height: 10rem">
+  <div class="card-body">
+    <h4 class="card-title">Surat Peringatan 1</h4>
+   <div class="card-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+</div>
+</div>
+                        </div>
             </div>
-          </div>
-        </div>
-        <div class="card" style="width: 15rem; height: 10rem">
-          <div class="card-body2">
-            <!-- <div class="card-body"> -->
-            <h4 class="card-title2">Surat Peringatan 1</h4>
-            <div class="card-icon2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
-                <path d="M10 11v6" />
-                <path d="M14 11v6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                <path d="M3 6h18" />
-                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="card" style="width: 15rem; height: 10rem">
-          <div class="card-body2">
-            <h4 class="card-title2">Surat Peringatan 1</h4>
-            <div class="card-icon2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
-                <path d="M10 11v6" />
-                <path d="M14 11v6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                <path d="M3 6h18" />
-                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Modal -->
       <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
