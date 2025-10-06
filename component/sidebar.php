@@ -1,3 +1,14 @@
+<?php
+$currentFile = basename($_SERVER['PHP_SELF']);
+echo $currentFile;
+
+function activeSidebar($urlLink)
+{
+    global $currentFile; // make it accessible inside the function
+    return ($urlLink == $currentFile) ? 'active' : '';
+}
+?>
+
 <div class="sidebar-container">
     <div class="wrapper">
         <div class="sidebar-title py-2">
@@ -6,7 +17,7 @@
         </div>
         <ul class="mt-4 p-0">
             <li>
-                <a href="../staff/dashboard.php">
+                <a href="../staff/dashboard.php" class="<?= activeSidebar('dashboard.php'); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                         <path d="M16 3.128a4 4 0 0 1 0 7.744" />
@@ -28,7 +39,7 @@
                 </a>
             </li>
             <li>
-                <a href="../staff/pelanggaran.php">
+                <a href="../staff/pelanggaran.php" class="<?= activeSidebar('pelanggaran.php'); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-notebook-icon lucide-notebook">
                         <path d="M2 6h4" />
                         <path d="M2 10h4" />

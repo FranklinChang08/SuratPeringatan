@@ -40,8 +40,9 @@
     ?>
 
     <div class="main-content">
+        
         <header class="header">
-            <h2 class="fw-bold">Data Mahasiswa</h2>
+            <h2 class="fw-bold">Data Mahasiswa </h2>
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
