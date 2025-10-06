@@ -7,6 +7,11 @@
     <title>Document</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
     <link rel="stylesheet" href="../static/style/dashboard.css">
@@ -28,76 +33,9 @@
         .modal-backdrop {
             transition: opacity 0.3s ease;
         }
-        .tableMahasiswa .container {
-  background-color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1rem;
-}
-
-.tableMahasiswa .container .button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.tableMahasiswa .container .button .button-group {
-  display: flex;
-  gap: 8px;
-}
-
-.tableMahasiswa .container .button .btnTambah,
-.tableMahasiswa .container .button .btnImport {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.tableMahasiswa .container .button .btnTambah {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--primary);
-  color: white;
-}
-
-.tableMahasiswa .container .button .btnImport {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--primary);
-  color: white;
-}
-
-.tableMahasiswa .container .button .form-search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid #ccc;
-  padding: 0 0.5rem;
-  border-radius: 8px;
-}
-
-.tableMahasiswa .container .button .form-search label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.tableMahasiswa .container .button form input {
-  padding: 0.5rem;
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
     </style>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="bg-light-subtle font-poppins">
@@ -106,9 +44,8 @@
     ?>
 
     <div class="main-content">
-        
         <header class="header">
-            <h2 class="fw-bold">Data Mahasiswa </h2>
+            <h2 class="fw-bold mb-0">Data Mahasiswa</h2>
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
@@ -172,12 +109,61 @@
                             <td>D3 Teknik Informatika</td>
                             <td>A - Pagi</td>
                             <td class="d-flex align-items-center">
-                                <a href="" class="btn btn-warning me-2 py-1 px-2">
+                                <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMahasiswa">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
                                         <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                         <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
                                     </svg>
-                                </a>
+                                </button>
+                                <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editMahasiswaLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="" method="POST">
+                                                    <div class="mb-3">
+                                                        <label for="nama" class="form-label">Nama Mahasiswa</label>
+                                                        <input type="text" class="form-control" id="nama" placeholder="Masukkan nama mahasiswa">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
+                                                        <input type="text" class="form-control" id="nim" placeholder="Masukkan nim mahasiswa...">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="jurusan" class="form-label">Jurusan</label>
+                                                        <select class="form-select" aria-label="Default select example">
+                                                            <option selected>Pilih jurusan Mahasiswa</option>
+                                                            <option value="if">Teknik Informatika</option>
+                                                            <option value="mesin">Teknik Mesin</option>
+                                                            <option value="elektro">Teknik Elektro</option>
+                                                            <option value="mb">Manejement Bisni</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="prodi" class="form-label">Program Studi</label>
+                                                        <input type="text" class="form-control" id="prodi" placeholder="Masukkan nim mahasiswa...">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="kelas" class="form-label">Kelas</label>
+                                                        <input type="text" class="form-control" id="kelas" placeholder="Masukkan nim mahasiswa...">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="email" placeholder="Masukkan email mahasiswa">
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <form action="">
                                     <button class="btn btn-danger py-1 px-2" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
