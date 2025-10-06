@@ -4,9 +4,9 @@
             <img src="../static/img/logo.png" alt="">
             <h2 class="fw-bold">Surat Peringatan</h2>
         </div>
-        <ul class="mt-4">
+        <ul class="mt-4 p-0">
             <li>
-                <a href="">
+                <a href="../staff/dashboard.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users">
                         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                         <path d="M16 3.128a4 4 0 0 1 0 7.744" />
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="../staff/pelanggaran.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-notebook-icon lucide-notebook">
                         <path d="M2 6h4" />
                         <path d="M2 10h4" />
