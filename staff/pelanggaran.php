@@ -7,6 +7,9 @@
     <title>Document</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
     <link rel="stylesheet" href="../static/style/dashboard.css">

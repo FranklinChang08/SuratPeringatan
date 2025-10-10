@@ -7,6 +7,9 @@
   <title>Document</title>
   <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
   <link rel="stylesheet" href="../static/style/font.css">
   <link rel="stylesheet" href="../static/style/sidebar.css">
 
@@ -138,6 +141,7 @@
       background-color: transparent;
     }
 
+
     .group-card {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -196,6 +200,7 @@
         width: 100%;
       }
     }
+
   </style>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -210,6 +215,7 @@
   <div class="main-content">
     <header class="header">
       <h2 class="fw-bold">Data Surat Peringatan</h2>
+
       <div class="account">
         <div class="account-desc">
           <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
@@ -242,6 +248,7 @@
               </svg></label>
             <input type="text" name="search" id="search" placeholder="Cari...">
           </form>
+
         </div>
       </div>
     </section>
