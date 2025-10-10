@@ -87,7 +87,7 @@
                     </form>
                 </div>
             </div>
-            <div class="container">
+            <!-- <div class="container">
                 <table>
                     <thead>
                         <tr>
@@ -179,7 +179,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
 
             <!-- Modal -->
             <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
@@ -206,7 +206,7 @@
                                         <option value="if">Teknik Informatika</option>
                                         <option value="mesin">Teknik Mesin</option>
                                         <option value="elektro">Teknik Elektro</option>
-                                        <option value="mb">Manejement Bisni</option>
+                                        <option value="mb">Manejement Bisnis</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
