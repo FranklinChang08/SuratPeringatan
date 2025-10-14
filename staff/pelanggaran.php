@@ -33,8 +33,7 @@
         }
     </style>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+ 
 </head>
 
 <body class="bg-light-subtle font-poppins">
@@ -46,6 +45,10 @@
         <header class="header">
             <h2 class="fw-bold">Data Pelanggaran</h2>
             <div class="account">
+                <div class="account-desc">
+                    <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
+                    <h2 class="email">gilang@gmail.com</h2>
+                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
@@ -55,7 +58,7 @@
 
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
-                <div class="button d-flex justify-content-between flex-column flex-md-row gap-2">
+                <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
                     <div class="button-group">
                         <button type="button" class="btn btn-primary font-poppins" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">

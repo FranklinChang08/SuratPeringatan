@@ -9,8 +9,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
@@ -60,16 +60,15 @@
 
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
-                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-md-row">
-                    <div class="button-group mb-2 mb-md-0">
+                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
+                    <div class="button-group mb-2 mb-md-0 ">
                         <button type="button" class="btn btn-primary font-poppins" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                                 <path d="M5 12h14" />
                                 <path d="M12 5v14" />
                             </svg>
                             Tambah Mahasiswa</button>
-
-                        <button class="btn btn-primary font-poppins">
+                        <button class="btn btn-primary font-poppins ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-output-icon lucide-folder-output">
                                 <path d="M2 7.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-1.5" />
                                 <path d="M2 13h10" />
@@ -234,5 +233,21 @@
         </section>
     </div>
 </body>
+<script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script>
+    const message = localStorage.getItem('message');
+    const status = localStorage.getItem('status');
+    if (message && status) {
+        Swal.fire({
+            title: status,
+            text: message,
+            icon: status
+        }).then(() => {
+            localStorage.removeItem('message');
+            localStorage.removeItem('status');
+        });
+    }
+</script>
 
 </html>

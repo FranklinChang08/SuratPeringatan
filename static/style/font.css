@@ -11,3 +11,9 @@
 .bebas-neue {
   font-family: "Bebas Neue", sans-serif;
 }
+
+.swal-title,
+.swal-text,
+.swal-button {
+  font-family: 'Poppins', sans-serif;
+}

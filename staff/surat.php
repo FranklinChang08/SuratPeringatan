@@ -164,8 +164,6 @@
             <button type="button" class="btn btn-danger">Cancel</button>
           </div>
         </div>
-
-
       </div>
       <div class="container">
         <div class="card" style="width: 15rem; height: 10rem">
@@ -260,7 +258,6 @@
                 </div>
               </form>
             </div>
-
           </div>
         </div>
       </div>
