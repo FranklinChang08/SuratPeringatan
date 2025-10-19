@@ -21,11 +21,22 @@ if ($row) {
 
         $nama = $row['nama_mahasiswa'];
 
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Login Berhasil, Selamat Datang Mahasiswa',
-            'redirect' => '../home.php'
-        ]);
+        echo '
+        <script>
+   Swal.fire({
+                title: "success",
+                text: "Login Berhasil, Selamat Datang di Pengelolahan Surat Peringatan",
+                icon: "success",
+                customClass: {
+                    title: "swal-title",
+                    htmlContainer: "swal-text",
+                    confirmButton: "swal-button",
+                }
+            }).then(() => {
+                window.location.href = "../home.php"
+            })
+        </script>
+        ';
         exit;
     }
 }

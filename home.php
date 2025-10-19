@@ -490,7 +490,7 @@
     </footer>
 
     <form action="./auth/logout.php" class="position-fixed bottom-0 end-0 p-3">
-        <button onclick="confirm('Apakah anda yakin?')" class="btn btn-danger shadow-sm">
+        <button onclick="confirmLogout()" class="btn btn-danger shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
                 <path d="m16 17 5-5-5-5" />
                 <path d="M21 12H9" />
@@ -503,22 +503,8 @@
 <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script>
-    const message = localStorage.getItem('message');
-    const status = localStorage.getItem('status');
-    if (message && status) {
-        Swal.fire({
-            title: status,
-            text: message,
-            icon: status,
-            customClass: {
-                title: 'swal-title',
-                htmlContainer: 'swal-text',
-                confirmButton: 'swal-button'
-            }
-        }).then(() => {
-            localStorage.removeItem('message');
-            localStorage.removeItem('status');
-        });
+    function confirmLogout() {
+        confirm('Apakah anda yakin?')
     }
 </script>
 

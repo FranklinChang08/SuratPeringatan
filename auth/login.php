@@ -230,43 +230,18 @@
         }
 
         if (value) {
-            try {
-                const response = await fetch('proses_login.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-                });
-
-                const result = await response.json(); // backend kirim JSON
-
-                if (result.status === 'success') {
-                    localStorage.setItem('message', result.message);
-                    localStorage.setItem('status', result.status);
-                    window.location.href = result.redirect; // arahkan ke halaman dari backend
-                } else {
-                    Swal.fire({
-                        title: result.status,
-                        text: result.message,
-                        icon: result.status
-                    });
+            Swal.fire({
+                title: "success",
+                text: "Login Berhasil, Selamat Datang di Pengelolahan Surat Peringatan",
+                icon: "success",
+                customClass: {
+                    title: 'swal-title',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-button',
                 }
-
-                document.getElementById("formLogin").reset();
-            } catch (error) {
-                Swal.fire({
-                    title: "error",
-                    text: "Terjadi kesalahan saat mengirim data.",
-                    icon: "error",
-                    customClass: {
-                        title: 'swal-title',
-                        htmlContainer: 'swal-text',
-                        confirmButton: 'swal-button'
-                    }
-                });
-                console.error(error);
-            }
+            }).then(() => {
+                window.location.href = '../home.php'
+            })
         }
     })
 </script>
