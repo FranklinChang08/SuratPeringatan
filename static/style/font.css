@@ -17,3 +17,20 @@
 .swal-button {
   font-family: 'Poppins', sans-serif;
 }
+
+/* Buat custom backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(1000px) !important;
+  -webkit-backdrop-filter: blur(1000px) !important;
+}
+
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+}
+
+.modal-backdrop {
+  transition: opacity 0.3s ease;
+}

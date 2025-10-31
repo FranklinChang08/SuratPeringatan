@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home Page | Polibatam Surat Peringatan</title>
     <link rel="icon" href="./static/img/logo.png" type="image/x-icon">
 
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
@@ -396,7 +396,7 @@
                                         <div class="d-flex flex-column">
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePassword">
-                                                Change Password
+                                                Ubah Password
                                             </button>
 
                                             <!-- Modal -->
@@ -404,24 +404,26 @@
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Change Password</h1>
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Password</h1>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="" method="POST">
+                                                            <form action="" method="POST" class="needs-validation" novalidate id="changePasswordMahasiswa">
                                                                 <div class="mb-3">
                                                                     <label for="password" class="form-label">Password</label>
-                                                                    <input type="text" class="form-control" name="password" id="password" placeholder="Masukkan password mahasiswa">
+                                                                    <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password mahasiswa" required>
+                                                                    <div class="invalid-feedback"></div>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="confirm_password" class="form-label">Confirm Password</label>
-                                                                    <input type="text" class="form-control" name="confrim_password" id="confirm_password" placeholder="Masukkan Konfirmasi Password mahasiswa...">
+                                                                    <label for="confirm_password" class="form-label">Konfirmasi Password</label>
+                                                                    <input type="password" class="form-control" name="confrim_password" id="confirm_password" placeholder="Masukkan Konfirmasi Password mahasiswa..." required>
+                                                                    <div class="invalid-feedback"></div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                    <button type="submit" class="btn btn-primary">Simpan</button>
                                                                 </div>
                                                             </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save changes</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -431,7 +433,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -489,8 +490,8 @@
         </div>
     </footer>
 
-    <form action="./auth/logout.php" class="position-fixed bottom-0 end-0 p-3">
-        <button onclick="confirmLogout()" class="btn btn-danger shadow-sm">
+    <form action="./auth/logout.php" class="position-fixed bottom-0 end-0 p-3" onsubmit="confirmLogout(event, this)">
+        <button class="btn btn-danger shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
                 <path d="m16 17 5-5-5-5" />
                 <path d="M21 12H9" />
@@ -502,10 +503,7 @@
 
 <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
-<script>
-    function confirmLogout() {
-        confirm('Apakah anda yakin?')
-    }
-</script>
+<script src="./static/js/changePasswordMahasiswa.js"></script>
+<script src="./static/js/confirmLogout.js"></script>
 
 </html>

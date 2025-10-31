@@ -47,7 +47,16 @@ formCreatePelanggaran.addEventListener("submit", function (event) {
     );
     modal.hide();
 
-    alert("Data pelanggaran berhasil dikirim!");
+    Swal.fire({
+      title: "success",
+      text: "Data pelanggaran berhasil dikirim!",
+      icon: "success",
+      customClass: {
+        title: "swal-title",
+        htmlContainer: "swal-text",
+        confirmButton: "swal-button",
+      },
+    });
     formCreatePelanggaran.reset();
     formCreatePelanggaran.classList.remove("was-validated");
   }
@@ -98,11 +107,20 @@ formEditPelanggaran.addEventListener("submit", function (event) {
 
   if (isValid) {
     const modal = bootstrap.Modal.getInstance(
-      document.getElementById("editPelanggaran")
+      document.getElementById("EditPelanggaran")
     );
     modal.hide();
 
-    alert("Data pelanggaran berhasil dikirim!");
+    Swal.fire({
+      title: "success",
+      text: "Data pelanggaran berhasil dikirim!",
+      icon: "success",
+      customClass: {
+        title: "swal-title",
+        htmlContainer: "swal-text",
+        confirmButton: "swal-button",
+      },
+    });
     formEditPelanggaran.reset();
     formEditPelanggaran.classList.remove("was-validated");
   }

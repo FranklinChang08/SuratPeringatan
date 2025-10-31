@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Data Mahasiswa | Polibatam Surat Peringatan</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,27 +15,6 @@
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
     <link rel="stylesheet" href="../static/style/dashboard.css">
-
-    <style>
-        /* Buat custom backdrop */
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.8) !important;
-            backdrop-filter: blur(1000px) !important;
-            -webkit-backdrop-filter: blur(1000px) !important;
-        }
-
-        .modal-backdrop.show {
-            background-color: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(100px);
-            -webkit-backdrop-filter: blur(100px);
-        }
-
-        .modal-backdrop {
-            transition: opacity 0.3s ease;
-        }
-    </style>
-
-
 </head>
 
 <body class="bg-light-subtle font-poppins">
@@ -51,10 +30,12 @@
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
                     <h2 class="email">gilang@gmail.com</h2>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
+                <a href="./profile.php" class="text-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
             </div>
         </header>
 
@@ -136,11 +117,11 @@
                                                     <div class="mb-3">
                                                         <label for="jurusanEdit" class="form-label">Jurusan</label>
                                                         <select class="form-select" id="jurusanEdit" aria-label="Default select example" required>
-                                                            <option value="" selected>Pilih jurusan Mahasiswa</option>
+                                                            <option value="" selected>Pilih Jurusan Mahasiswa</option>
                                                             <option value="if">Teknik Informatika</option>
                                                             <option value="mesin">Teknik Mesin</option>
                                                             <option value="elektro">Teknik Elektro</option>
-                                                            <option value="mb">Manejement Bisni</option>
+                                                            <option value="mb">Manajemen Bisnis</option>
                                                         </select>
                                                         <div class="invalid-feedback"></div>
                                                     </div>
@@ -160,8 +141,8 @@
                                                         <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                        <button type="submit" class="btn btn-primary">Kirim</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -169,7 +150,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form action="">
+                                <form action="" method="POST" onsubmit="return confirmRemove(event, this)">
                                     <button class="btn btn-danger py-1 px-2" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M10 11v6" />
@@ -214,11 +195,11 @@
                                 <div class="mb-3">
                                     <label for="jurusanCreate" class="form-label">Jurusan</label>
                                     <select class="form-select" id="jurusanCreate" aria-label="Default select example" required>
-                                        <option value="" selected>Pilih jurusan Mahasiswa</option>
+                                        <option value="" selected>Pilih Jurusan Mahasiswa</option>
                                         <option value="if">Teknik Informatika</option>
                                         <option value="mesin">Teknik Mesin</option>
                                         <option value="elektro">Teknik Elektro</option>
-                                        <option value="mb">Manejement Bisni</option>
+                                        <option value="mb">Manajemen Bisnis</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -233,8 +214,8 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Kirim</button>
                                 </div>
                             </form>
                         </div>
@@ -251,14 +232,15 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="FormImportMahasiswa">
+                            <form method="POST" id="formImportMahasiswa" novalidate>
                                 <div class="mb-3">
                                     <label for="file" class="form-label">File Data Mahasiswa</label>
-                                    <input type="file" class="form-control" id="file">
+                                    <input type="file" class="form-control" id="file" required>
+                                    <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Kirim</button>
                                 </div>
                             </form>
                         </div>
@@ -269,8 +251,12 @@
         </section>
     </div>
 </body>
-<!-- <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css"> -->
+<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../static/js/validationFile.js"></script>
+<script src="../static/js/confirmRemove.js"></script>
 <script src="../static/js/validationFormMahasiswa.js"></script>
+
+
 
 </html>

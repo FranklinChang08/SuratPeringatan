@@ -23,7 +23,7 @@ function activeSidebar($urlLink)
                         <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                         <circle cx="9" cy="7" r="4" />
                     </svg>
-                    <span>Manejement Mahasiswa</span>
+                    <span>Manajemen Mahasiswa</span>
                 </a>
             </li>
             <li>
@@ -34,7 +34,7 @@ function activeSidebar($urlLink)
                         <path d="M19 17V5a2 2 0 0 0-2-2H4" />
                         <path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3" />
                     </svg>
-                    <span>Manejement SP</span>
+                    <span>Manajemen SP</span>
                 </a>
             </li>
             <li>
@@ -47,12 +47,12 @@ function activeSidebar($urlLink)
                         <rect width="16" height="20" x="4" y="2" rx="2" />
                         <path d="M16 2v20" />
                     </svg>
-                    <span>Manejement Pelanggaran</span>
+                    <span>Manajemen Pelanggaran</span>
                 </a>
             </li>
         </ul>
         <div class="logout-form">
-            <form action="../logout.php" method="POST">
+            <form action="../auth/logout.php" method="POST" onsubmit="confirmLogout(event, this)">
                 <button type="submit">
                     <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
                             <path d="m16 17 5-5-5-5" />
@@ -84,9 +84,13 @@ function activeSidebar($urlLink)
             </a>
         </li>
         <li class="list-menu">
-            <a href="" class="p-4">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWxvZy1vdXQtaWNvbiBsdWNpZGUtbG9nLW91dCI+PHBhdGggZD0ibTE2IDE3IDUtNS01LTUiLz48cGF0aCBkPSJNMjEgMTJIOSIvPjxwYXRoIGQ9Ik05IDIxSDVhMiAyIDAgMCAxLTItMlY1YTIgMiAwIDAgMSAyLTJoNCIvPjwvc3ZnPg==" alt="">
-            </a>
+            <form action="../auth/logout.php" method="POST" onsubmit="confirmLogout(event, this)">
+                <button type="submit" class="btn-submit p-4">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWxvZy1vdXQtaWNvbiBsdWNpZGUtbG9nLW91dCI+PHBhdGggZD0ibTE2IDE3IDUtNS01LTUiLz48cGF0aCBkPSJNMjEgMTJIOSIvPjxwYXRoIGQ9Ik05IDIxSDVhMiAyIDAgMCAxLTItMlY1YTIgMiAwIDAgMSAyLTJoNCIvPjwvc3ZnPg==" alt="">
+                </button>
+            </form>
         </li>
     </ul>
 </div>
+
+<script src="../static/js/confirmLogout.js"></script>

@@ -68,7 +68,16 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
     );
     modal.hide();
 
-    alert("Form berhasil dikirim!");
+    Swal.fire({
+      title: "success",
+      text: "Data Mahasiswa berhasil dikirim!",
+      icon: "success",
+      customClass: {
+        title: "swal-title",
+        htmlContainer: "swal-text",
+        confirmButton: "swal-button",
+      },
+    });
     formCreateMahasiswa.reset();
     formCreateMahasiswa.classList.remove("was-validated");
   }
@@ -143,7 +152,16 @@ formEditMahasiswa.addEventListener("submit", function (event) {
     );
     modal.hide();
 
-    alert("Form berhasil dikirim!");
+    Swal.fire({
+      title: "success",
+      text: "Data Mahasiswa berhasil dikirim!",
+      icon: "success",
+      customClass: {
+        title: "swal-title",
+        htmlContainer: "swal-text",
+        confirmButton: "swal-button",
+      },
+    });
     formEditMahasiswa.reset();
     formEditMahasiswa.classList.remove("was-validated");
   }

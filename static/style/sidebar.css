@@ -126,7 +126,10 @@
   margin-bottom: 0;
 }
 
-.menu-container ul li a {
+.menu-container ul .list-menu a,
+.menu-container ul .list-menu .btn-submit {
+  background-color: transparent;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -141,7 +144,8 @@
   aspect-ratio: 1/1;
 }
 
-.menu-container ul li a:hover {
+.menu-container ul .list-menu a:hover,
+.menu-container ul .list-menu .btn-submit:hover {
   background-color: rgb(37 99 235 / var(--tw-text-opacity, 1));
   transition: all 0.6s ease-in-out;
   color: white;
