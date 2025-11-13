@@ -148,7 +148,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
-@media screen and (max-width: 746px) {
+@media screen and (max-width: 992px) {
   .sidebar-container {
     display: none;
   }

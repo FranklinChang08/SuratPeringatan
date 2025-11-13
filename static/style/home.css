@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -40,6 +40,10 @@
 }
 
 .data-list .container {
+  position: absolute;
+  top: -40px;
+  left: 0;
+
   background-color: white;
   border: 1px solid #ccc;
   padding: 1.5rem;
@@ -131,4 +135,4 @@
   align-items: center;
   padding: 10px;
 }
-
+ */

@@ -9,8 +9,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
@@ -60,16 +60,15 @@
 
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
-                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-md-row">
-                    <div class="button-group mb-2 mb-md-0">
-                        <button type="button" class="btn btn-primary font-poppins" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
+                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
+                    <div class="button-group mb-2 mb-md-0 ">
+                        <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                                 <path d="M5 12h14" />
                                 <path d="M12 5v14" />
                             </svg>
                             Tambah Mahasiswa</button>
-
-                        <button class="btn btn-primary font-poppins">
+                        <button class="btn btn-primary font-poppins " data-bs-toggle="modal" data-bs-target="#ImportMahasiswa">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-output-icon lucide-folder-output">
                                 <path d="M2 7.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-1.5" />
                                 <path d="M2 13h10" />
@@ -119,40 +118,46 @@
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+                                                <h1 class="modal-title fs-5" id="editMahasiswaLabel">Form Mahasiswa</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="" method="POST">
+                                                <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
                                                     <div class="mb-3">
-                                                        <label for="nama" class="form-label">Nama Mahasiswa</label>
-                                                        <input type="text" class="form-control" id="nama" placeholder="Masukkan nama mahasiswa">
+                                                        <label for="namaEdit" class="form-label">Nama Mahasiswa</label>
+                                                        <input type="text" class="form-control" id="namaEdit" placeholder="Masukkan nama mahasiswa" required>
+                                                        <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
-                                                        <input type="text" class="form-control" id="nim" placeholder="Masukkan nim mahasiswa...">
+                                                        <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
+                                                        <input type="text" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                                        <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="jurusan" class="form-label">Jurusan</label>
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>Pilih jurusan Mahasiswa</option>
+                                                        <label for="jurusanEdit" class="form-label">Jurusan</label>
+                                                        <select class="form-select" id="jurusanEdit" aria-label="Default select example" required>
+                                                            <option value="" selected>Pilih jurusan Mahasiswa</option>
                                                             <option value="if">Teknik Informatika</option>
                                                             <option value="mesin">Teknik Mesin</option>
                                                             <option value="elektro">Teknik Elektro</option>
                                                             <option value="mb">Manejement Bisni</option>
                                                         </select>
+                                                        <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="prodi" class="form-label">Program Studi</label>
-                                                        <input type="text" class="form-control" id="prodi" placeholder="Masukkan nim mahasiswa...">
+                                                        <label for="prodiEdit" class="form-label">Program Studi</label>
+                                                        <input type="text" class="form-control" id="prodiEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                                        <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="kelas" class="form-label">Kelas</label>
-                                                        <input type="text" class="form-control" id="kelas" placeholder="Masukkan nim mahasiswa...">
+                                                        <label for="kelasEdit" class="form-label">Kelas</label>
+                                                        <input type="text" class="form-control" id="kelasEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                                        <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="email" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" id="email" placeholder="Masukkan email mahasiswa">
+                                                        <label for="emailEdit" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="emailEdit" placeholder="Masukkan email mahasiswa" required>
+                                                        <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div>
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -190,36 +195,66 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="" method="POST">
+                            <form method="POST" class="needs-validation" novalidate id="FormCreateMahasiswa">
                                 <div class="mb-3">
-                                    <label for="nama" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" class="form-control" id="nama" placeholder="Masukkan nama mahasiswa">
+                                    <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
+                                    <input type="text" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
+                                    <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
-                                    <input type="text" class="form-control" id="nim" placeholder="Masukkan nim mahasiswa...">
+                                    <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
+                                    <input type="number" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
+                                    <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jurusan" class="form-label">Jurusan</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Pilih jurusan Mahasiswa</option>
+                                    <label for="emailCreate" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="emailCreate" placeholder="Masukkan email mahasiswa" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jurusanCreate" class="form-label">Jurusan</label>
+                                    <select class="form-select" id="jurusanCreate" aria-label="Default select example" required>
+                                        <option value="" selected>Pilih jurusan Mahasiswa</option>
                                         <option value="if">Teknik Informatika</option>
                                         <option value="mesin">Teknik Mesin</option>
                                         <option value="elektro">Teknik Elektro</option>
                                         <option value="mb">Manejement Bisnis</option>
                                     </select>
+                                    <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="prodi" class="form-label">Program Studi</label>
-                                    <input type="text" class="form-control" id="prodi" placeholder="Masukkan nim mahasiswa...">
+                                    <label for="prodiCreate" class="form-label">Program Studi</label>
+                                    <input type="text" class="form-control" id="prodiCreate" placeholder="Masukkan nim mahasiswa..." required>
+                                    <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="kelas" class="form-label">Kelas</label>
-                                    <input type="text" class="form-control" id="kelas" placeholder="Masukkan nim mahasiswa...">
+                                    <label for="kelasCreate" class="form-label">Kelas</label>
+                                    <input type="text" class="form-control" id="kelasCreate" placeholder="Masukkan Kelas mahasiswa..." required>
+                                    <div class="invalid-feedback"></div>
                                 </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="ImportMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ImportMahasiswaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="ImportMahasiswaLabel">Form Mahasiswa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" id="FormImportMahasiswa">
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Masukkan email mahasiswa">
+                                    <label for="file" class="form-label">File Data Mahasiswa</label>
+                                    <input type="file" class="form-control" id="file">
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -234,5 +269,8 @@
         </section>
     </div>
 </body>
+<!-- <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css"> -->
+<script src="../static/js/validationFormMahasiswa.js"></script>
 
 </html>

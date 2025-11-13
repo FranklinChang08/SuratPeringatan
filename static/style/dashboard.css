@@ -29,7 +29,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-
 .main-content .header .account .account-desc {
   text-align: end;
 }
@@ -150,7 +149,7 @@ tbody tr:hover {
   background: #f1f5f9;
 }
 
-@media screen and (max-width: 746px) {
+@media screen and (max-width: 992px) {
   .tableMahasiswa .container .button .button-group {
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -250,6 +250,29 @@
           </form>
 
         </div>
+
+        <!-- Tambahkan bagian ini di bawah -->
+        <div class="sp-form">
+          <div class="sp-left">
+            <label for="nama-sp">Nama SP</label>
+            <input type="text" id="nama-sp" placeholder="Masukkan nama surat peringatan">
+          </div>
+
+          <div class="sp-right">
+            <label for="status-sp">Status SP</label>
+            <select id="status-sp">
+              <option value="">Pilih status</option>
+              <option value="active">Activate</option>
+              <option value="nonactive">Deactivate</option>
+            </select>
+          </div>
+
+          <div class="sp-buttons">
+            <button type="button" class="btn btn-success">Tambah</button>
+            <button type="button" class="btn btn-danger">Cancel</button>
+          </div>
+        </div>
+
       </div>
     </section>
     <div class="container group-card">
@@ -307,6 +330,56 @@
       </div>
     </div>
 
+      <!-- Modal -->
+      <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="POST">
+                <div class="mb-3">
+                  <label for="nama" class="form-label">Nama Mahasiswa</label>
+                  <input type="text" class="form-control" id="nama" placeholder="Masukkan nama mahasiswa">
+                </div>
+                <div class="mb-3">
+                  <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
+                  <input type="text" class="form-control" id="nim" placeholder="Masukkan nim mahasiswa...">
+                </div>
+                <div class="mb-3">
+                  <label for="jurusan" class="form-label">Jurusan</label>
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Pilih jurusan Mahasiswa</option>
+                    <option value="if">Teknik Informatika</option>
+                    <option value="mesin">Teknik Mesin</option>
+                    <option value="elektro">Teknik Elektro</option>
+                    <option value="mb">Manejement Bisni</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="prodi" class="form-label">Program Studi</label>
+                  <input type="text" class="form-control" id="prodi" placeholder="Masukkan nim mahasiswa...">
+                </div>
+                <div class="mb-3">
+                  <label for="kelas" class="form-label">Kelas</label>
+                  <input type="text" class="form-control" id="kelas" placeholder="Masukkan nim mahasiswa...">
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" placeholder="Masukkan email mahasiswa">
+                </div>
+                <div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </body>
 

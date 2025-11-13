@@ -2,8 +2,8 @@
 session_start();
 include('../conn.php');
 
-$usernameLogin = $_POST['username'];
-$passwordLogin = $_POST['password'];
+$usernameLogin = $_POST['username'] ?? '';
+$passwordLogin = $_POST['password'] ?? '';
 
 // Cek di tabel mahasiswa
 $queryMahasiswa = mysqli_query($conn, "SELECT * FROM tb_mahasiswa WHERE nim='$usernameLogin' OR email='$usernameLogin' LIMIT 1");
@@ -19,7 +19,24 @@ if ($row) {
         $_SESSION['email'] = $row['email'];
         $_SESSION['nama_mahasiswa'] = $row['nama_mahasiswa'];
 
-        echo "<script>alert('Login Berhasil'); window.location.href='../home.php';</script>";
+        $nama = $row['nama_mahasiswa'];
+
+        echo '
+        <script>
+   Swal.fire({
+                title: "success",
+                text: "Login Berhasil, Selamat Datang di Pengelolahan Surat Peringatan",
+                icon: "success",
+                customClass: {
+                    title: "swal-title",
+                    htmlContainer: "swal-text",
+                    confirmButton: "swal-button",
+                }
+            }).then(() => {
+                window.location.href = "../home.php"
+            })
+        </script>
+        ';
         exit;
     }
 }
@@ -37,8 +54,12 @@ if ($row) {
         $_SESSION['nik'] = $row['nik'];
         $_SESSION['email'] = $row['email'];
         $_SESSION['nama_staff'] = $row['nama_staff'];
-
-        echo "<script>alert('Login Berhasil'); window.location.href='../staff/dashboard.php';</script>";
+        $nama = $row['nama_staff'];
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Login Berhasil, Selamat Datang Staff Akademik',
+            'redirect' => '../staff/dashboard.php'
+        ]);
         exit;
     }
 }
