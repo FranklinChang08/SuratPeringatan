@@ -285,5 +285,9 @@
         </section>
     </div>
 </body>
+<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../static/js/confirmRemove.js"></script>
+<script src="../static/js/validationFormSP.js"></script>
 
 </html>
