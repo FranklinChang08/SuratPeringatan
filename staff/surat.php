@@ -16,89 +16,89 @@
     <link rel="stylesheet" href="../static/style/surat.css">
 
     <style>
-    /* Buat custom backdrop */
-    .modal-backdrop {
-        background-color: rgba(0, 0, 0, 0.8) !important;
-        backdrop-filter: blur(1000px) !important;
-        -webkit-backdrop-filter: blur(1000px) !important;
-    }
+        /* Buat custom backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(1000px) !important;
+            -webkit-backdrop-filter: blur(1000px) !important;
+        }
 
-    .modal-backdrop.show {
-        background-color: rgba(0, 0, 0, 0.25);
-        backdrop-filter: blur(100px);
-        -webkit-backdrop-filter: blur(100px);
-    }
+        .modal-backdrop.show {
+            background-color: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(100px);
+            -webkit-backdrop-filter: blur(100px);
+        }
 
-    .modal-backdrop {
-        transition: opacity 0.3s ease;
-    }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
 
-    .card-group .container {
-        background-color: white;
-        padding: 0.5rem;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        margin-bottom: 1rem;
-    }
+        .card-group .container {
+            background-color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
 
-    .card-group .container .button {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+        .card-group .container .button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .card-group .container .button .button-group {
-        display: flex;
-        gap: 8px;
-    }
+        .card-group .container .button .button-group {
+            display: flex;
+            gap: 8px;
+        }
 
-    .card-group .container .button .btnTambah,
-    .card-group .container .button .btnImport {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 600;
-    }
+        .card-group .container .button .btnTambah,
+        .card-group .container .button .btnImport {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
 
-    .card-group .container .button .btnTambah {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: var(--primary);
-        color: white;
-    }
+        .card-group .container .button .btnTambah {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--primary);
+            color: white;
+        }
 
-    .card-group .container .button .btnImport {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: var(--primary);
-        color: white;
-    }
+        .card-group .container .button .btnImport {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--primary);
+            color: white;
+        }
 
-    .card-group .container .button .form-search {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        border: 1px solid #ccc;
-        padding: 0 0.5rem;
-        border-radius: 8px;
-    }
+        .card-group .container .button .form-search {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #ccc;
+            padding: 0 0.5rem;
+            border-radius: 8px;
+        }
 
-    .card-group .container .button .form-search label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgba(0, 0, 0, 0.5);
-    }
+        .card-group .container .button .form-search label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.5);
+        }
 
-    .card-group .container .button form input {
-        padding: 0.5rem;
-        border: none;
-        outline: none;
-        background-color: transparent;
-    }
+        .card-group .container .button form input {
+            padding: 0.5rem;
+            border: none;
+            outline: none;
+            background-color: transparent;
+        }
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -152,140 +152,132 @@
                 </div>
 
                 <!-- Tambahkan bagian ini di bawah -->
-                <div class="sp-form">
-                    <div class="sp-left">
-                        <label for="nama-sp">Nama SP</label>
-                        <input type="text" id="nama-sp" placeholder="Masukkan nama surat peringatan">
+                <div class="row mt-3">
+                    <div class="col-4 mb-2 sp-left">
+                        <label for="nama-sp" class="form-label">Nama SP</label>
+                        <input type="text" class="form-control" id="nama-sp"
+                            placeholder="Masukkan nama surat peringatan">
                     </div>
 
-                    <div class="sp-right">
-                        <label for="status-sp">Status SP</label>
-                        <select id="status-sp">
+                    <div class="col-4 mb-2 sp-right">
+                        <label for="status-sp" class="form-label">Status SP</label>
+                        <select id="status-sp" class="form-select">
                             <option value="">Pilih status</option>
                             <option value="active">Aktif</option>
                             <option value="nonactive">Tidak Aktif</option>
                         </select>
                     </div>
-
-                    <div class="sp-buttons">
-                        <button type="button" class="btn btn-success">Tambah</button>
-                        <button type="button" class="btn btn-danger">Batal</button>
-                    </div>
                 </div>
+
             </div>
             <div class="container">
-                <div class="card" style="width: 15rem; height: 10rem">
-                    <div class="card-body">
-                        <h4 class="card-title">Surat Peringatan 1 </h4>
-                        <div class="card-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
-                                <path d="M10 11v6" />
-                                <path d="M14 11v6" />
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                <path d="M3 6h18" />
-                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                            </svg>
-                            </svg>
+                <div class="row g-3">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100 d-flex">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title">Surat Peringatan 1</h4>
+                                <div class="card-icon mt-5 ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash">
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                        <path d="M3 6h18" />
+                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card" style="width: 15rem; height: 10rem">
-                    <div class="card-body">
-                        <!-- <div class="card-body"> -->
-                        <h4 class="card-title">Surat Peringatan 1</h4>
-                        <div class="card-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
-                                <path d="M10 11v6" />
-                                <path d="M14 11v6" />
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                <path d="M3 6h18" />
-                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                            </svg>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100 d-flex">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title">Surat Peringatan 1</h4>
+                                <div class="card-icon mt-5 ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash">
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                        <path d="M3 6h18" />
+                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card" style="width: 15rem; height: 10rem">
-                    <div class="card-body">
-                        <h4 class="card-title">Surat Peringatan 1</h4>
-                        <div class="card-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2">
-                                <path d="M10 11v6" />
-                                <path d="M14 11v6" />
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                <path d="M3 6h18" />
-                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                            </svg>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100 d-flex">
+                            <div class="card-body d-flex flex-column">
+                                <h4 class="card-title">Surat Peringatan 1</h4>
+                                <div class="card-icon mt-5 ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash">
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                        <path d="M3 6h18" />
+                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+    </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Modal -->
+    <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST">
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nomor Induk Mahasiswa</label>
+                            <input type="text" class="form-control" id="nama"
+                                placeholder="Masukkan nama mahasiswa">
                         </div>
-                        <div class="modal-body">
-                            <form action="" method="POST">
-                                <div class="mb-3">
-                                    <label for="nama" class="form-label">Nomor Induk Mahasiswa</label>
-                                    <input type="text" class="form-control" id="nama"
-                                        placeholder="Masukkan nama mahasiswa">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nim" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" class="form-control" id="nim"
-                                        placeholder="Masukkan nim mahasiswa...">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="jurusan" class="form-label">Jurusan</label>
-                                    <select class="form-select" id="jurusan">
-                                        <option value="">Pilih Jurusan</option>
-                                        <option value="if">Teknik Informatika</option>
-                                        <option value="mesin">Teknik Mesin</option>
-                                        <option value="elektro">Teknik Elektro</option>
-                                        <option value="mb">Manajemen Bisnis</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="prodi" class="form-label">Program Studi</label>
-                                    <select class="form-select" id="prodi">
-                                        <option value="">Pilih Program Studi</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="kelas" class="form-label">Kelas</label>
-                                    <input type="text" class="form-control" id="kelas"
-                                        placeholder="Masukkan nim mahasiswa...">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email"
-                                        placeholder="Masukkan email mahasiswa">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Tutup</button>
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
-                                </div>
-                            </form>
+                        <div class="mb-3">
+                            <label for="nim" class="form-label">Nama Mahasiswa</label>
+                            <input type="text" class="form-control" id="nim"
+                                placeholder="Masukkan nim mahasiswa...">
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="jurusan" class="form-label">Jurusan</label>
+                            <select class="form-select" id="jurusan">
+                                <option value="">Pilih Jurusan</option>
+                                <option value="if">Teknik Informatika</option>
+                                <option value="mesin">Teknik Mesin</option>
+                                <option value="elektro">Teknik Elektro</option>
+                                <option value="mb">Manajemen Bisnis</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prodi" class="form-label">Program Studi</label>
+                            <select class="form-select" id="prodi">
+                                <option value="">Pilih Program Studi</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="kelas" class="form-label">Kelas</label>
+                            <input type="text" class="form-control" id="kelas"
+                                placeholder="Masukkan nim mahasiswa...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email"
+                                placeholder="Masukkan email mahasiswa">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Kirim</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+    </section>
     </div>
 </body>
 <script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
@@ -293,37 +285,36 @@
 <script src="../static/js/confirmRemove.js"></script>
 <script src="../static/js/validationFormSP.js"></script>
 <script>
-// Data program studi berdasarkan jurusan
-const dataProdi = {
-    if: ["IF", "TRPL", "GM", "GIM", "AN", "TRM", "RKS"],
-    mesin: ["TM", "TPPU", "TRKP", "TRTF", "TMT"],
-    elektro: ["TEM", "TRE", "TI", "TMK", "TRPE", "TRR"],
-    mb: ["ACC", "ACM", "ABM", "LPI", "DB"]
-};
+    // Data program studi berdasarkan jurusan
+    const dataProdi = {
+        if: ["IF", "TRPL", "GM", "GIM", "AN", "TRM", "RKS"],
+        mesin: ["TM", "TPPU", "TRKP", "TRTF", "TMT"],
+        elektro: ["TEM", "TRE", "TI", "TMK", "TRPE", "TRR"],
+        mb: ["ACC", "ACM", "ABM", "LPI", "DB"]
+    };
 
-// Event dropdown jurusan
-document.getElementById("jurusan").addEventListener("change", function() {
-    const jurusanDipilih = this.value;
-    const prodiDropdown = document.getElementById("prodi");
+    // Event dropdown jurusan
+    document.getElementById("jurusan").addEventListener("change", function() {
+        const jurusanDipilih = this.value;
+        const prodiDropdown = document.getElementById("prodi");
 
+        // Reset isi dropdown prodi
+        prodiDropdown.innerHTML = `<option value="">Pilih Program Studi</option>`;
 
-    // Reset isi dropdown prodi
-    prodiDropdown.innerHTML = `<option value="">Pilih Program Studi</option>`;
+        // Jika tidak memilih jurusan, berhenti
+        if (!jurusanDipilih) return;
 
-    // Jika tidak memilih jurusan, berhenti
-    if (!jurusanDipilih) return;
+        // Ambil prodi sesuai jurusan
+        const listProdi = dataProdi[jurusanDipilih];
 
-    // Ambil prodi sesuai jurusan
-    const listProdi = dataProdi[jurusanDipilih];
-
-    // Isi dropdown prodi
-    listProdi.forEach(prodi => {
-        const option = document.createElement("option");
-        option.value = prodi.toLowerCase().replace(/\s+/g, "-");
-        option.textContent = prodi;
-        prodiDropdown.appendChild(option);
+        // Isi dropdown prodi
+        listProdi.forEach(prodi => {
+            const option = document.createElement("option");
+            option.value = prodi.toLowerCase().replace(/\s+/g, "-");
+            option.textContent = prodi;
+            prodiDropdown.appendChild(option);
+        });
     });
-});
 </script>
 
 </html>

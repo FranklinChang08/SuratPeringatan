@@ -23,7 +23,7 @@ function activeSidebar($urlLink)
                         <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                         <circle cx="9" cy="7" r="4" />
                     </svg>
-                    <span>Manejement Mahasiswa</span>
+                    <span>Manajemen Mahasiswa</span>
                 </a>
             </li>
             <li>
@@ -34,7 +34,7 @@ function activeSidebar($urlLink)
                         <path d="M19 17V5a2 2 0 0 0-2-2H4" />
                         <path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3" />
                     </svg>
-                    <span>Manejement SP</span>
+                    <span>Manajemen SP</span>
                 </a>
             </li>
             <li>
@@ -47,7 +47,7 @@ function activeSidebar($urlLink)
                         <rect width="16" height="20" x="4" y="2" rx="2" />
                         <path d="M16 2v20" />
                     </svg>
-                    <span>Manejement Pelanggaran</span>
+                    <span>Manajemen Pelanggaran</span>
                 </a>
             </li>
         </ul>
@@ -59,7 +59,7 @@ function activeSidebar($urlLink)
                             <path d="M21 12H9" />
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         </svg></span>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
