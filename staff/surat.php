@@ -249,19 +249,22 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="jurusan" class="form-label">Jurusan</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Pilih jurusan Mahasiswa</option>
+                                    <select class="form-select" id="jurusan">
+                                        <option value="">Pilih Jurusan</option>
                                         <option value="if">Teknik Informatika</option>
                                         <option value="mesin">Teknik Mesin</option>
                                         <option value="elektro">Teknik Elektro</option>
-                                        <option value="mb">Manejemen Bisnis</option>
+                                        <option value="mb">Manajemen Bisnis</option>
                                     </select>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="prodi" class="form-label">Program Studi</label>
-                                    <input type="text" class="form-control" id="prodi"
-                                        placeholder="Masukkan nim mahasiswa...">
+                                    <select class="form-select" id="prodi">
+                                        <option value="">Pilih Program Studi</option>
+                                    </select>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="kelas" class="form-label">Kelas</label>
                                     <input type="text" class="form-control" id="kelas"
@@ -289,5 +292,37 @@
 <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script src="../static/js/confirmRemove.js"></script>
 <script src="../static/js/validationFormSP.js"></script>
+<script>
+    // Data program studi berdasarkan jurusan
+    const dataProdi = {
+        if: ["IF", "TRPL", "GM" , "GIM" , "AN" , "TRM" , "RKS"],
+        mesin: ["TM" , "TPPU" , "TRKP" , "TRTF" , "TMT"],
+        elektro: ["TEM", "TRE", "TI" , "TMK" , "TRPE" , "TRR"],
+        mb: ["ACC", "ACM", "ABM" , "LPI" , "DB"]
+    };
+
+    // Event dropdown jurusan
+    document.getElementById("jurusan").addEventListener("change", function () {
+        const jurusanDipilih = this.value;
+        const prodiDropdown = document.getElementById("prodi");
+
+        // Reset isi dropdown prodi
+        prodiDropdown.innerHTML = `<option value="">Pilih Program Studi</option>`;
+
+        // Jika tidak memilih jurusan, berhenti
+        if (!jurusanDipilih) return;
+
+        // Ambil prodi sesuai jurusan
+        const listProdi = dataProdi[jurusanDipilih];
+
+        // Isi dropdown prodi
+        listProdi.forEach(prodi => {
+            const option = document.createElement("option");
+            option.value = prodi.toLowerCase().replace(/\s+/g, "-");
+            option.textContent = prodi;
+            prodiDropdown.appendChild(option);
+        });
+    });
+</script>
 
 </html>

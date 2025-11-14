@@ -80,7 +80,7 @@
                         <div>
                             <div class="mb-3">
                                 <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" name="nik" required id="nik" placeholder="Masukkan NIK anda...">
+                                <input type="text" class="form-control" name="nik" required id="nik" readonly placeholder="Masukkan NIK anda...">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
