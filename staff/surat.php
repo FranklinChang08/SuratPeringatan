@@ -16,89 +16,89 @@
     <link rel="stylesheet" href="../static/style/surat.css">
 
     <style>
-        /* Buat custom backdrop */
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.8) !important;
-            backdrop-filter: blur(1000px) !important;
-            -webkit-backdrop-filter: blur(1000px) !important;
-        }
+    /* Buat custom backdrop */
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.8) !important;
+        backdrop-filter: blur(1000px) !important;
+        -webkit-backdrop-filter: blur(1000px) !important;
+    }
 
-        .modal-backdrop.show {
-            background-color: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(100px);
-            -webkit-backdrop-filter: blur(100px);
-        }
+    .modal-backdrop.show {
+        background-color: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(100px);
+        -webkit-backdrop-filter: blur(100px);
+    }
 
-        .modal-backdrop {
-            transition: opacity 0.3s ease;
-        }
+    .modal-backdrop {
+        transition: opacity 0.3s ease;
+    }
 
-        .card-group .container {
-            background-color: white;
-            padding: 0.5rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 1rem;
-        }
+    .card-group .container {
+        background-color: white;
+        padding: 0.5rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1rem;
+    }
 
-        .card-group .container .button {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .card-group .container .button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .card-group .container .button .button-group {
-            display: flex;
-            gap: 8px;
-        }
+    .card-group .container .button .button-group {
+        display: flex;
+        gap: 8px;
+    }
 
-        .card-group .container .button .btnTambah,
-        .card-group .container .button .btnImport {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 600;
-        }
+    .card-group .container .button .btnTambah,
+    .card-group .container .button .btnImport {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 600;
+    }
 
-        .card-group .container .button .btnTambah {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: var(--primary);
-            color: white;
-        }
+    .card-group .container .button .btnTambah {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--primary);
+        color: white;
+    }
 
-        .card-group .container .button .btnImport {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: var(--primary);
-            color: white;
-        }
+    .card-group .container .button .btnImport {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--primary);
+        color: white;
+    }
 
-        .card-group .container .button .form-search {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: 1px solid #ccc;
-            padding: 0 0.5rem;
-            border-radius: 8px;
-        }
+    .card-group .container .button .form-search {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid #ccc;
+        padding: 0 0.5rem;
+        border-radius: 8px;
+    }
 
-        .card-group .container .button .form-search label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(0, 0, 0, 0.5);
-        }
+    .card-group .container .button .form-search label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(0, 0, 0, 0.5);
+    }
 
-        .card-group .container .button form input {
-            padding: 0.5rem;
-            border: none;
-            outline: none;
-            background-color: transparent;
-        }
+    .card-group .container .button form input {
+        padding: 0.5rem;
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -293,36 +293,37 @@
 <script src="../static/js/confirmRemove.js"></script>
 <script src="../static/js/validationFormSP.js"></script>
 <script>
-    // Data program studi berdasarkan jurusan
-    const dataProdi = {
-        if: ["IF", "TRPL", "GM" , "GIM" , "AN" , "TRM" , "RKS"],
-        mesin: ["TM" , "TPPU" , "TRKP" , "TRTF" , "TMT"],
-        elektro: ["TEM", "TRE", "TI" , "TMK" , "TRPE" , "TRR"],
-        mb: ["ACC", "ACM", "ABM" , "LPI" , "DB"]
-    };
+// Data program studi berdasarkan jurusan
+const dataProdi = {
+    if: ["IF", "TRPL", "GM", "GIM", "AN", "TRM", "RKS"],
+    mesin: ["TM", "TPPU", "TRKP", "TRTF", "TMT"],
+    elektro: ["TEM", "TRE", "TI", "TMK", "TRPE", "TRR"],
+    mb: ["ACC", "ACM", "ABM", "LPI", "DB"]
+};
 
-    // Event dropdown jurusan
-    document.getElementById("jurusan").addEventListener("change", function () {
-        const jurusanDipilih = this.value;
-        const prodiDropdown = document.getElementById("prodi");
+// Event dropdown jurusan
+document.getElementById("jurusan").addEventListener("change", function() {
+    const jurusanDipilih = this.value;
+    const prodiDropdown = document.getElementById("prodi");
 
-        // Reset isi dropdown prodi
-        prodiDropdown.innerHTML = `<option value="">Pilih Program Studi</option>`;
 
-        // Jika tidak memilih jurusan, berhenti
-        if (!jurusanDipilih) return;
+    // Reset isi dropdown prodi
+    prodiDropdown.innerHTML = `<option value="">Pilih Program Studi</option>`;
 
-        // Ambil prodi sesuai jurusan
-        const listProdi = dataProdi[jurusanDipilih];
+    // Jika tidak memilih jurusan, berhenti
+    if (!jurusanDipilih) return;
 
-        // Isi dropdown prodi
-        listProdi.forEach(prodi => {
-            const option = document.createElement("option");
-            option.value = prodi.toLowerCase().replace(/\s+/g, "-");
-            option.textContent = prodi;
-            prodiDropdown.appendChild(option);
-        });
+    // Ambil prodi sesuai jurusan
+    const listProdi = dataProdi[jurusanDipilih];
+
+    // Isi dropdown prodi
+    listProdi.forEach(prodi => {
+        const option = document.createElement("option");
+        option.value = prodi.toLowerCase().replace(/\s+/g, "-");
+        option.textContent = prodi;
+        prodiDropdown.appendChild(option);
     });
+});
 </script>
 
 </html>
