@@ -1,5 +1,7 @@
-function confirmRemove(event, form) {
-    event.preventDefault(); // cegah submit otomatis
+function confirmRemove(event) {
+    event.preventDefault();
+
+    const form = event.target; // ini pasti elemen <form>
 
     Swal.fire({
         title: 'Yakin ingin hapus ini?',
@@ -12,20 +14,19 @@ function confirmRemove(event, form) {
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
+
             Swal.fire({
-                title: "success",
+                title: "Success",
                 text: "Data berhasil dihapus!",
-                icon: "success",
-                customClass: {
-                    title: "swal-title",
-                    htmlContainer: "swal-text",
-                    confirmButton: "swal-button",
-                },
-            }).then((result) => {
-                form.submit();
-            })
+                icon: "success"
+            }).then(() => {
+
+                // native submit agar tidak kena preventDefault
+                HTMLFormElement.prototype.submit.call(form);
+
+            });
         }
     });
 
-    return false; // pastikan form nggak submit sebelum konfirmasi
+    return false;
 }

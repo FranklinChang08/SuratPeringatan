@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../static/style/login.css">
 </head>
 
-<body>
+<body class="font-poppins">
     <div class="container">
         <div class="title">
             <div class="text font-poppins">

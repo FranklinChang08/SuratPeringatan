@@ -27,14 +27,14 @@ function activeSidebar($urlLink)
                 </a>
             </li>
             <li>
-                <a href="../staff/surat.php">
+                <a href="../staff/kelas.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scroll-text-icon lucide-scroll-text">
                         <path d="M15 12h-5" />
                         <path d="M15 8h-5" />
                         <path d="M19 17V5a2 2 0 0 0-2-2H4" />
                         <path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3" />
                     </svg>
-                    <span>Manajemen SP</span>
+                    <span>Manajemen Kelas</span>
                 </a>
             </li>
             <li>
@@ -59,7 +59,7 @@ function activeSidebar($urlLink)
                             <path d="M21 12H9" />
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         </svg></span>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
@@ -74,7 +74,7 @@ function activeSidebar($urlLink)
             </a>
         </li>
         <li class="list-menu">
-            <a href="../staff/surat.php" class="p-4">
+            <a href="../staff/kelas.php" class="p-4">
                 <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXNjcm9sbC10ZXh0LWljb24gbHVjaWRlLXNjcm9sbC10ZXh0Ij48cGF0aCBkPSJNMTUgMTJoLTUiLz48cGF0aCBkPSJNMTUgOGgtNSIvPjxwYXRoIGQ9Ik0xOSAxN1Y1YTIgMiAwIDAgMC0yLTJINCIvPjxwYXRoIGQ9Ik04IDIxaDEyYTIgMiAwIDAgMCAyLTJ2LTFhMSAxIDAgMCAwLTEtMUgxMWExIDEgMCAwIDAtMSAxdjFhMiAyIDAgMSAxLTQgMFY1YTIgMiAwIDEgMC00IDB2MmExIDEgMCAwIDAgMSAxaDMiLz48L3N2Zz4=" alt="">
             </a>
         </li>
@@ -92,5 +92,3 @@ function activeSidebar($urlLink)
         </li>
     </ul>
 </div>
-
-<script src="../static/js/confirmLogout.js"></script>

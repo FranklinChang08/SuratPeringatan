@@ -1,3 +1,31 @@
+<?php
+
+include('../conn.php');
+
+$list_prodi = [];
+$list_kelas = [];
+$mahasiswa_query = mysqli_query($conn, "SELECT * FROM tb_user INNER JOIN tb_kelas ON tb_kelas.id_Kelas = tb_user.kelas_id INNER JOIN tb_prodi ON tb_prodi.id_prodi = tb_user.prodi_id WHERE role = 'Mahasiswa'");
+$mahasiswa_count_query = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_user WHERE role = 'Mahasiswa'");
+$mahasiswa_count = mysqli_fetch_assoc($mahasiswa_count_query)['total'];
+
+
+$prodi = mysqli_query($conn, "SELECT * FROM tb_prodi");
+$kelas = mysqli_query($conn, "SELECT * FROM tb_kelas as k INNER JOIN tb_prodi as p on p.id_prodi = k.prodi_id");
+
+$kelas_count = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_kelas");
+$data_kelas = mysqli_fetch_assoc($kelas_count);
+$kelasCount = $data_kelas['total'];
+
+while ($row = mysqli_fetch_assoc($prodi)) {
+    $list_prodi[] = $row;
+};
+
+while ($data = mysqli_fetch_assoc($kelas)) {
+    $list_kelas[] = $data;
+};
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +47,7 @@
 
 <body class="bg-light-subtle font-poppins">
     <?php
-    include('../component/sidebar.php')
+    include('../component/sidebar.php');
     ?>
 
     <div class="main-content">
@@ -28,7 +56,7 @@
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 class="email">gilang@gmail.com</h2>
+                    <h2 class="email mb-0">gilang@gmail.com</h2>
                 </div>
                 <a href="./profile.php" class="text-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
@@ -43,7 +71,7 @@
             <div class="container">
                 <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
                     <div class="button-group mb-2 mb-md-0 ">
-                        <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal" data-bs-target="#createMahasiswa">
+                        <button type="button" id="btnCreateMahasiswaModal" class="btn btn-primary font-poppins">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                                 <path d="M5 12h14" />
                                 <path d="M12 5v14" />
@@ -67,54 +95,59 @@
                     </form>
                 </div>
             </div>
-            <div class="container poppins">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>Email</th>
-                            <th>Jurusan</th>
-                            <th>Prodi</th>
-                            <th>Kelas</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Gilang Ramdhan</td>
-                            <td>gilang@gmail.com</td>
-                            <td>Teknik Informatika</td>
-                            <td>D3 Teknik Informatika</td>
-                            <td>A - Pagi</td>
-                            <td class="d-flex align-items-center">
-                                <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMahasiswa">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
-                                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-                                    </svg>
-                                </button>
-                                <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editMahasiswaLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="editMahasiswaLabel">Form Mahasiswa</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
-                                                    <div class="mb-3">
-                                                        <label for="namaEdit" class="form-label">Nama Mahasiswa</label>
-                                                        <input type="text" class="form-control" id="namaEdit" placeholder="Masukkan nama mahasiswa" required>
-                                                        <div class="invalid-feedback"></div>
+            <?php
+            if ($mahasiswa_count > 0) {
+            ?>
+                <div class="container poppins">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Email</th>
+                                <th>Prodi</th>
+                                <th>Kelas</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            while ($row = mysqli_fetch_array($mahasiswa_query)) {
+                            ?>
+                                <tr>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= $row['nama_user']  ?></td>
+                                    <td><?= $row['email']  ?></td>
+                                    <td><?= $row['nama_prodi']  ?></td>
+                                    <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal']  ?></td>
+                                    <td class="d-flex align-items-center">
+                                        <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMahasiswa">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
+                                                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                                            </svg>
+                                        </button>
+                                        <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editMahasiswaLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="editMahasiswaLabel">Form Mahasiswa</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
-                                                        <input type="text" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
+                                                    <div class="modal-body">
+                                                        <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
+                                                            <div class="mb-3">
+                                                                <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
+                                                                <input type="text" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                                                <div class="invalid-feedback"></div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="namaEdit" class="form-label">Nama Mahasiswa</label>
+                                                                <input type="text" class="form-control" id="namaEdit" placeholder="Masukkan nama mahasiswa" required>
+                                                                <div class="invalid-feedback"></div>
+                                                            </div>
+                                                            <!-- <div class="mb-3">
                                                         <label for="jurusanEdit" class="form-label">Jurusan</label>
                                                         <select class="form-select" id="jurusanEdit" aria-label="Default select example" required>
                                                             <option value="" selected>Pilih Jurusan Mahasiswa</option>
@@ -124,48 +157,71 @@
                                                             <option value="mb">Manajemen Bisnis</option>
                                                         </select>
                                                         <div class="invalid-feedback"></div>
+                                                    </div> -->
+                                                            <div class="mb-3">
+                                                                <label for="prodiEdit" class="form-label">Program Studi</label>
+                                                                <select class="form-select" id="prodiEdit" aria-label="Default select example" required>
+                                                                    <option value="" selected>Pilih Program Studi Mahasiswa</option>
+                                                                    <?php
+                                                                    foreach ($list_prodi as $row) { ?>
+                                                                        <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                                                                    <?php }
+                                                                    ?>
+                                                                </select>
+                                                                <div class="invalid-feedback"></div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="kelasEdit" class="form-label">Kelas</label>
+                                                                <select name="kelas_id" class="form-control" id="kelasEdit" required>
+                                                                    <option value="">Pilih Kelas</option>
+                                                                    <?php
+                                                                    foreach ($list_kelas as $kelas) { ?>
+                                                                        <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                                <div class="invalid-feedback"></div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="emailEdit" class="form-label">Email</label>
+                                                                <input type="email" class="form-control" id="emailEdit" placeholder="Masukkan email mahasiswa" required>
+                                                                <div class="invalid-feedback"></div>
+                                                            </div>
+                                                            <div>
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                <button type="submit" class="btn btn-primary">Kirim</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="prodiEdit" class="form-label">Program Studi</label>
-                                                        <input type="text" class="form-control" id="prodiEdit" placeholder="Masukkan nim mahasiswa..." required>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="kelasEdit" class="form-label">Kelas</label>
-                                                        <input type="text" class="form-control" id="kelasEdit" placeholder="Masukkan nim mahasiswa..." required>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="emailEdit" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" id="emailEdit" placeholder="Masukkan email mahasiswa" required>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div>
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-primary">Kirim</button>
-                                                    </div>
-                                                </form>
-                                            </div>
 
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <form action="" method="POST" onsubmit="return confirmRemove(event, this)">
-                                    <button class="btn btn-danger py-1 px-2" type="submit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M10 11v6" />
-                                            <path d="M14 11v6" />
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                            <path d="M3 6h18" />
-                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                        <form action="" method="POST" onsubmit="return confirmRemove(event, this)">
+                                            <button class="btn btn-danger py-1 px-2" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M10 11v6" />
+                                                    <path d="M14 11v6" />
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                                    <path d="M3 6h18" />
+                                                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php
+            } else { ?>
+                <div class="container">
+                    <div class="alert alert-primary  mb-0" role="alert">
+                        Data Mahasiswa tidak ada. Silahkan isi data mahasiswa terlebih dahulu!!!!
+                    </div>
+                </div>
+            <?php }
+            ?>
 
             <!-- Modal -->
             <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
@@ -176,23 +232,23 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" class="needs-validation" novalidate id="FormCreateMahasiswa">
+                            <form method="POST" action="" class="needs-validation" novalidate id="FormCreateMahasiswa">
                                 <div class="mb-3">
-                                    <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
+                                    <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
+                                    <input type="number" name="nim" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
-                                    <input type="number" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
+                                    <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
+                                    <input type="text" name="nama" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="emailCreate" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="emailCreate" placeholder="Masukkan email mahasiswa" required>
+                                    <input type="email" name="email" class="form-control" id="emailCreate" placeholder="Masukkan email mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <label for="jurusanCreate" class="form-label">Jurusan</label>
                                     <select class="form-select" id="jurusanCreate" aria-label="Default select example" required>
                                         <option value="" selected>Pilih Jurusan Mahasiswa</option>
@@ -202,15 +258,27 @@
                                         <option value="mb">Manajemen Bisnis</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
-                                </div>
+                                </div> -->
                                 <div class="mb-3">
                                     <label for="prodiCreate" class="form-label">Program Studi</label>
-                                    <input type="text" class="form-control" id="prodiCreate" placeholder="Masukkan nim mahasiswa..." required>
+                                    <select class="form-select" name="prodi_id" id="prodiCreate" aria-label="Default select example" required>
+                                        <option value="" selected>Pilih Program Studi Mahasiswa</option>
+                                        <?php
+                                        foreach ($list_prodi as $row) { ?>
+                                            <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                                        <?php } ?>
+                                    </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="kelasCreate" class="form-label">Kelas</label>
-                                    <input type="text" class="form-control" id="kelasCreate" placeholder="Masukkan Kelas mahasiswa..." required>
+                                    <select name="kelas_id" class="form-control" id="kelasCreate" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <?php
+                                        foreach ($list_kelas as $kelas) { ?>
+                                            <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
+                                        <?php } ?>
+                                    </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
@@ -253,10 +321,30 @@
 </body>
 <script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+
+<script>
+    document.getElementById('btnCreateMahasiswaModal').addEventListener('click', function() {
+
+        let kelasCount = <?php echo $kelasCount ?>; // ambil dari PHP
+
+        if (kelasCount === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Kelas Kosong!',
+                text: 'Silakan tambahkan data kelas terlebih dahulu.',
+                confirmButtonColor: '#3085d6',
+            });
+        } else {
+            // Jika ada data → buka modal
+            var myModal = new bootstrap.Modal(document.getElementById('createMahasiswa'));
+            myModal.show();
+        }
+    });
+</script>
+
 <script src="../static/js/validationFile.js"></script>
 <script src="../static/js/confirmRemove.js"></script>
 <script src="../static/js/validationFormMahasiswa.js"></script>
-
-
+<script src="../static/js/confirmLogout.js"></script>
 
 </html>

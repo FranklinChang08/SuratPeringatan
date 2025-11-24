@@ -38,7 +38,7 @@
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 class="email">gilang@gmail.com</h2>
+                    <h2 class="email mb-0">gilang@gmail.com</h2>
                 </div>
                 <a href="./profile.php" class="text-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
@@ -54,7 +54,7 @@
         <section id="settingsUser" class="settings-users">
             <div class="container p-3">
                 <div class="p-4 bg-white shadow-sm rounded-1">
-                    <h5 class="fw-bold text-uppercase">Account Settings</h5>
+                    <h5 class="fw-bold text-uppercase">PENGATURAN AKUN</h5>
                     <form action="" class="row row-cols-1 row-cols-md-2">
                         <div class="d-flex flex-column justify-content-center align-items-center gap-2 mb-3">
                             <img class="profile-preview" src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
@@ -95,7 +95,7 @@
                     </form>
                 </div>
                 <div class=" p-4 bg-white shadow-sm rounded-1 mt-3" style="margin-bottom: 70px;">
-                    <h5 class="fw-bold text-uppercase">Change Password</h5>
+                    <h5 class="fw-bold text-uppercase">Ganti Password</h5>
                     <form action="" class="needs-validation row row-cols-1 row-cols-lg-2" id="formChangePassword" novalidate>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>

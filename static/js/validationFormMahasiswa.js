@@ -16,7 +16,7 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
   namaInputCreate.classList.remove("is-invalid");
 
   if (namaInputCreate.value === "") {
-    namaFeedbackCreate.textContent = "Silakan masukkan nama anda.";
+    namaFeedbackCreate.textContent = "Silakan masukkan nama.";
     namaInputCreate.classList.add("is-invalid");
     isValid = false;
   }
@@ -32,7 +32,7 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
   const nimFeedbackCreate = nimInputCreate.nextElementSibling;
   nimInputCreate.classList.remove("is-invalid");
   if (nimInputCreate.value === "") {
-    nimFeedbackCreate.textContent = "Silakan masukkan nim anda.";
+    nimFeedbackCreate.textContent = "Silakan masukkan nim.";
     nimInputCreate.classList.add("is-invalid");
     isValid = false;
   }
@@ -40,7 +40,7 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
   const prodiFeedbackCreate = prodiInputCreate.nextElementSibling;
   prodiInputCreate.classList.remove("is-invalid");
   if (nimInputCreate.value === "") {
-    prodiFeedbackCreate.textContent = "Silakan masukkan program studi anda.";
+    prodiFeedbackCreate.textContent = "Silakan pilih program studi terlebih dahulu";
     prodiInputCreate.classList.add("is-invalid");
     isValid = false;
   }
@@ -48,7 +48,7 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
   const kelasFeedbackCreate = kelasInputCreate.nextElementSibling;
   kelasInputCreate.classList.remove("is-invalid");
   if (nimInputCreate.value === "") {
-    kelasFeedbackCreate.textContent = "Silakan masukkan kelas anda.";
+    kelasFeedbackCreate.textContent = "Silakan masukkan kelas.";
     kelasInputCreate.classList.add("is-invalid");
     isValid = false;
   }
@@ -63,6 +63,11 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
   }
 
   if (isValid) {
+    fetch('../../staff/backend/mahasiswa/create.php', {
+      method: 'POST',
+      body: formData
+    })
+
     const modal = bootstrap.Modal.getInstance(
       document.getElementById("createMahasiswa")
     );
@@ -101,7 +106,7 @@ formEditMahasiswa.addEventListener("submit", function (event) {
   namaInputEdit.classList.remove("is-invalid");
 
   if (namaInputEdit.value === "") {
-    namaFeedbackEdit.textContent = "Silakan masukkan nama anda.";
+    namaFeedbackEdit.textContent = "Silakan masukkan nama.";
     namaInputEdit.classList.add("is-invalid");
     isValid = false;
   }
@@ -117,7 +122,7 @@ formEditMahasiswa.addEventListener("submit", function (event) {
   const nimFeedbackEdit = nimInputEdit.nextElementSibling;
   nimInputEdit.classList.remove("is-invalid");
   if (nimInputEdit.value === "") {
-    nimFeedbackEdit.textContent = "Silakan masukkan nim anda.";
+    nimFeedbackEdit.textContent = "Silakan masukkan nim.";
     nimInputEdit.classList.add("is-invalid");
     isValid = false;
   }
@@ -125,7 +130,7 @@ formEditMahasiswa.addEventListener("submit", function (event) {
   const prodiFeedbackEdit = prodiInputEdit.nextElementSibling;
   prodiInputEdit.classList.remove("is-invalid");
   if (nimInputEdit.value === "") {
-    prodiFeedbackEdit.textContent = "Silakan masukkan program studi anda.";
+    prodiFeedbackEdit.textContent = "Silakan pilih program studi terlebih dahulu";
     prodiInputEdit.classList.add("is-invalid");
     isValid = false;
   }
@@ -133,7 +138,7 @@ formEditMahasiswa.addEventListener("submit", function (event) {
   const kelasFeedbackEdit = kelasInputEdit.nextElementSibling;
   kelasInputEdit.classList.remove("is-invalid");
   if (nimInputEdit.value === "") {
-    kelasFeedbackEdit.textContent = "Silakan masukkan kelas anda.";
+    kelasFeedbackEdit.textContent = "Silakan masukkan kelas.";
     kelasInputEdit.classList.add("is-invalid");
     isValid = false;
   }

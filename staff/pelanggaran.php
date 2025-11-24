@@ -1,10 +1,22 @@
+<?php
+include('../conn.php');
+
+$mahasiswa_query = mysqli_query($conn, "SELECT * FROM tb_user WHERE role = 'Mahasiswa'");
+
+$prodi = mysqli_query($conn, "SELECT * FROM tb_prodi");
+
+$mahasiswa_count = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_user WHERE role = 'Mahasiswa'");
+$data_mahasiswa = mysqli_fetch_assoc($mahasiswa_count);
+$mahasiswaCount = $data_mahasiswa['total'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Pelanggaran | Polibatam Surat Peringatan</title>
+    <title>Document</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
@@ -13,25 +25,44 @@
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
     <link rel="stylesheet" href="../static/style/dashboard.css">
+
+    <style>
+        /* Buat custom backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(1000px) !important;
+            -webkit-backdrop-filter: blur(1000px) !important;
+        }
+
+        .modal-backdrop.show {
+            background-color: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(100px);
+            -webkit-backdrop-filter: blur(100px);
+        }
+
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+
+
 </head>
 
 <body class="bg-light-subtle font-poppins">
     <?php
-    include '../component/sidebar.php';
+    include('../component/sidebar.php')
     ?>
 
     <div class="main-content">
         <header class="header">
-            <h2 class="fw-bold">Data Pelanggaran</h2>
+            <h2 class="fw-bold mb-0">Data Pelanggaran</h2>
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 class="email">gilang@gmail.com</h2>
+                    <h2 class="email mb-0">gilang@gmail.com</h2>
                 </div>
                 <a href="./profile.php" class="text-dark">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-user-icon lucide-user">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg>
@@ -42,8 +73,7 @@
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
                 <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
-                    <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal"
-                        data-bs-target="#createPelanggaran">
+                    <button type="button" class="btn btn-primary font-poppins" id="btnCreatePelanggaranModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
@@ -51,6 +81,7 @@
                             <path d="M12 5v14" />
                         </svg>
                         Tambah Pelanggaran</button>
+
                     <form action="" class="form-search">
                         <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -64,16 +95,16 @@
                 </div>
             </div>
             <div class="container">
-                <table>
+                <table class="text-nowrap">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama Mahasiswa</th>
                             <th>Jenis SP</th>
-                            <th>Jenis Pelanggaran</th>
+                            <th>Keterangan</th>
                             <th>Tanggal</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,14 +114,13 @@
                             <td>Surat Peringatan 1</td>
                             <td>Mahasiswa yang tidak masuk sebanyak 5%</td>
                             <td>14 September 2025</td>
-                            <td>Active</td>
+                            <td>Aktif</td>
                             <td class="d-flex align-items-center">
                                 <button href="" class="btn btn-warning me-2 py-1 px-2" data-bs-toggle="modal"
                                     data-bs-target="#EditPelanggaran">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-square-pen-icon lucide-square-pen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
                                         <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                         <path
                                             d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
@@ -109,19 +139,24 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form method="POST" class="needs-validation" novalidate
-                                                    id="formEditPelanggaran">
+                                                    id="formEditPelanggaran" autocomplete="off">
                                                     <div class="mb-3">
-                                                        <label for="mahasiswaEdit"
-                                                            class="form-label">Mahasiswa</label>
-                                                        <input type="text" class="form-control" id="mahasiswaEdit"
+                                                        <label for="mahasiswaEdit" class="form-label">Mahasiswa</label>
+                                                        <input type="text" class="form-control" id="mahasiswaEdit" placeholder="Silahkan masukkan menggunakan NIM Mahasiswa."
                                                             required>
                                                         <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="jenis_suratEdit" class="form-label">Jenis Surat
                                                             Peringatan</label>
-                                                        <input type="text" class="form-control"
+                                                        <select class="form-select" aria-label="Default select example"
                                                             id="jenis_suratEdit" required>
+                                                            <option value="" selected disabled hidden>Pilih Jenis Surat
+                                                                Pelanggaran</option>
+                                                            <option value="sp1">SP 1</option>
+                                                            <option value="sp2">SP 2</option>
+                                                            <option value="sp3">SP 3</option>
+                                                        </select>
                                                         <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div class="mb-3">
@@ -133,12 +168,20 @@
                                                     <div class="mb-3">
                                                         <label for="statusEdit" class="form-label">Status
                                                             Pelanggaran</label>
-
-                                                        <select class="form-control" name="status" id="statusEdit" required>
-                                                            <option value="" selected>Pilih status pelanggaran</option>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            id="statusEdit" required>
+                                                            <option value="" selected disabled hidden>Pilih Status
+                                                                Pelanggaran</option>
                                                             <option value="aktif">Aktif</option>
-                                                            <option value="Nonaktif">Nonaktif</option>
+                                                            <option value="tidakAktif">Tidak Aktif</option>
                                                         </select>
+                                                        <div class="invalid-feedback"></div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="keteranganEdit"
+                                                            class="form-label">Keterangan</label>
+                                                        <textarea class="form-control" id="keteranganEdit"
+                                                            required></textarea>
                                                         <div class="invalid-feedback"></div>
                                                     </div>
                                                     <div>
@@ -152,11 +195,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form action="" onsubmit="confirmRemove(event, this)">
+                                <form action="">
                                     <button class="btn btn-danger py-1 px-2" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M10 11v6" />
                                             <path d="M14 11v6" />
                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
@@ -178,19 +221,24 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="createPelanggaranLabel">Form Manejement Pelanggaran</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" class="needs-validation" novalidate id="formCreatePelanggaran">
+                            <form method="POST" class="needs-validation" novalidate id="formCreatePelanggaran" autocomplete="off">
                                 <div class="mb-3">
                                     <label for="mahasiswaCreate" class="form-label">Mahasiswa</label>
-                                    <input type="text" class="form-control" id="mahasiswaCreate" required>
+                                    <input type="text" class="form-control" id="mahasiswaCreate" placeholder="Silahkan masukkan menggunakan NIM Mahasiswa." required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="jenis_suratCreate" class="form-label">Jenis Surat Peringatan</label>
-                                    <input type="text" class="form-control" id="jenis_suratCreate" required>
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="jenis_suratCreate" required>
+                                        <option value="" selected disabled hidden>Pilih Jenis Surat Pelanggaran</option>
+                                        <option value="sp1">SP 1</option>
+                                        <option value="sp2">SP 2</option>
+                                        <option value="sp3">SP 3</option>
+                                    </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
@@ -200,11 +248,18 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="statusCreate" class="form-label">Status Pelanggaran</label>
-                                    <select class="form-control" name="status" id="statusCreate" required>
-                                        <option value="" selected>Pilih status pelanggaran</option>
+                                    <select class="form-select" aria-label="Default select example" id="statusCreate"
+                                        required>
+                                        <option value="" selected disabled hidden>Pilih Status Pelanggaran
+                                        </option>
                                         <option value="aktif">Aktif</option>
-                                        <option value="Nonaktif">Nonaktif</option>
+                                        <option value="tidakAktif">Tidak Aktif</option>
                                     </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="keteranganCreate" class="form-label">Keterangan</label>
+                                    <textarea class="form-control" id="keteranganCreate" required></textarea>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
@@ -221,10 +276,160 @@
         </section>
     </div>
 </body>
+
+<!-- <script type="text/javascript">
+    const formCreatePelanggaran = document.getElementById('formCreatePelanggaran');
+    const mahasiswaInputCreate = document.getElementById('mahasiswaCreate');
+    const jenisSuratInputCreate = document.getElementById('jenis_suratCreate');
+    const tanggalInputCreate = document.getElementById('tanggalCreate');
+    const statusInputCreate = document.getElementById('statusCreate');
+    const keteranganInputCreate = document.getElementById('keteranganCreate');
+
+    formCreatePelanggaran.addEventListener('submit', function(event) {
+        event.preventDefault()
+        formCreatePelanggaran.classList.add('was-validated')
+        let isValid = true
+
+        const mahasiswaFeedbackCreate = mahasiswaInputCreate.nextElementSibling;
+        mahasiswaInputCreate.classList.remove('is-invalid')
+        if (mahasiswaInputCreate.value === '') {
+            mahasiswaFeedbackCreate.textContent = 'Silahkan masukkan atau pilih nama mahasiswa'
+            mahasiswaInputCreate.classList.add('is-invalid')
+            isValid = false
+        }
+
+        const jenisSuratFeedbackCreate = jenisSuratInputCreate.nextElementSibling;
+        jenisSuratInputCreate.classList.remove('is-invalid')
+        if (jenisSuratInputCreate.value === '') {
+            jenisSuratFeedbackCreate.textContent = 'Silahkan pilih jenis surat'
+            jenisSuratInputCreate.classList.add('is-invalid')
+            isValid = false
+        }
+        const tanggalFeedbackCreate = tanggalInputCreate.nextElementSibling;
+        tanggalInputCreate.classList.remove('is-invalid')
+        if (tanggalInputCreate.value === '') {
+            tanggalFeedbackCreate.textContent = 'Silahkan pilih tanggal'
+            tanggalInputCreate.classList.add('is-invalid')
+            isValid = false
+        }
+
+        const statusFeedbackCreate = statusInputCreate.nextElementSibling;
+        statusInputCreate.classList.remove('is-invalid')
+        if (statusInputCreate.value === '') {
+            statusFeedbackCreate.textContent = 'Silahkan pilih status'
+            statusInputCreate.classList.add('is-invalid')
+            isValid = false
+        }
+
+        const keteranganFeedbackCreate = keteranganInputCreate.nextElementSibling;
+        keteranganInputCreate.classList.remove('is-invalid')
+        if (keteranganInputCreate.value === '') {
+            keteranganFeedbackCreate.textContent = 'Silahkan Isi Keterangan'
+            keteranganInputCreate.classList.add('is-invalid')
+            isValid = false
+        }
+
+        if (isValid) {
+            const modal = bootstrap.Modal.getInstance(
+                document.getElementById("createPelanggaran")
+            );
+            modal.hide();
+
+            alert("Data Pelanggaran berhasil dikirim!");
+            formCreatePelanggaran.reset();
+            formCreatePelanggaran.classList.remove("was-validated");
+        }
+    })
+
+    const formEditPelanggaran = document.getElementById('formEditPelanggaran');
+    const mahasiswaInputEdit = document.getElementById('mahasiswaEdit');
+    const jenisSuratInputEdit = document.getElementById('jenis_suratEdit');
+    const tanggalInputEdit = document.getElementById('tanggalEdit');
+    const statusInputEdit = document.getElementById('statusEdit');
+    const keteranganInputEdit = document.getElementById('keteranganEdit');
+
+    formEditPelanggaran.addEventListener('submit', function(event) {
+        event.preventDefault()
+        formEditPelanggaran.classList.add('was-validated')
+        let isValid = true
+
+        const mahasiswaFeedbackEdit = mahasiswaInputEdit.nextElementSibling;
+        mahasiswaInputEdit.classList.remove('is-invalid')
+        if (mahasiswaInputEdit.value === '') {
+            mahasiswaFeedbackEdit.textContent = 'Silahkan masukkan atau pilih nama mahasiswa'
+            mahasiswaInputEdit.classList.add('is-invalid')
+            isValid = false
+        }
+
+        const jenisSuratFeedbackEdit = jenisSuratInputEdit.nextElementSibling;
+        jenisSuratInputEdit.classList.remove('is-invalid')
+        if (jenisSuratInputEdit.value === '') {
+            jenisSuratFeedbackEdit.textContent = 'Silahkan pilih jenis surat'
+            jenisSuratInputEdit.classList.add('is-invalid')
+            isValid = false
+        }
+        const tanggalFeedbackEdit = tanggalInputEdit.nextElementSibling;
+        tanggalInputEdit.classList.remove('is-invalid')
+        if (tanggalInputEdit.value === '') {
+            tanggalFeedbackEdit.textContent = 'Silahkan pilih tanggal'
+            tanggalInputEdit.classList.add('is-invalid')
+            isValid = false
+        }
+
+        const statusFeedbackEdit = statusInputEdit.nextElementSibling;
+        statusInputEdit.classList.remove('is-invalid')
+        if (statusInputEdit.value === '') {
+            statusFeedbackEdit.textContent = 'Silahkan pilih status'
+            statusInputEdit.classList.add('is-invalid')
+            isValid = false
+        }
+
+        const keteranganFeedbackEdit = keteranganInputEdit.nextElementSibling;
+        keteranganInputEdit.classList.remove('is-invalid')
+        if (keteranganInputEdit.value === '') {
+            keteranganFeedbackEdit.textContent = 'Silahkan Isi Keterangan'
+            keteranganInputEdit.classList.add('is-invalid')
+            isValid = false
+        }
+
+        if (isValid) {
+            const modal = bootstrap.Modal.getInstance(
+                document.getElementById("EditPelanggaran")
+            );
+            modal.hide();
+
+            alert("Data pelanggaran berhasil dikirim!");
+            formEditPelanggaran.reset();
+            formEditPelanggaran.classList.remove("was-validated");
+        }
+    })
+</script> -->
 <script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-<script src="../static/js/validationFile.js"></script>
-<script src="../static/js/confirmRemove.js"></script>
+
+<script>
+    document.getElementById('btnCreatePelanggaranModal').addEventListener('click', function() {
+
+        let mahasiswaCount = <?php echo $mahasiswaCount ?>; // ambil dari PHP
+
+        if (mahasiswaCount === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Mahasiswa Kosong!',
+                text: 'Silakan tambahkan data mahasiswa terlebih dahulu.',
+                confirmButtonColor: '#3085d6',
+            });
+        } else {
+            // Jika ada data → buka modal
+            var myModal = new bootstrap.Modal(document.getElementById('createPelanggaran'));
+            myModal.show();
+        }
+    });
+</script>
+
 <script src="../static/js/validationFormPelanggaran.js"></script>
+<script src="../static/js/confirmLogout.js"></script>
+
+
 
 </html>

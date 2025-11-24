@@ -1,0 +1,383 @@
+<?php
+
+include '../conn.php';
+
+$limit = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$offset = ($page - 1) * $limit;
+
+$kelas_count_query = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_kelas");
+$kelas_count = mysqli_fetch_assoc($kelas_count_query);
+$total_data = $kelas_count['total'];
+
+$total_page = ceil($total_data / $limit);
+
+if ($search) {
+  $query_kelas = mysqli_query($conn, "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi WHERE k.nama_kelas LIKE '%$search%'
+       OR k.nama_dosen LIKE '%$search%'
+       OR p.nama_prodi LIKE '%$search%' ORDER BY nama_kelas ASC LIMIT $offset, $limit");
+} else {
+  $query_kelas = mysqli_query($conn, "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi ORDER BY nama_kelas ASC LIMIT $offset, $limit");
+}
+
+$prodi = mysqli_query($conn, "SELECT * FROM tb_prodi");
+
+$range = 3;
+
+$start = max(1, $page - floor($range / 2));
+$end   = min($total_page, $start + $range - 1);
+
+$start = max(1, $end - $range + 1);
+
+while ($row = mysqli_fetch_assoc($prodi)) {
+  $data_prodi[] = $row;
+};
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Kelas | Polibatam Surat Peringatan</title>
+  <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+  <link rel="stylesheet" href="../static/style/font.css">
+  <link rel="stylesheet" href="../static/style/sidebar.css">
+  <link rel="stylesheet" href="../static/style/kelas.css">
+</head>
+
+<body class="bg-light-subtle font-poppins">
+  <?php
+  include '../component/sidebar.php';
+  ?>
+
+  <div class="main-content">
+    <header class="header">
+      <h2 class="fw-bold mb-0">Data Kelas</h2>
+      <div class="account">
+        <div class="account-desc">
+          <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
+          <h2 class="email mb-0">gilang@gmail.com</h2>
+        </div>
+        <a href="./profile.php" class="text-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <section id="tableKelas" class="tableKelas">
+      <div class="container">
+        <div
+          class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
+          <div class="button-group mb-2 mb-md-0 ">
+            <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal"
+              data-bs-target="#createKelas">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
+              Tambah Kelas</button>
+          </div>
+
+          <form action="" class="d-flex mb-0" autocomplete="off">
+            <!-- <div class="mb-0">
+              <select name="prodi" id="" class="form-select">
+                <option value="">Cari Program Studi</option>
+                <?php
+                foreach ($data_prodi as $row) { ?>
+                  <option value="<?= $row['nama_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                <?php } ?>
+              </select>
+            </div> -->
+
+            <div class="form-search">
+              <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-search-icon lucide-search">
+                  <path d="m21 21-4.34-4.34" />
+                  <circle cx="11" cy="11" r="8" />
+                </svg></label>
+              <input type="text" name="search" id="search" placeholder="Cari...">
+            </div>
+          </form>
+        </div>
+      </div>
+      <?php if ($kelas_count > 0) { ?>
+        <div class="container poppins">
+          <table class="text-nowrap">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Program Studi</th>
+                <th>Nama Kelas</th>
+                <th>Semester</th>
+                <th>Jadwal</th>
+                <th>Wali Dosen</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $no = 1;
+              while ($row = mysqli_fetch_array($query_kelas)) {
+              ?>
+                <tr>
+                  <td><?= $no++ ?></td>
+                  <td><?= $row['nama_prodi'] ?></td>
+                  <td><?= $row['nama_kelas'] ?></td>
+                  <td><?= $row['semester'] ?></td>
+                  <td><?= $row['jadwal'] ?></td>
+                  <td><?= $row['nama_dosen'] ?></td>
+                  <td class="d-flex align-items-center">
+                    <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary"
+                      data-bs-toggle="modal" data-bs-target="#editKelas"
+                      data-id="<?= $row['id_kelas'] ?>"
+                      data-prodi="<?= $row['prodi_id'] ?>"
+                      data-semester="<?= $row['semester'] ?>"
+                      data-nama="<?= $row['nama_kelas'] ?>"
+                      data-jadwal="<?= $row['jadwal'] ?>"
+                      data-dosen="<?= $row['nama_dosen'] ?>">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-square-pen-icon lucide-square-pen">
+                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path
+                          d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                      </svg>
+                    </button>
+
+                    <form action="./backend/kelas/delete.php" method="POST" onsubmit="return confirmRemove(event)">
+                      <input type="hidden" name="id_kelas" value="<?= $row['id_kelas'] ?>">
+                      <button class="btn btn-danger py-1 px-2" type="submit" name="submit" value="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M10 11v6" />
+                          <path d="M14 11v6" />
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                          <path d="M3 6h18" />
+                          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+          <div class="my-4 d-flex justify-content-center align-items-center gap-4">
+
+            <!-- PREV -->
+            <?php if ($page > 1): ?>
+              <a href="?page=<?= $page - 1 ?>" class="btn btn-outline-dark mb-0 text-center">Prev</a>
+            <?php endif; ?>
+
+            <div class="d-flex justify-content-center align-items-center">
+              <!-- jika halaman awal > 1, tampilkan ... -->
+
+              <div class="d-flex justify-content-center align-items-center gap-2">
+                <!-- range halaman -->
+                <?php for ($i = $start; $i <= $end; $i++): ?>
+                  <a href="?page=<?= $i ?>"
+                    class="btn
+           <?= ($page == $i ? 'btn-dark' : 'btn-outline-dark') ?>">
+                    <?= $i ?>
+                  </a>
+                <?php endfor; ?>
+              </div>
+
+            </div>
+
+            <!-- NEXT -->
+            <?php if ($page < $total_page): ?>
+              <a href="?page=<?= $page + 1 ?>" class="btn btn-outline-dark mb-0 text-center">Next</a>
+            <?php endif; ?>
+
+          </div>
+
+
+        </div>
+      <?php } else { ?>
+        <div class="container">
+          <div class="alert alert-primary  mb-0" role="alert">
+            Data Kelas tidak ada. Silahkan isi data Kelas terlebih dahulu!!!!
+          </div>
+        </div>
+      <?php } ?>
+      <!-- Modal -->
+      <div class="modal fade" id="createKelas" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="createKelasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="createKelasLabel">Form Kelas</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" class="needs-validation" novalidate id="FormCreateKelas" autocomplete="off" onsubmit="return validateCreate(event)">
+                <div class="mb-3">
+                  <label for="prodi" class="form-label">Program Studi</label>
+                  <select class="form-select" name="prodi_id" id="programstudi" required>
+                    <option value="">Pilih Program Studi</option>
+                    <?php
+                    foreach ($data_prodi as $row) { ?>
+                      <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+
+                <div class="mb-3 row">
+                  <div class="col">
+                    <label for="semester" class="form-label">Semester</label>
+                    <input type="number" min="1" max="8" name="semester" class="form-control" id="semester" required
+                      placeholder="Masukkan semester...">
+                  </div>
+
+                  <div class="col">
+                    <label for="kelas" class="form-label">Nama Kelas</label>
+                    <input type="text" class="form-control" name="nama_kelas" id="kelas" required
+                      placeholder="Masukkan nama kelas...">
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="jadwal" class="form-label">Jadwal</label>
+                  <select class="form-select" name="jadwal" id="jadwal" required>
+                    <option value="">Pilih Jadwal</option>
+                    <option value="Pagi">Pagi</option>
+                    <option value="Malam">Malam</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="walidosen" class="form-label">Wali Dosen</label>
+                  <input type="text" class="form-control" name="nama_dosen" id="walidosen" required
+                    placeholder="Masukkan wali dosen...">
+                </div>
+
+                <div>
+                  <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Tutup</button>
+                  <input type="button" name="submit" class="btn btn-primary" onclick="createKelas()" value="Kirim">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="editKelas" data-bs-backdrop="static"
+        data-bs-keyboard="false" tabindex="-1" aria-labelledby="editKelasLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="editKelasLabel">Form Kelas</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="POST" class="needs-validation"
+                novalidate id="FormEditKelas" autocomplete="off">
+                <div class="mb-3">
+                  <label for="prodi" class="form-label">Program Studi</label>
+                  <select class="form-select" name="prodi_id" id="editprogramstudi" required>
+                    <option value="">Pilih Program Studi</option>
+                    <?php
+                    foreach ($data_prodi as $prodi) { ?>
+                      <option value="<?= $prodi['id_prodi'] ?>"><?= $prodi['nama_prodi'] ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col">
+                    <label for="semester" class="form-label">Semester</label>
+                    <input type="number" name="semester" min="1" max="8" class="form-control" id="editsemester" value="" required
+                      placeholder="Masukkan semester...">
+                  </div>
+
+                  <div class="col">
+                    <label for="kelas" class="form-label">Nama Kelas</label>
+                    <input type="text" name="nama_kelas" class="form-control" id="editkelas" value="" required
+                      placeholder="Masukkan nama kelas...">
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="jadwal" class="form-label">Jadwal</label>
+                  <select class="form-select" name="jadwal" id="editjadwal" required>
+                    <option value="">Pilih Jadwal</option>
+                    <option value="Pagi">Pagi</option>
+                    <option value="Malam">Malam</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="walidosen" class="form-label">Wali Dosen</label>
+                  <input type="text" name="nama_dosen" class="form-control" id="editwalidosen" value="" required
+                    placeholder="Masukkan wali dosen...">
+                </div>
+
+                <div>
+                  <input type="hidden" name="id_kelas" id="id_kelas" value="">
+                  <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Tutup</button>
+                  <input type="button" name="submit" class="btn btn-warning" onclick="editKelas()" value="Simpan">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../static/js/confirmRemove.js"></script>
+<script src="../static/js/validationFormKelas.js"></script>
+<script src="../static/js/confirmLogout.js"></script>
+<script>
+  document.getElementById('editKelas').addEventListener('show.bs.modal', function(event) {
+    const button = event.relatedTarget; // tombol yang diklik
+
+    // Ambil data dari tombol
+    const id = button.getAttribute('data-id');
+    const prodi = button.getAttribute('data-prodi');
+    const semester = button.getAttribute('data-semester');
+    const nama = button.getAttribute('data-nama');
+    const jadwal = button.getAttribute('data-jadwal');
+    const dosen = button.getAttribute('data-dosen');
+
+    // Isi ke dalam form modal
+    document.getElementById('id_kelas').value = id;
+    document.getElementById('editprogramstudi').value = prodi;
+    document.getElementById('editsemester').value = semester;
+    document.getElementById('editkelas').value = nama;
+    document.getElementById('editjadwal').value = jadwal;
+    document.getElementById('editwalidosen').value = dosen;
+  });
+</script>
+
+</html>
