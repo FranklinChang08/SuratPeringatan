@@ -3,36 +3,39 @@
 include '../conn.php';
 
 $limit = 5;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $offset = ($page - 1) * $limit;
 
-$kelas_count_query = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_kelas");
+$kelas_count_query = mysqli_query($conn, 'SELECT COUNT(*) AS total FROM tb_kelas');
 $kelas_count = mysqli_fetch_assoc($kelas_count_query);
 $total_data = $kelas_count['total'];
 
 $total_page = ceil($total_data / $limit);
 
 if ($search) {
-  $query_kelas = mysqli_query($conn, "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi WHERE k.nama_kelas LIKE '%$search%'
+  $query_kelas = mysqli_query(
+    $conn,
+    "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi WHERE k.nama_kelas LIKE '%$search%'
        OR k.nama_dosen LIKE '%$search%'
-       OR p.nama_prodi LIKE '%$search%' ORDER BY nama_kelas ASC LIMIT $offset, $limit");
+       OR p.nama_prodi LIKE '%$search%' ORDER BY nama_kelas ASC LIMIT $offset, $limit",
+  );
 } else {
   $query_kelas = mysqli_query($conn, "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi ORDER BY nama_kelas ASC LIMIT $offset, $limit");
 }
 
-$prodi = mysqli_query($conn, "SELECT * FROM tb_prodi");
+$prodi = mysqli_query($conn, 'SELECT * FROM tb_prodi');
 
 $range = 3;
 
 $start = max(1, $page - floor($range / 2));
-$end   = min($total_page, $start + $range - 1);
+$end = min($total_page, $start + $range - 1);
 
 $start = max(1, $end - $range + 1);
 
 while ($row = mysqli_fetch_assoc($prodi)) {
   $data_prodi[] = $row;
-};
+}
 ?>
 
 <!DOCTYPE html>
@@ -120,7 +123,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
           </form>
         </div>
       </div>
-      <?php if ($kelas_count > 0) { ?>
+      <?php if ($total_data > 0) { ?>
         <div class="container poppins">
           <table class="text-nowrap">
             <thead>
@@ -148,12 +151,9 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                   <td><?= $row['nama_dosen'] ?></td>
                   <td class="d-flex align-items-center">
                     <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary"
-                      data-bs-toggle="modal" data-bs-target="#editKelas"
-                      data-id="<?= $row['id_kelas'] ?>"
-                      data-prodi="<?= $row['prodi_id'] ?>"
-                      data-semester="<?= $row['semester'] ?>"
-                      data-nama="<?= $row['nama_kelas'] ?>"
-                      data-jadwal="<?= $row['jadwal'] ?>"
+                      data-bs-toggle="modal" data-bs-target="#editKelas" data-id="<?= $row['id_kelas'] ?>"
+                      data-prodi="<?= $row['prodi_id'] ?>" data-semester="<?= $row['semester'] ?>"
+                      data-nama="<?= $row['nama_kelas'] ?>" data-jadwal="<?= $row['jadwal'] ?>"
                       data-dosen="<?= $row['nama_dosen'] ?>">
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -165,9 +165,11 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                       </svg>
                     </button>
 
-                    <form action="./backend/kelas/delete.php" method="POST" onsubmit="return confirmRemove(event)">
+                    <form action="./backend/kelas/delete.php" method="POST"
+                      onsubmit="return confirmRemove(event)">
                       <input type="hidden" name="id_kelas" value="<?= $row['id_kelas'] ?>">
-                      <button class="btn btn-danger py-1 px-2" type="submit" name="submit" value="submit">
+                      <button class="btn btn-danger py-1 px-2" type="submit" name="submit"
+                        value="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                           viewBox="0 0 24 24" fill="none" stroke="currentColor"
                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -199,7 +201,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 <?php for ($i = $start; $i <= $end; $i++): ?>
                   <a href="?page=<?= $i ?>"
                     class="btn
-           <?= ($page == $i ? 'btn-dark' : 'btn-outline-dark') ?>">
+           <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
                     <?= $i ?>
                   </a>
                 <?php endfor; ?>
@@ -213,8 +215,6 @@ while ($row = mysqli_fetch_assoc($prodi)) {
             <?php endif; ?>
 
           </div>
-
-
         </div>
       <?php } else { ?>
         <div class="container">
@@ -224,17 +224,17 @@ while ($row = mysqli_fetch_assoc($prodi)) {
         </div>
       <?php } ?>
       <!-- Modal -->
-      <div class="modal fade" id="createKelas" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="createKelasLabel" aria-hidden="true">
+      <div class="modal fade" id="createKelas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="createKelasLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="createKelasLabel">Form Kelas</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form method="POST" class="needs-validation" novalidate id="FormCreateKelas" autocomplete="off" onsubmit="return validateCreate(event)">
+              <form method="POST" class="needs-validation" novalidate id="FormCreateKelas" autocomplete="off"
+                onsubmit="return validateCreate(event)">
                 <div class="mb-3">
                   <label for="prodi" class="form-label">Program Studi</label>
                   <select class="form-select" name="prodi_id" id="programstudi" required>
@@ -249,8 +249,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 <div class="mb-3 row">
                   <div class="col">
                     <label for="semester" class="form-label">Semester</label>
-                    <input type="number" min="1" max="8" name="semester" class="form-control" id="semester" required
-                      placeholder="Masukkan semester...">
+                    <input type="number" min="1" max="8" name="semester"
+                      class="form-control" id="semester" required placeholder="Masukkan semester...">
                   </div>
 
                   <div class="col">
@@ -276,9 +276,9 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 </div>
 
                 <div>
-                  <button type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Tutup</button>
-                  <input type="button" name="submit" class="btn btn-primary" onclick="createKelas()" value="Kirim">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <input type="button" name="submit" class="btn btn-primary" onclick="createKelas()"
+                    value="Kirim">
                 </div>
               </form>
             </div>
@@ -286,19 +286,17 @@ while ($row = mysqli_fetch_assoc($prodi)) {
         </div>
       </div>
 
-      <div class="modal fade" id="editKelas" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="editKelasLabel"
-        aria-hidden="true">
+      <div class="modal fade" id="editKelas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="editKelasLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="editKelasLabel">Form Kelas</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="" method="POST" class="needs-validation"
-                novalidate id="FormEditKelas" autocomplete="off">
+              <form action="" method="POST" class="needs-validation" novalidate id="FormEditKelas"
+                autocomplete="off">
                 <div class="mb-3">
                   <label for="prodi" class="form-label">Program Studi</label>
                   <select class="form-select" name="prodi_id" id="editprogramstudi" required>
@@ -313,14 +311,15 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 <div class="row mb-3">
                   <div class="col">
                     <label for="semester" class="form-label">Semester</label>
-                    <input type="number" name="semester" min="1" max="8" class="form-control" id="editsemester" value="" required
+                    <input type="number" name="semester" min="1" max="8"
+                      class="form-control" id="editsemester" value="" required
                       placeholder="Masukkan semester...">
                   </div>
 
                   <div class="col">
                     <label for="kelas" class="form-label">Nama Kelas</label>
-                    <input type="text" name="nama_kelas" class="form-control" id="editkelas" value="" required
-                      placeholder="Masukkan nama kelas...">
+                    <input type="text" name="nama_kelas" class="form-control" id="editkelas"
+                      value="" required placeholder="Masukkan nama kelas...">
                   </div>
                 </div>
 
@@ -335,15 +334,15 @@ while ($row = mysqli_fetch_assoc($prodi)) {
 
                 <div class="mb-3">
                   <label for="walidosen" class="form-label">Wali Dosen</label>
-                  <input type="text" name="nama_dosen" class="form-control" id="editwalidosen" value="" required
-                    placeholder="Masukkan wali dosen...">
+                  <input type="text" name="nama_dosen" class="form-control" id="editwalidosen"
+                    value="" required placeholder="Masukkan wali dosen...">
                 </div>
 
                 <div>
                   <input type="hidden" name="id_kelas" id="id_kelas" value="">
-                  <button type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Tutup</button>
-                  <input type="button" name="submit" class="btn btn-warning" onclick="editKelas()" value="Simpan">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <input type="button" name="submit" class="btn btn-warning" onclick="editKelas()"
+                    value="Simpan">
                 </div>
               </form>
             </div>
