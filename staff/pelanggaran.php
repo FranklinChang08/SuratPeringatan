@@ -69,7 +69,6 @@ $mahasiswaCount = $data_mahasiswa['total'];
                 </a>
             </div>
         </header>
-
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
                 <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">

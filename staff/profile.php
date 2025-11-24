@@ -54,13 +54,13 @@
         <section id="settingsUser" class="settings-users">
             <div class="container p-3">
                 <div class="p-4 bg-white shadow-sm rounded-1">
-                    <h5 class="fw-bold text-uppercase">PENGATURAN AKUN</h5>
+                    <h5 class="fw-bold text-uppercase">Pengaturan Akun</h5>
                     <form action="" class="row row-cols-1 row-cols-md-2">
                         <div class="d-flex flex-column justify-content-center align-items-center gap-2 mb-3">
                             <img class="profile-preview" src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
 
                             <div>
-                                <label for="profile">Profile File</label>
+                                <label for="profile">Profil File</label>
                                 <input type="file" id="profile" name="profile" class="form-control w-100">
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                                 <label for="jurusan" class="form-label">Jurusan</label>
                                 <select class="form-select" id="jurusan" aria-label="Default select example">
                                     <option selected>Pilih Jurusan</option>
-                                    <option value="TI">Teknik Jurusan</option>
+                                    <option value="TI">Teknik Informatika</option>
                                     <option value="TE">Teknik Elektro</option>
                                     <option value="TM">Teknik Mesin</option>
                                     <option value="MB">Manajemen Bisnis</option>
@@ -94,21 +94,17 @@
                         </div>
                     </form>
                 </div>
-                <div class=" p-4 bg-white shadow-sm rounded-1 mt-3" style="margin-bottom: 70px;">
-                    <h5 class="fw-bold text-uppercase">Ganti Password</h5>
-                    <form action="" class="needs-validation row row-cols-1 row-cols-lg-2" id="formChangePassword" novalidate>
+                <div class=" p-4 bg-white shadow-sm rounded-1 mt-3">
+                    <h5 class="fw-bold text-uppercase">Ganti Kata Sandi</h5>
+                    <form action="" class="row row-cols-2">
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="password"
-                                placeholder="Masukkan Password anda..." required>
-                            <div class="invalid-feedback"></div>
+                            <label for="password" class="form-label">Kata Sandi</label>
+                            <input type="text" class="form-control" name="password" required id="password" placeholder="Masukkan Password anda...">
                         </div>
 
                         <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Konfirmasi Password</label>
-                            <input type="password" class="form-control" name="confirm_password" id="confirm_password"
-                                placeholder="Konfirmasi Password anda..." required>
-                            <div class="invalid-feedback"></div>
+                            <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
+                            <input type="confirm_password" class="form-control" name="confirm_password" required id="confirm_password" placeholder="Konfirmasi Password anda...">
                         </div>
 
                         <div>
