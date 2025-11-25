@@ -139,7 +139,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                                         <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
                                                             <div class="mb-3">
                                                                 <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
-                                                                <input type="text" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                                                <input type="text" class="form-control" id="nimEdit"  placeholder="Masukkan nim mahasiswa..." required>
                                                                 <div class="invalid-feedback"></div>
                                                             </div>
                                                             <div class="mb-3">
@@ -188,7 +188,6 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                                             </div>
                                                             <div>
                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                                <button type="submit" class="btn btn-primary">Kirim</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -196,7 +195,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <form action="" method="POST" onsubmit="return confirmRemove(event, this)">
+                                        <form action="./backend/mahasiswa/delete.php" method="POST" onsubmit="return confirmRemove(event, this)">
                                             <button class="btn btn-danger py-1 px-2" type="submit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                     <path d="M10 11v6" />
@@ -232,7 +231,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="" class="needs-validation" novalidate id="FormCreateMahasiswa">
+                            <form method="POST" action="./backend/mahasiswa/create.php" class="needs-validation" novalidate >
                                 <div class="mb-3">
                                     <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
                                     <input type="number" name="nim" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
@@ -240,7 +239,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                 </div>
                                 <div class="mb-3">
                                     <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" name="nama" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
+                                    <input type="text" name="nama_user" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
@@ -255,7 +254,6 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                         <option value="if">Teknik Informatika</option>
                                         <option value="mesin">Teknik Mesin</option>
                                         <option value="elektro">Teknik Elektro</option>
-<<<<<<< HEAD
                                         <option value="mb">Manajemen Bisnis</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -268,9 +266,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                         foreach ($list_prodi as $row) { ?>
                                             <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
                                         <?php } ?>
-                                        =======
-                                        <option value="mb">Manejement Bisnis</option>
-                                        >>>>>>> 682722d8b25ebdb3166f39274400d4cf56ef59fc
+
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -287,7 +283,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                    <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
                                 </div>
                             </form>
                         </div>
