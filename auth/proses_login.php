@@ -10,12 +10,12 @@ $queryUser = mysqli_query($conn, "SELECT * FROM tb_user WHERE nim='$usernameLogi
 $row = mysqli_fetch_assoc($queryUser);
 
 if ($row) {
-    if ($row['nim'] === $usernameLogin) {
+    if ($row['nim'] === $usernameLogin or $row['email'] === $usernameLogin) {
 
         $validPassword = ($row['password'] == "")
             ? $row['nim'] == $passwordLogin
             : $row['password'] == $passwordLogin;
-    } elseif ($row['nik'] === $usernameLogin) {
+    } elseif ($row['nik'] === $usernameLogin or $row['email'] === $usernameLogin) {
 
         $validPassword = ($row['password'] == "")
             ? $row['nik'] == $passwordLogin

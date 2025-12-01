@@ -57,15 +57,16 @@ $user = mysqli_fetch_assoc($query);
             <div class="account">
                 <div class="account-desc">
                     <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 class="email mb-0">gilang@gmail.com</h2>
+                    <h2 style="font-size: 10px;" class="email mb-0">gilang@gmail.com</h2>
                 </div>
                 <a href="./profile.php" class="text-dark">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-user-icon lucide-user">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg>
+                    <?php
+                    if ($user['profile']) { ?>
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+                    <?php } else { ?>
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                    <?php }
+                    ?>
                 </a>
             </div>
         </header>
@@ -111,15 +112,17 @@ $user = mysqli_fetch_assoc($query);
                 </div>
                 <div class=" p-4 bg-white shadow-sm rounded-1 mt-3">
                     <h5 class="fw-bold text-uppercase">Ganti Kata Sandi</h5>
-                    <form method="POST" action="./backend/changepass/update.php" class="row row-cols-2">
+                    <form method="POST" class="row row-cols-2" id="formChangePassword" class="needs-validation" novalidate autocomplete="off">
                         <div class="mb-3">
                             <label for="password" class="form-label">Kata Sandi Baru</label>
                             <input type="text" class="form-control" name="password" required id="password" placeholder="Masukkan Password anda...">
+                            <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
                             <input type="confirm_password" class="form-control" name="confirm_password" required id="confirm_password" placeholder="Konfirmasi Password anda...">
+                            <div class="invalid-feedback"></div>
                         </div>
 
                         <div>
@@ -182,19 +185,57 @@ $user = mysqli_fetch_assoc($query);
         }
 
         if (isValid) {
+            form = new FormData(formChangePassword)
 
-            Swal.fire({
-                title: "success",
-                text: "Password berhasil diubah!",
-                icon: "success",
-                customClass: {
-                    title: "swal-title",
-                    htmlContainer: "swal-text",
-                    confirmButton: "swal-button",
-                },
-            });
-            formChangePassword.reset();
-            formChangePassword.classList.remove("was-validated");
+            fetch('./backend/changepass/update.php', {
+                    method: 'POST',
+                    body: form
+                }).then(response => response.json())
+                .then(result => {
+                    Swal.close();
+
+                    if (result.status === "error") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal!",
+                            text: result.message
+                        });
+                        return; // stop agar tidak lanjut ke success
+                    }
+
+                    formChangePassword.reset();
+                    formChangePassword.classList.remove("was-validated");
+
+                    Swal.fire({
+                        title: "success",
+                        text: "Kata Sandi berhasil diperbaharui!",
+                        icon: "success",
+                        customClass: {
+                            title: "swal-title",
+                            htmlContainer: "swal-text",
+                            confirmButton: "swal-button",
+                        },
+                    }).then(() => {
+                        location.href = '../auth/logout.php';
+
+                        const modal = bootstrap.Modal.getInstance(
+                            document.getElementById("changePassword")
+                        );
+                        modal.hide();
+                    });
+
+                })
+                .catch(error => {
+                    Swal.close();
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal!",
+                        text: "Terjadi kesalahan dalam mengirim data."
+                    });
+
+                    console.log(error);
+                });
         }
     });
 </script>

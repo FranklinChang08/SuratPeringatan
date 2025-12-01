@@ -114,56 +114,52 @@ while ($row = mysqli_fetch_assoc($prodi)) {
       <div class="account">
         <div class="account-desc">
           <h2 class=" fs-6 mb-0 fw-bold text-end border-0"><?= $user['nama_user'] ?></h2>
-          <p class="mb-0"><?= $user['email'] ?></p>
+          <p style="font-size: 10px;" class="mb-0"><?= $user['email'] ?></p>
         </div>
         <a href="./profile.php" class="text-dark">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
+          <?php
+          if ($user['profile']) { ?>
+            <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+          <?php } else { ?>
+            <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+          <?php }
+          ?>
         </a>
       </div>
     </header>
 
     <section id="tableKelas" class="tableKelas">
       <div class="container">
-        <div
-          class="button d-flex align-items-center justify-content-between flex-column flex-lg-row gap-2">
-          <div class="button-group mb-2 mb-md-0 ">
-            <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal"
-              data-bs-target="#createKelas">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
-                <path d="M5 12h14" />
-                <path d="M12 5v14" />
+        <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
+          <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal"
+            data-bs-target="#createKelas">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            Tambah Kelas</button>
+
+          <form action="" class="form-search">
+            <label for="search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+                <path d="m21 21-4.34-4.34" />
+                <circle cx="11" cy="11" r="8" />
               </svg>
-              Tambah Kelas</button>
-          </div>
-          <form action="" class="d-flex mb-0" autocomplete="off">
-            <div class="form-search">
-              <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-search-icon lucide-search">
-                  <path d="m21 21-4.34-4.34" />
-                  <circle cx="11" cy="11" r="8" />
-                </svg></label>
-              <input type="text" class="" name="search" id="search" placeholder="Cari...">
-            </div>
+            </label>
+            <input type="text" name="search" id="search" placeholder="Cari...">
           </form>
         </div>
       </div>
-      <div class="container poppins mb-0 p-3">
-        <div class="row mb-2 px-2">
-          <div class="col d-flex justify-content-start align-items-center">
+      <div class="container poppins p-3">
+        <div class="row mb-2">
+          <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-start align-items-center">
             <p class="mb-0">
               <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
             </p>
           </div>
-          <form action="" class="col d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+          <form action="" class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2" autocomplete="off">
             <select name="prodi" id="" class="form-select">
               <option value="">Program Studi</option>
               <?php

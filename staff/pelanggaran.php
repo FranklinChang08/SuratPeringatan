@@ -2,19 +2,25 @@
 session_start();
 
 if (!isset($_SESSION['nik'])) {
-  echo "<script>location.href = '../auth/login.php';</script>";
-  session_unset();
-  session_destroy();
-  exit;
+    echo "<script>location.href = '../auth/login.php';</script>";
+    session_unset();
+    session_destroy();
+    exit;
 }
 
 include('../conn.php');
 
 $nik = $_SESSION['nik'];
 
+$list_mahasiswa = [];
+$list_prodi = [];
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$prodi_filter = isset($_GET['prodi']) ? $_GET['prodi'] : '';
+$semester_filter = isset($_GET['semester']) ? $_GET['semester'] : '';
+
 $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE nik = '$nik'");
 $user = mysqli_fetch_assoc($query);
-
 
 // Hitung jumlah mahasiswa
 $mahasiswa_count_query = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_user WHERE role = 'Mahasiswa'");
@@ -22,26 +28,107 @@ $data_mahasiswa = mysqli_fetch_assoc($mahasiswa_count_query);
 $mahasiswaCount = $data_mahasiswa['total'];
 
 // Query untuk dropdown mahasiswa di form
-$mahasiswa_list = mysqli_query($conn, "SELECT id_user, nama_user, nim FROM tb_user WHERE role = 'Mahasiswa' ORDER BY nama_user");
+$mahasiswa_list = mysqli_query($conn, "SELECT * FROM tb_user WHERE role = 'Mahasiswa' ORDER BY nama_user");
 
-// Query mahasiswa untuk edit modal
-$mahasiswa_list_edit = mysqli_query($conn, "SELECT id_user, nama_user, nim FROM tb_user WHERE role = 'Mahasiswa' ORDER BY nama_user");
+$prodi = mysqli_query($conn, "SELECT * FROM tb_prodi");
+
+while ($row = mysqli_fetch_assoc($mahasiswa_list)) {
+    $list_mahasiswa[] = $row;
+}
+
+while ($row = mysqli_fetch_assoc($prodi)) {
+    $list_prodi[] = $row;
+}
 
 // Ambil semua data pelanggaran + nama mahasiswa
-$pelanggaran_query = mysqli_query($conn, "
-    SELECT 
-        p.*,
-        u.nama_user,
-        u.nim
-    FROM tb_pelanggaran p
-    LEFT JOIN tb_user u ON p.mahasiswa_id = u.id_user
-    ORDER BY p.tanggal DESC
-");
+$pelanggaran_query = "SELECT * FROM tb_pelanggaran p INNER JOIN tb_user u ON p.mahasiswa_id = u.id_user INNER JOIN tb_kelas k ON k.id_kelas = u.kelas_id INNER JOIN tb_prodi s ON s.id_prodi = k.prodi_id WHERE 1=1";
+$pelanggaran_count_query = "SELECT COUNT(*) AS total FROM tb_pelanggaran p INNER JOIN tb_user u ON p.mahasiswa_id = u.id_user INNER JOIN tb_kelas k ON k.id_kelas = u.kelas_id INNER JOIN tb_prodi s ON s.id_prodi = k.prodi_id WHERE 1=1";
+
+if ($search) {
+    $pelanggaran_query .= " AND (u.nama_user LIKE '%$search%') OR (u.nim = '$search') OR (u.email LIKE '%$search%')";
+    $pelanggaran_count_query .= " AND (u.nama_user LIKE '%$search%') OR (u.nim = '$search') OR (u.email LIKE '%$search%')";
+}
+if ($prodi_filter) {
+    $pelanggaran_query .= " AND u.prodi_id = '$prodi_filter'";
+    $pelanggaran_count_query .= " AND u.prodi_id = '$prodi_filter'";
+}
+if ($semester_filter) {
+    $pelanggaran_query .= " AND k.semester = '$semester_filter'";
+    $pelanggaran_count_query .= " AND k.semester = '$semester_filter'";
+}
 
 // Hitung total pelanggaran
-$pelanggaran_count_query = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_pelanggaran");
-$data_pelanggaran = mysqli_fetch_assoc($pelanggaran_count_query);
+$pelanggaran_count_query_select = mysqli_query($conn, $pelanggaran_count_query);
+$data_pelanggaran = mysqli_fetch_assoc($pelanggaran_count_query_select);
 $pelanggaranCount = $data_pelanggaran['total'];
+
+$limit = 10;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+$total_data = $data_pelanggaran['total'];
+
+$offset = ($page - 1) * $limit;
+$total_page = ceil($total_data / $limit);
+
+$range = 3;
+
+$start = max(1, $page - floor($range / 2));
+$end = min($total_page, $start + $range - 1);
+
+$start = max(1, $end - $range + 1);
+
+$start_asc = ($page - 1) * $limit + 1;
+$end_asc   = $page * $limit;
+
+if ($end_asc > $total_data) {
+    $end_asc = $total_data;
+}
+
+$pelanggaran_query .= " AND u.role = 'Mahasiswa' ORDER BY p.tanggal DESC LIMIT $offset, $limit";
+
+$pelanggaran_query_select = mysqli_query($conn, $pelanggaran_query);
+
+
+function tanggalIndonesia($tanggal, $formatJam = true)
+{
+    $hari = [
+        'Sunday' => 'Minggu',
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu'
+    ];
+
+    $bulan = [
+        'January' => 'Januari',
+        'February' => 'Februari',
+        'March' => 'Maret',
+        'April' => 'April',
+        'May' => 'Mei',
+        'June' => 'Juni',
+        'July' => 'Juli',
+        'August' => 'Agustus',
+        'September' => 'September',
+        'October' => 'Oktober',
+        'November' => 'November',
+        'December' => 'Desember'
+    ];
+
+    $tgl = strtotime($tanggal);
+
+    $hasil = $hari[date('l', $tgl)] . ", "
+        . date('d', $tgl) . " "
+        . $bulan[date('F', $tgl)] . " "
+        . date('Y', $tgl);
+
+    if ($formatJam) {
+        $hasil .= " - " . date('H:i:s A', $tgl);
+    }
+
+    return $hasil;
+}
 ?>
 
 <!DOCTYPE html>
@@ -77,11 +164,6 @@ $pelanggaranCount = $data_pelanggaran['total'];
         .modal-backdrop {
             transition: opacity 0.3s ease;
         }
-
-
-        .badge {
-            color: #000;
-        }
     </style>
 </head>
 
@@ -94,13 +176,16 @@ $pelanggaranCount = $data_pelanggaran['total'];
             <div class="account">
                 <div class="account-desc">
                     <h2 class=" fs-6 mb-0 fw-bold text-end border-0"><?= $user['nama_user'] ?></h2>
-                    <p class="mb-0"><?= $user['email'] ?></p>
+                    <p style="font-size: 10px;" class="mb-0"><?= $user['email'] ?></p>
                 </div>
                 <a href="./profile.php" class="text-dark">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg>
+                    <?php
+                    if ($user['profile']) { ?>
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+                    <?php } else { ?>
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                    <?php }
+                    ?>
                 </a>
             </div>
         </header>
@@ -128,15 +213,44 @@ $pelanggaranCount = $data_pelanggaran['total'];
                 </div>
             </div>
 
-            <?php if ($pelanggaranCount > 0) { ?>
-                <div class="container">
+            <div class="container poppins mb-5 p-3">
+                <div class="row mb-2 px-2">
+                    <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-start align-items-center">
+                        <p class="mb-0">
+                            <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
+                        </p>
+                    </div>
+                    <form action="" class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+                        <select name="prodi" id="" class="form-select">
+                            <option value="">Program Studi</option>
+                            <?php
+                            foreach ($list_prodi as $row) { ?>
+                                <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                            <?php } ?>
+                        </select>
+                        <select name="semester" id="" class="form-select">
+                            <option value="">Semester</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+                <?php if ($pelanggaranCount > 0) { ?>
                     <table class="text-nowrap">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>NIM</th>
-                                <th>Nama Mahasiswa</th>
+                                <th>Mahasiswa</th>
+                                <th>Program Studi</th>
                                 <th>Jenis SP</th>
+                                <th>Kelas</th>
                                 <th>Keterangan</th>
                                 <th>Tanggal</th>
                                 <th>Aksi</th>
@@ -145,26 +259,32 @@ $pelanggaranCount = $data_pelanggaran['total'];
                         <tbody>
                             <?php
                             $no = 1;
-                            while ($row = mysqli_fetch_array($pelanggaran_query)) {
-                                // Tentukan badge class berdasarkan jenis SP
-                                $badge_class = '';
-                                $jenis_sp_text = $row['jenis_sp'];
+                            while ($row = mysqli_fetch_array($pelanggaran_query_select)) {
+                                // // Tentukan badge class berdasarkan jenis SP
+                                // $badge_class = '';
+                                // $jenis_sp_text = $row['jenis_sp'];
 
-                                if ($row['jenis_sp'] == 'SP 1') {
-                                    $badge_class = 'badge-sp1';
-                                } elseif ($row['jenis_sp'] == 'SP 2') {
-                                    $badge_class = 'badge-sp2';
-                                } elseif ($row['jenis_sp'] == 'SP 3') {
-                                    $badge_class = 'badge-sp3';
-                                }
+                                // if ($row['jenis_sp'] == 'SP 1') {
+                                //     $badge_class = 'badge-sp1';
+                                // } elseif ($row['jenis_sp'] == 'SP 2') {
+                                //     $badge_class = 'badge-sp2';
+                                // } elseif ($row['jenis_sp'] == 'SP 3') {
+                                //     $badge_class = 'badge-sp3';
+                                // }
                             ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
-                                    <td><?= $row['nim'] ?></td>
-                                    <td><?= $row['nama_user'] ?></td>
-                                    <td><span class="badge <?= $badge_class ?>"><?= $jenis_sp_text ?></span></td>
-                                    <td><?= substr($row['keterangan'], 0, 50) ?></td>
-                                    <td><?= date('d-m-Y', strtotime($row['tanggal'])) ?></td>
+                                    <td><?= $row['nim'] ?> - <?= $row['nama_user'] ?></td>
+                                    <td><?= $row['nama_prodi'] ?></td>
+                                    <td><?= $row['jenis_sp'] ?></td>
+                                    <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal']  ?></td>
+                                    <td class="text-wrap">
+                                        <?= strlen($row['keterangan']) > 50
+                                            ? substr($row['keterangan'], 0, 50) . "..."
+                                            : $row['keterangan'];
+                                        ?>
+                                    </td>
+                                    <td><?= tanggalIndonesia($row['tanggal']); ?></td>
                                     <td class="d-flex align-items-center">
                                         <button type="button"
                                             class="btn btn-warning me-2 py-1 px-2"
@@ -198,14 +318,45 @@ $pelanggaranCount = $data_pelanggaran['total'];
                             <?php } ?>
                         </tbody>
                     </table>
-                </div>
-            <?php } else { ?>
-                <div class="container">
-                    <div class="alert alert-primary mb-0" role="alert">
-                        Data Pelanggaran tidak ada. Silahkan isi data pelanggaran terlebih dahulu!!!!
+                <?php } else { ?>
+                    <div class="container mb-0 shadow-none p-0">
+                        <div class="alert alert-primary mb-0" role="alert">
+                            Data Pelanggaran tidak ada. Silahkan isi data pelanggaran terlebih dahulu!!!!
+                        </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+                <?php if ($total_data > 10) { ?>
+                    <div class="my-4 d-flex justify-content-center align-items-center gap-4">
+
+                        <!-- PREV -->
+                        <?php if ($page > 1): ?>
+                            <a href="?page=<?= $page - 1 ?>" class="btn btn-outline-dark mb-0 text-center">Prev</a>
+                        <?php endif; ?>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <!-- jika halaman awal > 1, tampilkan ... -->
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <!-- range halaman -->
+                                <?php for ($i = $start; $i <= $end; $i++): ?>
+                                    <a href="?page=<?= $i ?>"
+                                        class="btn <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
+                                        <?= $i ?>
+                                    </a>
+                                <?php endfor; ?>
+                            </div>
+
+                        </div>
+
+                        <!-- NEXT -->
+                        <?php if ($page < $total_page): ?>
+                            <a href="?page=<?= $page + 1 ?>" class="btn btn-outline-dark mb-0 text-center">Next</a>
+                        <?php endif; ?>
+
+                    </div>
+                <?php } ?>
+            </div>
+
 
             <!-- Modal Create -->
             <div class="modal fade" id="createPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createPelanggaranLabel" aria-hidden="true">
@@ -222,11 +373,10 @@ $pelanggaranCount = $data_pelanggaran['total'];
                                     <select class="form-select" name="mahasiswa_id" id="mahasiswaCreate" required>
                                         <option value="" selected>Pilih Mahasiswa</option>
                                         <?php
-                                        mysqli_data_seek($mahasiswa_list, 0);
-                                        while ($mhs = mysqli_fetch_assoc($mahasiswa_list)):
+                                        foreach ($list_mahasiswa as $mhs) {
                                         ?>
                                             <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> - <?= $mhs['nama_user'] ?></option>
-                                        <?php endwhile; ?>
+                                        <?php } ?>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -276,10 +426,10 @@ $pelanggaranCount = $data_pelanggaran['total'];
                                     <select class="form-select" name="mahasiswa_id" id="mahasiswaEdit" required>
                                         <option value="" selected>Pilih Mahasiswa</option>
                                         <?php
-                                        while ($mhs = mysqli_fetch_assoc($mahasiswa_list_edit)):
+                                        foreach ($list_mahasiswa as $mhs) {
                                         ?>
                                             <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> - <?= $mhs['nama_user'] ?></option>
-                                        <?php endwhile; ?>
+                                        <?php } ?>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -304,6 +454,7 @@ $pelanggaranCount = $data_pelanggaran['total'];
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
+                                    <input type="hidden" name="id_pelanggaran" id="id_pelanggaranEdit" value="">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                     <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
                                 </div>
@@ -350,7 +501,7 @@ $pelanggaranCount = $data_pelanggaran['total'];
         const tanggal = button.getAttribute('data-tanggal');
         const keterangan = button.getAttribute('data-keterangan');
 
-        document.getElementById('id_pelanggaran').value = id;
+        document.getElementById('id_pelanggaranEdit').value = id;
         document.getElementById('mahasiswaEdit').value = mahasiswa;
         document.getElementById('jenis_suratEdit').value = jenis;
         document.getElementById('tanggalEdit').value = tanggal;

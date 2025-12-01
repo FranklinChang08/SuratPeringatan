@@ -15,7 +15,6 @@ $nik = $_SESSION['nik'];
 $query = mysqli_query($conn, "SELECT * FROM tb_user WHERE nik = '$nik'");
 $user = mysqli_fetch_assoc($query);
 
-
 $list_prodi = [];
 $list_kelas = [];
 
@@ -118,13 +117,16 @@ while ($data = mysqli_fetch_assoc($kelas)) {
             <div class="account">
                 <div class="account-desc">
                     <h2 class=" fs-6 mb-0 fw-bold text-end border-0"><?= $user['nama_user'] ?></h2>
-                    <p class="mb-0"><?= $user['email'] ?></p>
+                    <p style="font-size: 10px;" class="mb-0"><?= $user['email'] ?></p>
                 </div>
                 <a href="./profile.php" class="text-dark">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg>
+                    <?php
+                    if ($user['profile']) { ?>
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+                    <?php } else { ?>
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                    <?php }
+                    ?>
                 </a>
             </div>
         </header>
@@ -160,12 +162,12 @@ while ($data = mysqli_fetch_assoc($kelas)) {
 
             <div class="container poppins mb-0 p-3">
                 <div class="row mb-2 px-2">
-                    <div class="col d-flex justify-content-start align-items-center">
+                    <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-start align-items-center">
                         <p class="mb-0">
                             <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
                         </p>
                     </div>
-                    <form action="" class="col d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+                    <form action="" class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2" autocomplete="off">
                         <select name="prodi" id="" class="form-select">
                             <option value="">Program Studi</option>
                             <?php

@@ -11,13 +11,14 @@ if (!isset($_SESSION['nik'])) {
 include_once("../../../conn.php");
 
 $id_pelanggaran    = $_POST['id_pelanggaran'] ?? null;
+
 if (!$id_pelanggaran) {
     header('location:../../pelanggaran.php');
 }
 
 $mahasiswa_id    = $_POST['mahasiswa_id'] ?? null;
 $jenis_sp        = $_POST['jenis_sp'] ?? null;
-$keterangan      = $_POST['keterangan'] ?? null;
+$keterangan   = mysqli_real_escape_string($conn, $_POST['keterangan']);
 
 $query = mysqli_query(
     $conn,
