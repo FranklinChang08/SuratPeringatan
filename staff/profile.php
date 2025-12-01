@@ -8,6 +8,13 @@ if (!isset($_SESSION['nik'])) {
     exit;
 }
 
+include('../conn.php');
+
+$nik = $_SESSION['nik'];
+
+$query = mysqli_query($conn, "SELECT * FROM tb_user WHERE nik = '$nik'");
+$user = mysqli_fetch_assoc($query);
+
 ?>
 
 <!DOCTYPE html>
@@ -78,26 +85,22 @@ if (!isset($_SESSION['nik'])) {
                         </div>
                         <div>
                             <div class="mb-3">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="text" class="form-control" name="nik" required id="nik" readonly placeholder="Masukkan NIK anda...">
+                                <label for="nik" class="form-label">Nim</label>
+                                <input type="text" class="form-control" name="nik" id="nik"
+                                    value="<?= $user['nik']; ?>" readonly>
+
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" required id="email" readonly placeholder="Masukkan Email anda...">
+                                <input type="email" class="form-control" name="email" id="email"
+                                    value="<?= $user['email']; ?>" readonly>
+
                             </div>
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" name="nama" required id="nama" placeholder="Masukkan Nama anda...">
-                            </div>
-                            <div class="mb-3">
-                                <label for="jurusan" class="form-label">Jurusan</label>
-                                <select class="form-select" id="jurusan" aria-label="Default select example">
-                                    <option selected>Pilih Jurusan</option>
-                                    <option value="TI">Teknik Informatika</option>
-                                    <option value="TE">Teknik Elektro</option>
-                                    <option value="TM">Teknik Mesin</option>
-                                    <option value="MB">Manajemen Bisnis</option>
-                                </select>
+                                <input type="text" class="form-control" name="nama" id="nama"
+                                    value="<?= $user['nama_user']; ?>" readonly>
+
                             </div>
                             <div>
                                 <button class="btn btn-primary" type="submit">Kirim</button>
@@ -108,9 +111,9 @@ if (!isset($_SESSION['nik'])) {
                 </div>
                 <div class=" p-4 bg-white shadow-sm rounded-1 mt-3">
                     <h5 class="fw-bold text-uppercase">Ganti Kata Sandi</h5>
-                    <form action="" class="row row-cols-2">
+                    <form method="POST" action="./backend/changepass/update.php" class="row row-cols-2">
                         <div class="mb-3">
-                            <label for="password" class="form-label">Kata Sandi</label>
+                            <label for="password" class="form-label">Kata Sandi Baru</label>
                             <input type="text" class="form-control" name="password" required id="password" placeholder="Masukkan Password anda...">
                         </div>
 
@@ -120,6 +123,7 @@ if (!isset($_SESSION['nik'])) {
                         </div>
 
                         <div>
+                            <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
                             <button class="btn btn-primary" type="submit">Kirim</button>
                             <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
