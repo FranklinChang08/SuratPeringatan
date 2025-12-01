@@ -23,7 +23,6 @@ function confirmRemove(event) {
 
                 // native submit agar tidak kena preventDefault
                 HTMLFormElement.prototype.submit.call(form);
-
             });
         }
     });

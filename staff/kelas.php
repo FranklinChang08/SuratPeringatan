@@ -1,30 +1,52 @@
 <?php
+session_start();
 
-include '../conn.php';
-
-$limit = 5;
-$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-$offset = ($page - 1) * $limit;
-
-$kelas_count_query = mysqli_query($conn, 'SELECT COUNT(*) AS total FROM tb_kelas');
-$kelas_count = mysqli_fetch_assoc($kelas_count_query);
-$total_data = $kelas_count['total'];
-
-$total_page = ceil($total_data / $limit);
-
-if ($search) {
-  $query_kelas = mysqli_query(
-    $conn,
-    "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi WHERE k.nama_kelas LIKE '%$search%'
-       OR k.nama_dosen LIKE '%$search%'
-       OR p.nama_prodi LIKE '%$search%' ORDER BY nama_kelas ASC LIMIT $offset, $limit",
-  );
-} else {
-  $query_kelas = mysqli_query($conn, "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi ORDER BY nama_kelas ASC LIMIT $offset, $limit");
+if (!isset($_SESSION['nik'])) {
+  echo "<script>location.href = '../auth/login.php';</script>";
+  session_unset();
+  session_destroy();
+  exit;
 }
 
-$prodi = mysqli_query($conn, 'SELECT * FROM tb_prodi');
+
+include '../conn.php';
+// Filter dan Searching data pada data kelas
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$prodi_filter = isset($_GET['prodi']) ? $_GET['prodi'] : '';
+$semester_filter = isset($_GET['semester']) ? $_GET['semester'] : '';
+
+$query_kelas = "SELECT * FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi WHERE 1=1";
+$kelas_count_query = "SELECT COUNT(*) AS total FROM tb_kelas AS k INNER JOIN tb_prodi AS p ON k.prodi_id = p.id_prodi WHERE 1=1";
+
+if ($search) {
+  $query_kelas .= " AND k.nama_dosen LIKE '%$search%'";
+  $kelas_count_query .= " AND k.nama_dosen LIKE '%$search%'";
+}
+
+if ($prodi_filter) {
+  $query_kelas .= " AND k.prodi_id = $prodi_filter ";
+  $kelas_count_query .= " AND k.prodi_id = $prodi_filter";
+}
+
+if ($semester_filter) {
+  $kelas_count_query .= " AND k.semester = $semester_filter ";
+}
+
+$kelas_count_select = mysqli_query($conn, $kelas_count_query);
+$kelas_count = mysqli_fetch_assoc($kelas_count_select);
+
+
+// Penggunaan Pagination pada halaman kelas
+// yang memiliki limit 10
+
+$limit = 10;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+$total_data = $kelas_count['total'];
+
+$offset = ($page - 1) * $limit;
+$total_page = ceil($total_data / $limit);
 
 $range = 3;
 
@@ -33,9 +55,26 @@ $end = min($total_page, $start + $range - 1);
 
 $start = max(1, $end - $range + 1);
 
+$start_asc = ($page - 1) * $limit + 1;
+$end_asc   = $page * $limit;
+
+if ($end_asc > $total_data) {
+  $end_asc = $total_data;
+}
+
+// SELECT data dengan limit untuk pagination
+
+$query_kelas .= " ORDER BY nama_kelas ASC LIMIT $offset, $limit";
+
+$select_kelas = mysqli_query($conn, $query_kelas);
+
+// Penyimpanan loop data prodi di database
+$prodi = mysqli_query($conn, 'SELECT * FROM tb_prodi');
+
 while ($row = mysqli_fetch_assoc($prodi)) {
   $data_prodi[] = $row;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +125,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
     <section id="tableKelas" class="tableKelas">
       <div class="container">
         <div
-          class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
+          class="button d-flex align-items-center justify-content-between flex-column flex-lg-row gap-2">
           <div class="button-group mb-2 mb-md-0 ">
             <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal"
               data-bs-target="#createKelas">
@@ -98,18 +137,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               </svg>
               Tambah Kelas</button>
           </div>
-
           <form action="" class="d-flex mb-0" autocomplete="off">
-            <!-- <div class="mb-0">
-              <select name="prodi" id="" class="form-select">
-                <option value="">Cari Program Studi</option>
-                <?php
-                foreach ($data_prodi as $row) { ?>
-                  <option value="<?= $row['nama_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
-                <?php } ?>
-              </select>
-            </div> -->
-
             <div class="form-search">
               <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -118,13 +146,41 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                   <path d="m21 21-4.34-4.34" />
                   <circle cx="11" cy="11" r="8" />
                 </svg></label>
-              <input type="text" name="search" id="search" placeholder="Cari...">
+              <input type="text" class="" name="search" id="search" placeholder="Cari...">
             </div>
           </form>
         </div>
       </div>
-      <?php if ($total_data > 0) { ?>
-        <div class="container poppins">
+      <div class="container poppins mb-0 p-3">
+        <div class="row mb-2 px-2">
+          <div class="col d-flex justify-content-start align-items-center">
+            <p class="mb-0">
+              <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
+            </p>
+          </div>
+          <form action="" class="col d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+            <select name="prodi" id="" class="form-select">
+              <option value="">Program Studi</option>
+              <?php
+              foreach ($data_prodi as $row) { ?>
+                <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+              <?php } ?>
+            </select>
+            <select name="semester" id="" class="form-select">
+              <option value="">Semester</option>
+              <option value="1">Semester 1</option>
+              <option value="2">Semester 2</option>
+              <option value="3">Semester 3</option>
+              <option value="4">Semester 4</option>
+              <option value="5">Semester 5</option>
+              <option value="6">Semester 6</option>
+              <option value="7">Semester 7</option>
+              <option value="8">Semester 8</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </form>
+        </div>
+        <?php if ($total_data > 0) { ?>
           <table class="text-nowrap">
             <thead>
               <tr>
@@ -139,8 +195,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
             </thead>
             <tbody>
               <?php
-              $no = 1;
-              while ($row = mysqli_fetch_array($query_kelas)) {
+              $no = $offset + 1;
+              while ($row = mysqli_fetch_array($select_kelas)) {
               ?>
                 <tr>
                   <td><?= $no++ ?></td>
@@ -186,6 +242,14 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <?php } ?>
             </tbody>
           </table>
+        <?php } else { ?>
+          <div class="container mb-0 shadow-none p-0">
+            <div class="alert alert-primary mb-0" role="alert">
+              Data Kelas tidak ada. Silahkan isi data Kelas terlebih dahulu!!!!
+            </div>
+          </div>
+        <?php } ?>
+        <?php if ($total_data > 10) { ?>
           <div class="my-4 d-flex justify-content-center align-items-center gap-4">
 
             <!-- PREV -->
@@ -215,14 +279,9 @@ while ($row = mysqli_fetch_assoc($prodi)) {
             <?php endif; ?>
 
           </div>
-        </div>
-      <?php } else { ?>
-        <div class="container">
-          <div class="alert alert-primary  mb-0" role="alert">
-            Data Kelas tidak ada. Silahkan isi data Kelas terlebih dahulu!!!!
-          </div>
-        </div>
-      <?php } ?>
+        <?php } ?>
+      </div>
+
       <!-- Modal -->
       <div class="modal fade" id="createKelas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="createKelasLabel" aria-hidden="true">

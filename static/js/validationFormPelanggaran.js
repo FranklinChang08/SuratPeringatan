@@ -33,13 +33,13 @@ formCreatePelanggaran.addEventListener('submit', function (event) {
     isValid = false
   }
 
-  const statusFeedbackCreate = statusInputCreate.nextElementSibling;
-  statusInputCreate.classList.remove('is-invalid')
-  if (statusInputCreate.value === '') {
-    statusFeedbackCreate.textContent = 'Silahkan pilih status'
-    statusInputCreate.classList.add('is-invalid')
-    isValid = false
-  }
+  // const statusFeedbackCreate = statusInputCreate.nextElementSibling;
+  // statusInputCreate.classList.remove('is-invalid')
+  // if (statusInputCreate.value === '') {
+  //   statusFeedbackCreate.textContent = 'Silahkan pilih status'
+  //   statusInputCreate.classList.add('is-invalid')
+  //   isValid = false
+  // }
 
   const keteranganFeedbackCreate = keteranganInputCreate.nextElementSibling;
   keteranganInputCreate.classList.remove('is-invalid')
@@ -50,14 +50,57 @@ formCreatePelanggaran.addEventListener('submit', function (event) {
   }
 
   if (isValid) {
-    const modal = bootstrap.Modal.getInstance(
-      document.getElementById("createPelanggaran")
-    );
-    modal.hide();
+    formData = new FormData(formCreatePelanggaran)
 
-    alert("Data Pelanggaran berhasil dikirim!");
-    formCreatePelanggaran.reset();
-    formCreatePelanggaran.classList.remove("was-validated");
+    fetch('./backend/pelanggaran/create.php', {
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+      .then(result => {
+        Swal.close();
+
+        if (result.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: result.message
+          });
+          return; // stop agar tidak lanjut ke success
+        }
+
+        formCreatePelanggaran.reset();
+        formCreatePelanggaran.classList.remove("was-validated");
+
+        Swal.fire({
+          title: "success",
+          text: "Data Pelanggaran berhasil dikirim!",
+          icon: "success",
+          customClass: {
+            title: "swal-title",
+            htmlContainer: "swal-text",
+            confirmButton: "swal-button",
+          },
+        }).then(() => {
+          location.reload();
+
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("createPelanggaran")
+          );
+          modal.hide();
+        });
+
+      })
+      .catch(error => {
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Terjadi kesalahan dalam mengirim data."
+        });
+
+        console.log(error);
+      });
   }
 })
 

@@ -2,9 +2,9 @@ const formCreateMahasiswa = document.getElementById("FormCreateMahasiswa");
 const namaInputCreate = document.getElementById("namaCreate");
 const nimInputCreate = document.getElementById("nimCreate");
 const emailInputCreate = document.getElementById("emailCreate");
-const jurusanInputCreate = document.getElementById("jurusanCreate");
 const prodiInputCreate = document.getElementById("prodiCreate");
 const kelasInputCreate = document.getElementById("kelasCreate");
+const keteranganInputCreate = document.getElementById("keteranganCreate");
 
 formCreateMahasiswa.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -39,7 +39,7 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
 
   const prodiFeedbackCreate = prodiInputCreate.nextElementSibling;
   prodiInputCreate.classList.remove("is-invalid");
-  if (nimInputCreate.value === "") {
+  if (prodiInputCreate.value === "") {
     prodiFeedbackCreate.textContent = "Silakan pilih program studi terlebih dahulu";
     prodiInputCreate.classList.add("is-invalid");
     isValid = false;
@@ -47,44 +47,64 @@ formCreateMahasiswa.addEventListener("submit", function (event) {
 
   const kelasFeedbackCreate = kelasInputCreate.nextElementSibling;
   kelasInputCreate.classList.remove("is-invalid");
-  if (nimInputCreate.value === "") {
+  if (kelasInputCreate.value === "") {
     kelasFeedbackCreate.textContent = "Silakan masukkan kelas.";
     kelasInputCreate.classList.add("is-invalid");
     isValid = false;
   }
 
-  const jurusanFeedbackCreate = jurusanInputCreate.nextElementSibling;
-  jurusanInputCreate.classList.remove("is-invalid");
-  if (jurusanInputCreate.value === "") {
-    jurusanFeedbackCreate.textContent =
-      "Silakan pilih jurusan terlebih dahulu!";
-    jurusanInputCreate.classList.add("is-invalid");
-    isValid = false;
-  }
-
   if (isValid) {
-    fetch('../../staff/backend/mahasiswa/create.php', {
+    formData = new FormData(formCreateMahasiswa)
+
+    fetch('./backend/mahasiswa/create.php', {
       method: 'POST',
       body: formData
-    })
+    }).then(response => response.json())
+      .then(result => {
+        Swal.close();
 
-    const modal = bootstrap.Modal.getInstance(
-      document.getElementById("createMahasiswa")
-    );
-    modal.hide();
+        if (result.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: result.message
+          });
+          return; // stop agar tidak lanjut ke success
+        }
 
-    Swal.fire({
-      title: "success",
-      text: "Data Mahasiswa berhasil dikirim!",
-      icon: "success",
-      customClass: {
-        title: "swal-title",
-        htmlContainer: "swal-text",
-        confirmButton: "swal-button",
-      },
-    });
-    formCreateMahasiswa.reset();
-    formCreateMahasiswa.classList.remove("was-validated");
+        formCreateMahasiswa.reset();
+        formCreateMahasiswa.classList.remove("was-validated");
+
+        Swal.fire({
+          title: "success",
+          text: "Data Mahasiswa berhasil dikirim!",
+          icon: "success",
+          customClass: {
+            title: "swal-title",
+            htmlContainer: "swal-text",
+            confirmButton: "swal-button",
+          },
+        }).then(() => {
+          location.reload();
+
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("createMahasiswa")
+          );
+          modal.hide();
+        });
+
+      })
+      .catch(error => {
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Terjadi kesalahan dalam mengirim data."
+        });
+
+        console.log(error);
+      });
   }
 });
 
@@ -92,7 +112,6 @@ const formEditMahasiswa = document.getElementById("FormEditMahasiswa");
 const namaInputEdit = document.getElementById("namaEdit");
 const nimInputEdit = document.getElementById("nimEdit");
 const emailInputEdit = document.getElementById("emailEdit");
-const jurusanInputEdit = document.getElementById("jurusanEdit");
 const prodiInputEdit = document.getElementById("prodiEdit");
 const kelasInputEdit = document.getElementById("kelasEdit");
 
@@ -129,7 +148,7 @@ formEditMahasiswa.addEventListener("submit", function (event) {
 
   const prodiFeedbackEdit = prodiInputEdit.nextElementSibling;
   prodiInputEdit.classList.remove("is-invalid");
-  if (nimInputEdit.value === "") {
+  if (prodiInputEdit.value === "") {
     prodiFeedbackEdit.textContent = "Silakan pilih program studi terlebih dahulu";
     prodiInputEdit.classList.add("is-invalid");
     isValid = false;
@@ -137,37 +156,63 @@ formEditMahasiswa.addEventListener("submit", function (event) {
 
   const kelasFeedbackEdit = kelasInputEdit.nextElementSibling;
   kelasInputEdit.classList.remove("is-invalid");
-  if (nimInputEdit.value === "") {
+  if (kelasInputEdit.value === "") {
     kelasFeedbackEdit.textContent = "Silakan masukkan kelas.";
     kelasInputEdit.classList.add("is-invalid");
     isValid = false;
   }
 
-  const jurusanFeedbackEdit = jurusanInputEdit.nextElementSibling;
-  jurusanInputEdit.classList.remove("is-invalid");
-  if (jurusanInputEdit.value === "") {
-    jurusanFeedbackEdit.textContent = "Silakan pilih jurusan terlebih dahulu!";
-    jurusanInputEdit.classList.add("is-invalid");
-    isValid = false;
-  }
-
   if (isValid) {
-    const modal = bootstrap.Modal.getInstance(
-      document.getElementById("EditMahasiswa")
-    );
-    modal.hide();
+    formDataEdit = new FormData(formEditMahasiswa)
 
-    Swal.fire({
-      title: "success",
-      text: "Data Mahasiswa berhasil dikirim!",
-      icon: "success",
-      customClass: {
-        title: "swal-title",
-        htmlContainer: "swal-text",
-        confirmButton: "swal-button",
-      },
-    });
-    formEditMahasiswa.reset();
-    formEditMahasiswa.classList.remove("was-validated");
+    fetch('./backend/mahasiswa/update.php', {
+      method: 'POST',
+      body: formDataEdit
+    }).then(response => response.json())
+      .then(result => {
+        Swal.close();
+
+        if (result.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: result.message
+          });
+          return; // stop agar tidak lanjut ke success
+        }
+
+        formEditMahasiswa.reset();
+        formEditMahasiswa.classList.remove("was-validated");
+
+        Swal.fire({
+          title: "success",
+          text: "Data Mahasiswa berhasil diupdate!",
+          icon: "success",
+          customClass: {
+            title: "swal-title",
+            htmlContainer: "swal-text",
+            confirmButton: "swal-button",
+          },
+        }).then(() => {
+          location.reload();
+
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("editMahasiswa")
+          );
+          modal.hide();
+        });
+
+      })
+      .catch(error => {
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Terjadi kesalahan dalam mengirim data."
+        });
+
+        console.log(error);
+      });
   }
 });

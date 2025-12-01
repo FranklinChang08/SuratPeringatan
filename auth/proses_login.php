@@ -11,10 +11,12 @@ $row = mysqli_fetch_assoc($queryUser);
 
 if ($row) {
     if ($row['nim'] === $usernameLogin) {
+
         $validPassword = ($row['password'] == "")
             ? $row['nim'] == $passwordLogin
             : $row['password'] == $passwordLogin;
     } elseif ($row['nik'] === $usernameLogin) {
+
         $validPassword = ($row['password'] == "")
             ? $row['nik'] == $passwordLogin
             : $row['password'] == $passwordLogin;
@@ -24,8 +26,14 @@ if ($row) {
 
 
     if ($validPassword) {
-        $_SESSION['nim'] = $row['nim'];
+        if ($row['nim'] === $usernameLogin) {
+            $_SESSION['nim'] = $row['nim'];
+        } else {
+            $_SESSION['nik'] = $row['nik'];
+        }
+
         $_SESSION['email'] = $row['email'];
+        $_SESSION['role'] = $row['role'];
         $_SESSION['nama_user'] = $row['nama_user'];
 
         // TENTUKAN REDIRECT

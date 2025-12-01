@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['nim'])) {
+    echo "<script>location.href = './auth/login.php';</script>";
+    session_unset();
+    session_destroy();
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

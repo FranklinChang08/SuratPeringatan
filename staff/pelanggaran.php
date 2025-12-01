@@ -1,13 +1,32 @@
 <?php
 include('../conn.php');
 
-$mahasiswa_query = mysqli_query($conn, "SELECT * FROM tb_user WHERE role = 'Mahasiswa'");
-
-$prodi = mysqli_query($conn, "SELECT * FROM tb_prodi");
-
-$mahasiswa_count = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_user WHERE role = 'Mahasiswa'");
-$data_mahasiswa = mysqli_fetch_assoc($mahasiswa_count);
+// Hitung jumlah mahasiswa
+$mahasiswa_count_query = mysqli_query($conn, "SELECT COUNT(*) as total FROM tb_user WHERE role = 'Mahasiswa'");
+$data_mahasiswa = mysqli_fetch_assoc($mahasiswa_count_query);
 $mahasiswaCount = $data_mahasiswa['total'];
+
+// Query untuk dropdown mahasiswa di form
+$mahasiswa_list = mysqli_query($conn, "SELECT id_user, nama_user, nim FROM tb_user WHERE role = 'Mahasiswa' ORDER BY nama_user");
+
+// Query mahasiswa untuk edit modal
+$mahasiswa_list_edit = mysqli_query($conn, "SELECT id_user, nama_user, nim FROM tb_user WHERE role = 'Mahasiswa' ORDER BY nama_user");
+
+// Ambil semua data pelanggaran + nama mahasiswa
+$pelanggaran_query = mysqli_query($conn, "
+    SELECT 
+        p.*,
+        u.nama_user,
+        u.nim
+    FROM tb_pelanggaran p
+    LEFT JOIN tb_user u ON p.mahasiswa_id = u.id_user
+    ORDER BY p.tanggal DESC
+");
+
+// Hitung total pelanggaran
+$pelanggaran_count_query = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_pelanggaran");
+$data_pelanggaran = mysqli_fetch_assoc($pelanggaran_count_query);
+$pelanggaranCount = $data_pelanggaran['total'];
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +35,7 @@ $mahasiswaCount = $data_mahasiswa['total'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Data Pelanggaran | Polibatam Surat Peringatan</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
@@ -43,15 +62,15 @@ $mahasiswaCount = $data_mahasiswa['total'];
         .modal-backdrop {
             transition: opacity 0.3s ease;
         }
+
+        .badge {
+            color: #000;
+        }
     </style>
-
-
 </head>
 
 <body class="bg-light-subtle font-poppins">
-    <?php
-    include('../component/sidebar.php')
-    ?>
+    <?php include('../component/sidebar.php') ?>
 
     <div class="main-content">
         <header class="header">
@@ -69,206 +88,211 @@ $mahasiswaCount = $data_mahasiswa['total'];
                 </a>
             </div>
         </header>
+
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
                 <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
                     <button type="button" class="btn btn-primary font-poppins" id="btnCreatePelanggaranModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                             <path d="M5 12h14" />
                             <path d="M12 5v14" />
                         </svg>
-                        Tambah Pelanggaran</button>
+                        Tambah Pelanggaran
+                    </button>
 
                     <form action="" class="form-search">
-                        <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-search-icon lucide-search">
+                        <label for="search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
                                 <path d="m21 21-4.34-4.34" />
                                 <circle cx="11" cy="11" r="8" />
-                            </svg></label>
+                            </svg>
+                        </label>
                         <input type="text" name="search" id="search" placeholder="Cari...">
                     </form>
                 </div>
             </div>
-            <div class="container">
-                <table class="text-nowrap">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>Jenis SP</th>
-                            <th>Keterangan</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Gilang Ramdhan</td>
-                            <td>Surat Peringatan 1</td>
-                            <td>Mahasiswa yang tidak masuk sebanyak 5%</td>
-                            <td>14 September 2025</td>
-                            <td>Aktif</td>
-                            <td class="d-flex align-items-center">
-                                <button href="" class="btn btn-warning me-2 py-1 px-2" data-bs-toggle="modal"
-                                    data-bs-target="#EditPelanggaran">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
-                                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path
-                                            d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-                                    </svg>
-                                </button>
-                                <div class="modal fade" id="EditPelanggaran" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="EditPelanggaranLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="EditPelanggaranLabel">Form Manejement
-                                                    Pelanggaran</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form method="POST" class="needs-validation" novalidate
-                                                    id="formEditPelanggaran" autocomplete="off">
-                                                    <div class="mb-3">
-                                                        <label for="mahasiswaEdit" class="form-label">Mahasiswa</label>
-                                                        <input type="text" class="form-control" id="mahasiswaEdit" placeholder="Silahkan masukkan menggunakan NIM Mahasiswa."
-                                                            required>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="jenis_suratEdit" class="form-label">Jenis Surat
-                                                            Peringatan</label>
-                                                        <select class="form-select" aria-label="Default select example"
-                                                            id="jenis_suratEdit" required>
-                                                            <option value="" selected disabled hidden>Pilih Jenis Surat
-                                                                Pelanggaran</option>
-                                                            <option value="sp1">SP 1</option>
-                                                            <option value="sp2">SP 2</option>
-                                                            <option value="sp3">SP 3</option>
-                                                        </select>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="tanggalEdit" class="form-label">Tanggal</label>
-                                                        <input type="date" class="form-control" id="tanggalEdit"
-                                                            required>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="statusEdit" class="form-label">Status
-                                                            Pelanggaran</label>
-                                                        <select class="form-select" aria-label="Default select example"
-                                                            id="statusEdit" required>
-                                                            <option value="" selected disabled hidden>Pilih Status
-                                                                Pelanggaran</option>
-                                                            <option value="aktif">Aktif</option>
-                                                            <option value="tidakAktif">Tidak Aktif</option>
-                                                        </select>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="keteranganEdit"
-                                                            class="form-label">Keterangan</label>
-                                                        <textarea class="form-control" id="keteranganEdit"
-                                                            required></textarea>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                    <div>
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-primary">Kirim</button>
-                                                    </div>
-                                                </form>
-                                            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <form action="">
-                                    <button class="btn btn-danger py-1 px-2" type="submit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M10 11v6" />
-                                            <path d="M14 11v6" />
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                                            <path d="M3 6h18" />
-                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <?php if ($pelanggaranCount > 0) { ?>
+                <div class="container">
+                    <table class="text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIM</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Jenis SP</th>
+                                <th>Keterangan</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            while ($row = mysqli_fetch_array($pelanggaran_query)) {
+                                // Tentukan badge class berdasarkan jenis SP
+                                $badge_class = '';
+                                $jenis_sp_text = $row['jenis_sp'];
+                                if ($row['jenis_sp'] == 'SP 1') {
+                                    $badge_class = 'badge-sp1';
+                                } elseif ($row['jenis_sp'] == 'SP 2') {
+                                    $badge_class = 'badge-sp2';
+                                } elseif ($row['jenis_sp'] == 'SP 3') {
+                                    $badge_class = 'badge-sp3';
+                                }
+                            ?>
+                                <tr>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= $row['nim'] ?></td>
+                                    <td><?= $row['nama_user'] ?></td>
+                                    <td><span class="badge <?= $badge_class ?>"><?= $jenis_sp_text ?></span></td>
+                                    <td><?= substr($row['keterangan'], 0, 50) ?></td>
+                                    <td><?= date('d-m-Y', strtotime($row['tanggal'])) ?></td>
+                                    <td class="d-flex align-items-center">
+                                        <button type="button"
+                                            class="btn btn-warning me-2 py-1 px-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editPelanggaran"
+                                            data-id="<?= $row['id_pelanggaran'] ?>"
+                                            data-mahasiswa="<?= $row['mahasiswa_id'] ?>"
+                                            data-jenis="<?= $row['jenis_sp'] ?>"
+                                            data-tanggal="<?= $row['tanggal'] ?>"
+                                            data-keterangan="<?= htmlspecialchars($row['keterangan']) ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
+                                                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                                            </svg>
+                                        </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="createPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="createPelanggaranLabel" aria-hidden="true">
+                                        <form action="./backend/pelanggaran/delete.php" method="POST" onsubmit="return confirmRemove(event)">
+                                            <input type="hidden" name="id_pelanggaran" value="<?= $row['id_pelanggaran'] ?>">
+                                            <button class="btn btn-danger py-1 px-2" type="submit" name="submit" value="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M10 11v6" />
+                                                    <path d="M14 11v6" />
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                                                    <path d="M3 6h18" />
+                                                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            <?php } else { ?>
+                <div class="container">
+                    <div class="alert alert-primary mb-0" role="alert">
+                        Data Pelanggaran tidak ada. Silahkan isi data pelanggaran terlebih dahulu!!!!
+                    </div>
+                </div>
+            <?php } ?>
+
+            <!-- Modal Create -->
+            <div class="modal fade" id="createPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createPelanggaranLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="createPelanggaranLabel">Form Manejement Pelanggaran</h1>
+                            <h1 class="modal-title fs-5" id="createPelanggaranLabel">Form Tambah Pelanggaran</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" class="needs-validation" novalidate id="formCreatePelanggaran" autocomplete="off">
+                            <form method="POST" id="formCreatePelanggaran" class="needs-validation" novalidate autocomplete="off">
                                 <div class="mb-3">
                                     <label for="mahasiswaCreate" class="form-label">Mahasiswa</label>
-                                    <input type="text" class="form-control" id="mahasiswaCreate" placeholder="Silahkan masukkan menggunakan NIM Mahasiswa." required>
+                                    <select class="form-select" name="mahasiswa_id" id="mahasiswaCreate" required>
+                                        <option value="" selected>Pilih Mahasiswa</option>
+                                        <?php
+                                        mysqli_data_seek($mahasiswa_list, 0);
+                                        while ($mhs = mysqli_fetch_assoc($mahasiswa_list)):
+                                        ?>
+                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> - <?= $mhs['nama_user'] ?></option>
+                                        <?php endwhile; ?>
+                                    </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="jenis_suratCreate" class="form-label">Jenis Surat Peringatan</label>
-                                    <select class="form-select" aria-label="Default select example"
-                                        id="jenis_suratCreate" required>
-                                        <option value="" selected disabled hidden>Pilih Jenis Surat Pelanggaran</option>
-                                        <option value="sp1">SP 1</option>
-                                        <option value="sp2">SP 2</option>
-                                        <option value="sp3">SP 3</option>
+                                    <select class="form-select" name="jenis_sp" id="jenis_suratCreate" required>
+                                        <option value="" selected>Pilih Jenis Surat Pelanggaran</option>
+                                        <option value="SP 1">SP 1</option>
+                                        <option value="SP 2">SP 2</option>
+                                        <option value="SP 3">SP 3</option>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="tanggalCreate" class="form-label">Tanggal</label>
-                                    <input type="date" class="form-control" id="tanggalCreate" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="statusCreate" class="form-label">Status Pelanggaran</label>
-                                    <select class="form-select" aria-label="Default select example" id="statusCreate"
-                                        required>
-                                        <option value="" selected disabled hidden>Pilih Status Pelanggaran
-                                        </option>
-                                        <option value="aktif">Aktif</option>
-                                        <option value="tidakAktif">Tidak Aktif</option>
-                                    </select>
+                                    <input type="date" name="tanggal" class="form-control" id="tanggalCreate" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="keteranganCreate" class="form-label">Keterangan</label>
-                                    <textarea class="form-control" id="keteranganCreate" required></textarea>
+                                    <textarea class="form-control" name="keterangan" id="keteranganCreate" rows="3" required></textarea>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Tutup</button>
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
                                 </div>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Modal Edit -->
+            <div class="modal fade" id="editPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPelanggaranLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editPelanggaranLabel">Form Edit Pelanggaran</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="./backend/pelanggaran/update.php" id="formEditPelanggaran" class="needs-validation" novalidate autocomplete="off">
+                                <input type="hidden" name="id_pelanggaran" id="id_pelanggaran">
+                                <div class="mb-3">
+                                    <label for="mahasiswaEdit" class="form-label">Mahasiswa</label>
+                                    <select class="form-select" name="mahasiswa_id" id="mahasiswaEdit" required>
+                                        <option value="" selected>Pilih Mahasiswa</option>
+                                        <?php
+                                        while ($mhs = mysqli_fetch_assoc($mahasiswa_list_edit)):
+                                        ?>
+                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> - <?= $mhs['nama_user'] ?></option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jenis_suratEdit" class="form-label">Jenis Surat Peringatan</label>
+                                    <select class="form-select" name="jenis_sp" id="jenis_suratEdit" required>
+                                        <option value="" selected>Pilih Jenis Surat Pelanggaran</option>
+                                        <option value="SP 1">SP 1</option>
+                                        <option value="SP 2">SP 2</option>
+                                        <option value="SP 3">SP 3</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tanggalEdit" class="form-label">Tanggal</label>
+                                    <input type="date" name="tanggal" class="form-control" id="tanggalEdit" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="keteranganEdit" class="form-label">Keterangan</label>
+                                    <textarea class="form-control" name="keterangan" id="keteranganEdit" rows="3" required></textarea>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -276,141 +300,17 @@ $mahasiswaCount = $data_mahasiswa['total'];
     </div>
 </body>
 
-<!-- <script type="text/javascript">
-    const formCreatePelanggaran = document.getElementById('formCreatePelanggaran');
-    const mahasiswaInputCreate = document.getElementById('mahasiswaCreate');
-    const jenisSuratInputCreate = document.getElementById('jenis_suratCreate');
-    const tanggalInputCreate = document.getElementById('tanggalCreate');
-    const statusInputCreate = document.getElementById('statusCreate');
-    const keteranganInputCreate = document.getElementById('keteranganCreate');
-
-    formCreatePelanggaran.addEventListener('submit', function(event) {
-        event.preventDefault()
-        formCreatePelanggaran.classList.add('was-validated')
-        let isValid = true
-
-        const mahasiswaFeedbackCreate = mahasiswaInputCreate.nextElementSibling;
-        mahasiswaInputCreate.classList.remove('is-invalid')
-        if (mahasiswaInputCreate.value === '') {
-            mahasiswaFeedbackCreate.textContent = 'Silahkan masukkan atau pilih nama mahasiswa'
-            mahasiswaInputCreate.classList.add('is-invalid')
-            isValid = false
-        }
-
-        const jenisSuratFeedbackCreate = jenisSuratInputCreate.nextElementSibling;
-        jenisSuratInputCreate.classList.remove('is-invalid')
-        if (jenisSuratInputCreate.value === '') {
-            jenisSuratFeedbackCreate.textContent = 'Silahkan pilih jenis surat'
-            jenisSuratInputCreate.classList.add('is-invalid')
-            isValid = false
-        }
-        const tanggalFeedbackCreate = tanggalInputCreate.nextElementSibling;
-        tanggalInputCreate.classList.remove('is-invalid')
-        if (tanggalInputCreate.value === '') {
-            tanggalFeedbackCreate.textContent = 'Silahkan pilih tanggal'
-            tanggalInputCreate.classList.add('is-invalid')
-            isValid = false
-        }
-
-        const statusFeedbackCreate = statusInputCreate.nextElementSibling;
-        statusInputCreate.classList.remove('is-invalid')
-        if (statusInputCreate.value === '') {
-            statusFeedbackCreate.textContent = 'Silahkan pilih status'
-            statusInputCreate.classList.add('is-invalid')
-            isValid = false
-        }
-
-        const keteranganFeedbackCreate = keteranganInputCreate.nextElementSibling;
-        keteranganInputCreate.classList.remove('is-invalid')
-        if (keteranganInputCreate.value === '') {
-            keteranganFeedbackCreate.textContent = 'Silahkan Isi Keterangan'
-            keteranganInputCreate.classList.add('is-invalid')
-            isValid = false
-        }
-
-        if (isValid) {
-            const modal = bootstrap.Modal.getInstance(
-                document.getElementById("createPelanggaran")
-            );
-            modal.hide();
-
-            alert("Data Pelanggaran berhasil dikirim!");
-            formCreatePelanggaran.reset();
-            formCreatePelanggaran.classList.remove("was-validated");
-        }
-    })
-
-    const formEditPelanggaran = document.getElementById('formEditPelanggaran');
-    const mahasiswaInputEdit = document.getElementById('mahasiswaEdit');
-    const jenisSuratInputEdit = document.getElementById('jenis_suratEdit');
-    const tanggalInputEdit = document.getElementById('tanggalEdit');
-    const statusInputEdit = document.getElementById('statusEdit');
-    const keteranganInputEdit = document.getElementById('keteranganEdit');
-
-    formEditPelanggaran.addEventListener('submit', function(event) {
-        event.preventDefault()
-        formEditPelanggaran.classList.add('was-validated')
-        let isValid = true
-
-        const mahasiswaFeedbackEdit = mahasiswaInputEdit.nextElementSibling;
-        mahasiswaInputEdit.classList.remove('is-invalid')
-        if (mahasiswaInputEdit.value === '') {
-            mahasiswaFeedbackEdit.textContent = 'Silahkan masukkan atau pilih nama mahasiswa'
-            mahasiswaInputEdit.classList.add('is-invalid')
-            isValid = false
-        }
-
-        const jenisSuratFeedbackEdit = jenisSuratInputEdit.nextElementSibling;
-        jenisSuratInputEdit.classList.remove('is-invalid')
-        if (jenisSuratInputEdit.value === '') {
-            jenisSuratFeedbackEdit.textContent = 'Silahkan pilih jenis surat'
-            jenisSuratInputEdit.classList.add('is-invalid')
-            isValid = false
-        }
-        const tanggalFeedbackEdit = tanggalInputEdit.nextElementSibling;
-        tanggalInputEdit.classList.remove('is-invalid')
-        if (tanggalInputEdit.value === '') {
-            tanggalFeedbackEdit.textContent = 'Silahkan pilih tanggal'
-            tanggalInputEdit.classList.add('is-invalid')
-            isValid = false
-        }
-
-        const statusFeedbackEdit = statusInputEdit.nextElementSibling;
-        statusInputEdit.classList.remove('is-invalid')
-        if (statusInputEdit.value === '') {
-            statusFeedbackEdit.textContent = 'Silahkan pilih status'
-            statusInputEdit.classList.add('is-invalid')
-            isValid = false
-        }
-
-        const keteranganFeedbackEdit = keteranganInputEdit.nextElementSibling;
-        keteranganInputEdit.classList.remove('is-invalid')
-        if (keteranganInputEdit.value === '') {
-            keteranganFeedbackEdit.textContent = 'Silahkan Isi Keterangan'
-            keteranganInputEdit.classList.add('is-invalid')
-            isValid = false
-        }
-
-        if (isValid) {
-            const modal = bootstrap.Modal.getInstance(
-                document.getElementById("EditPelanggaran")
-            );
-            modal.hide();
-
-            alert("Data pelanggaran berhasil dikirim!");
-            formEditPelanggaran.reset();
-            formEditPelanggaran.classList.remove("was-validated");
-        }
-    })
-</script> -->
 <script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 
+<script src="../static/js/validationFormPelanggaran.js"></script>
+<script src="../static/js/confirmRemove.js"></script>
+<script src="../static/js/confirmLogout.js"></script>
+
 <script>
+    // Button Create Modal dengan validasi mahasiswa count
     document.getElementById('btnCreatePelanggaranModal').addEventListener('click', function() {
-
-        let mahasiswaCount = <?php echo $mahasiswaCount ?>; // ambil dari PHP
-
+        let mahasiswaCount = <?php echo $mahasiswaCount ?>;
         if (mahasiswaCount === 0) {
             Swal.fire({
                 icon: 'warning',
@@ -419,16 +319,28 @@ $mahasiswaCount = $data_mahasiswa['total'];
                 confirmButtonColor: '#3085d6',
             });
         } else {
-            // Jika ada data → buka modal
             var myModal = new bootstrap.Modal(document.getElementById('createPelanggaran'));
             myModal.show();
         }
     });
+
+    // Edit Modal - Populate Data
+    document.getElementById('editPelanggaran').addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+
+        const id = button.getAttribute('data-id');
+        const mahasiswa = button.getAttribute('data-mahasiswa');
+        const jenis = button.getAttribute('data-jenis');
+        const tanggal = button.getAttribute('data-tanggal');
+        const keterangan = button.getAttribute('data-keterangan');
+
+        document.getElementById('id_pelanggaran').value = id;
+        document.getElementById('mahasiswaEdit').value = mahasiswa;
+        document.getElementById('jenis_suratEdit').value = jenis;
+        document.getElementById('tanggalEdit').value = tanggal;
+        document.getElementById('keteranganEdit').value = keterangan;
+    });
 </script>
-
-<script src="../static/js/validationFormPelanggaran.js"></script>
-<script src="../static/js/confirmLogout.js"></script>
-
 
 
 </html>
