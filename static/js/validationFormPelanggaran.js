@@ -139,13 +139,13 @@ formEditPelanggaran.addEventListener('submit', function (event) {
     isValid = false
   }
 
-  const statusFeedbackEdit = statusInputEdit.nextElementSibling;
-  statusInputEdit.classList.remove('is-invalid')
-  if (statusInputEdit.value === '') {
-    statusFeedbackEdit.textContent = 'Silahkan pilih status'
-    statusInputEdit.classList.add('is-invalid')
-    isValid = false
-  }
+  // const statusFeedbackEdit = statusInputEdit.nextElementSibling;
+  // statusInputEdit.classList.remove('is-invalid')
+  // if (statusInputEdit.value === '') {
+  //   statusFeedbackEdit.textContent = 'Silahkan pilih status'
+  //   statusInputEdit.classList.add('is-invalid')
+  //   isValid = false
+  // }
 
   const keteranganFeedbackEdit = keteranganInputEdit.nextElementSibling;
   keteranganInputEdit.classList.remove('is-invalid')
@@ -156,13 +156,56 @@ formEditPelanggaran.addEventListener('submit', function (event) {
   }
 
   if (isValid) {
-    const modal = bootstrap.Modal.getInstance(
-      document.getElementById("EditPelanggaran")
-    );
-    modal.hide();
+    formData = new FormData(formEditPelanggaran)
 
-    alert("Data pelanggaran berhasil dikirim!");
-    formEditPelanggaran.reset();
-    formEditPelanggaran.classList.remove("was-validated");
+    fetch('./backend/pelanggaran/update.php', {
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+      .then(result => {
+        Swal.close();
+
+        if (result.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: result.message
+          });
+          return; // stop agar tidak lanjut ke success
+        }
+
+        formEditPelanggaran.reset();
+        formEditPelanggaran.classList.remove("was-validated");
+
+        Swal.fire({
+          title: "success",
+          text: "Data Pelanggaran berhasil diupdate!",
+          icon: "success",
+          customClass: {
+            title: "swal-title",
+            htmlContainer: "swal-text",
+            confirmButton: "swal-button",
+          },
+        }).then(() => {
+          location.reload();
+
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("editPelanggaran")
+          );
+          modal.hide();
+        });
+
+      })
+      .catch(error => {
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Terjadi kesalahan dalam mengirim data."
+        });
+
+        console.log(error);
+      });
   }
 })

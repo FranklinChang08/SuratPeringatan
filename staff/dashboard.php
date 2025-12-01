@@ -197,7 +197,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                         </thead>
                         <tbody>
                             <?php
-                            $no = 1;
+                            $no = $offset + 1;
                             while ($row = mysqli_fetch_array($select_mahasiswa)) {
                             ?>
                                 <tr>
@@ -207,81 +207,18 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                     <td><?= $row['nama_prodi']  ?></td>
                                     <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal']  ?></td>
                                     <td class="d-flex align-items-center">
-                                        <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMahasiswa">
+                                        <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMahasiswa"
+                                            data-id="<?= $row['id_user'] ?>" data-nim="<?= $row['nim'] ?>"
+                                            data-prodi="<?= $row['prodi_id'] ?>" data-kelas="<?= $row['kelas_id'] ?>" data-nama="<?= $row['nama_user'] ?>"
+                                            data-email="<?= $row['email'] ?>">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
                                                 <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                                 <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
                                             </svg>
                                         </button>
-                                        <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editMahasiswaLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="editMahasiswaLabel">Form Mahasiswa</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
-                                                            <div class="mb-3">
-                                                                <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
-                                                                <input type="text" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
-                                                                <div class="invalid-feedback"></div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="namaEdit" class="form-label">Nama Mahasiswa</label>
-                                                                <input type="text" class="form-control" id="namaEdit" placeholder="Masukkan nama mahasiswa" required>
-                                                                <div class="invalid-feedback"></div>
-                                                            </div>
-                                                            <!-- <div class="mb-3">
-                                                        <label for="jurusanEdit" class="form-label">Jurusan</label>
-                                                        <select class="form-select" id="jurusanEdit" aria-label="Default select example" required>
-                                                            <option value="" selected>Pilih Jurusan Mahasiswa</option>
-                                                            <option value="if">Teknik Informatika</option>
-                                                            <option value="mesin">Teknik Mesin</option>
-                                                            <option value="elektro">Teknik Elektro</option>
-                                                            <option value="mb">Manajemen Bisnis</option>
-                                                        </select>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div> -->
-                                                            <div class="mb-3">
-                                                                <label for="prodiEdit" class="form-label">Program Studi</label>
-                                                                <select class="form-select" id="prodiEdit" aria-label="Default select example" required>
-                                                                    <option value="" selected>Pilih Program Studi Mahasiswa</option>
-                                                                    <?php
-                                                                    foreach ($list_prodi as $row) { ?>
-                                                                        <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
-                                                                    <?php }
-                                                                    ?>
-                                                                </select>
-                                                                <div class="invalid-feedback"></div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="kelasEdit" class="form-label">Kelas</label>
-                                                                <select name="kelas_id" class="form-control" id="kelasEdit" required>
-                                                                    <option value="">Pilih Kelas</option>
-                                                                    <?php
-                                                                    foreach ($list_kelas as $kelas) { ?>
-                                                                        <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                                <div class="invalid-feedback"></div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="emailEdit" class="form-label">Email</label>
-                                                                <input type="email" class="form-control" id="emailEdit" placeholder="Masukkan email mahasiswa" required>
-                                                                <div class="invalid-feedback"></div>
-                                                            </div>
-                                                            <div>
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                                <button type="submit" class="btn btn-primary">Kirim</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <form action="" method="POST" onsubmit="return confirmRemove(event, this)">
+                                        <form action="./backend/mahasiswa/delete.php" method="POST" onsubmit="return confirmRemove(event)">
+                                            <input type="hidden" name="id_user" value="<?= $row['id_user'] ?>">
                                             <button class="btn btn-danger py-1 px-2" type="submit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                     <path d="M10 11v6" />
@@ -297,43 +234,76 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <?php } ?>
                         </tbody>
                     </table>
-            </div>
-        <?php
+                <?php
                 } else { ?>
-            <div class="container">
-                <div class="alert alert-primary  mb-0" role="alert">
-                    Data Mahasiswa tidak ada. Silahkan isi data mahasiswa terlebih dahulu!!!!
-                </div>
-            </div>
-        <?php }
-        ?>
-
-        <!-- Modal -->
-        <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="container mb-0 p-0 shadow-none">
+                        <div class="alert alert-primary  mb-0" role="alert">
+                            Data Mahasiswa tidak ada. Silahkan isi data mahasiswa terlebih dahulu!!!!
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form method="POST" action="" class="needs-validation" novalidate id="FormCreateMahasiswa">
-                            <div class="mb-3">
-                                <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
-                                <input type="number" name="nim" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
-                                <div class="invalid-feedback"></div>
+                <?php }
+                ?>
+                <?php if ($total_data > 10) { ?>
+                    <div class="my-4 d-flex justify-content-center align-items-center gap-4">
+
+                        <!-- PREV -->
+                        <?php if ($page > 1): ?>
+                            <a href="?page=<?= $page - 1 ?>" class="btn btn-outline-dark mb-0 text-center">Prev</a>
+                        <?php endif; ?>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <!-- jika halaman awal > 1, tampilkan ... -->
+
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <!-- range halaman -->
+                                <?php for ($i = $start; $i <= $end; $i++): ?>
+                                    <a href="?page=<?= $i ?>"
+                                        class="btn
+                            <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
+                                        <?= $i ?>
+                                    </a>
+                                <?php endfor; ?>
                             </div>
-                            <div class="mb-3">
-                                <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
-                                <input type="text" name="nama_user" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="emailCreate" class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" id="emailCreate" placeholder="Masukkan email mahasiswa" required>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <!-- <div class="mb-3">
+
+                        </div>
+
+                        <!-- NEXT -->
+                        <?php if ($page < $total_page): ?>
+                            <a href="?page=<?= $page + 1 ?>" class="btn btn-outline-dark mb-0 text-center">Next</a>
+                        <?php endif; ?>
+
+                    </div>
+                <?php } ?>
+            </div>
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="createMahasiswaLabel">Form Mahasiswa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" class="needs-validation" novalidate id="FormCreateMahasiswa">
+                                <div class="mb-3">
+                                    <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
+                                    <input type="number" name="nim" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
+                                    <input type="text" name="nama_user" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailCreate" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" id="emailCreate" placeholder="Masukkan email mahasiswa" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <!-- <div class="mb-3">
                                     <label for="jurusanCreate" class="form-label">Jurusan</label>
                                     <select class="form-select" id="jurusanCreate" aria-label="Default select example" required>
                                         <option value="" selected>Pilih Jurusan Mahasiswa</option>
@@ -344,66 +314,121 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div> -->
-                            <div class="mb-3">
-                                <label for="prodiCreate" class="form-label">Program Studi</label>
-                                <select class="form-select" name="prodi_id" id="prodiCreate" aria-label="Default select example" required>
-                                    <option value="" selected>Pilih Program Studi Mahasiswa</option>
-                                    <?php
-                                    foreach ($list_prodi as $row) { ?>
-                                        <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
-                                    <?php } ?>
-                                    =======
-                                    <option value="mb">Manejement Bisnis</option>
-                                    >>>>>>> 682722d8b25ebdb3166f39274400d4cf56ef59fc
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="kelasCreate" class="form-label">Kelas</label>
-                                <select name="kelas_id" class="form-control" id="kelasCreate" required>
-                                    <option value="">Pilih Kelas</option>
-                                    <?php
-                                    foreach ($list_kelas as $kelas) { ?>
-                                        <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
-                                    <?php } ?>
-                                </select>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
-                            </div>
-                        </form>
-                    </div>
+                                <div class="mb-3">
+                                    <label for="prodiCreate" class="form-label">Program Studi</label>
+                                    <select class="form-select" name="prodi_id" id="prodiCreate" aria-label="Default select example" required>
+                                        <option value="" selected>Pilih Program Studi Mahasiswa</option>
+                                        <?php
+                                        foreach ($list_prodi as $row) { ?>
+                                            <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kelasCreate" class="form-label">Kelas</label>
+                                    <select name="kelas_id" class="form-control" id="kelasCreate" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <?php
+                                        foreach ($list_kelas as $kelas) { ?>
+                                            <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal fade" id="ImportMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ImportMahasiswaLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ImportMahasiswaLabel">Form Mahasiswa</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editMahasiswaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editMahasiswaLabel">Form Mahasiswa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
+                                <div class="mb-3">
+                                    <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
+                                    <input type="text" name="nim" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="namaEdit" class="form-label">Nama Mahasiswa</label>
+                                    <input type="text" name="nama_user" class="form-control" id="namaEdit" placeholder="Masukkan nama mahasiswa" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailEdit" class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" id="emailEdit" placeholder="Masukkan email mahasiswa" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="prodiEdit" class="form-label">Program Studi</label>
+                                    <select class="form-select" name="prodi_id" id="prodiEdit" aria-label="Default select example" required>
+                                        <option value="" selected>Pilih Program Studi Mahasiswa</option>
+                                        <?php
+                                        foreach ($list_prodi as $row) { ?>
+                                            <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                                        <?php }
+                                        ?>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="kelasEdit" class="form-label">Kelas</label>
+                                    <select name="kelas_id" class="form-control" id="kelasEdit" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <?php
+                                        foreach ($list_kelas as $kelas) { ?>
+                                            <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div>
+                                    <input type="hidden" name="id_user" id="idEdit" value="">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form method="POST" id="formImportMahasiswa" novalidate>
-                            <div class="mb-3">
-                                <label for="file" class="form-label">File Data Mahasiswa</label>
-                                <input type="file" class="form-control" id="file" required>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="submit" class="btn btn-primary">Kirim</button>
-                            </div>
-                        </form>
-                    </div>
-
                 </div>
             </div>
-        </div>
+
+            <div class="modal fade" id="ImportMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ImportMahasiswaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="ImportMahasiswaLabel">Form Mahasiswa</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" id="formImportMahasiswa" novalidate>
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">File Data Mahasiswa</label>
+                                    <input type="file" class="form-control" id="file" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </body>
@@ -447,28 +472,6 @@ while ($data = mysqli_fetch_assoc($kelas)) {
 
         // Isi ke dalam form modal
         document.getElementById('idEdit').value = id;
-        document.getElementById('nimEdit').value = nim;
-        document.getElementById('namaEdit').value = nama;
-        document.getElementById('emailEdit').value = email;
-        document.getElementById('prodiEdit').value = prodi;
-        document.getElementById('kelasEdit').value = kelas;
-    });
-</script>
-
-<script>
-    document.getElementById('editMahasiswa').addEventListener('show.bs.modal', function(event) {
-        const button = event.relatedTarget; // tombol yang diklik
-
-        // Ambil data dari tombol
-        const id = button.getAttribute('data-id');
-        const nim = button.getAttribute('data-nim');
-        const nama = button.getAttribute('data-nama');
-        const email = button.getAttribute('data-email');
-        const prodi = button.getAttribute('data-prodi');
-        const kelas = button.getAttribute('data-kelas');
-
-        // Isi ke dalam form modal
-        document.getElementById('id_user').value = id;
         document.getElementById('nimEdit').value = nim;
         document.getElementById('namaEdit').value = nama;
         document.getElementById('emailEdit').value = email;
