@@ -7,6 +7,18 @@ if (!isset($_SESSION['nim'])) {
     session_destroy();
     exit;
 }
+
+include('conn.php');
+$nim = $_SESSION['nim'];
+
+$query = mysqli_query($conn, "SELECT *
+                              FROM tb_user u
+                              LEFT JOIN tb_prodi p ON u.prodi_id = p.id_prodi
+                              LEFT JOIN tb_kelas k ON u.kelas_id = k.id_kelas
+                              WHERE nim = '$nim'");
+
+$data = mysqli_fetch_assoc($query);
+
 ?>
 
 <!DOCTYPE html>
@@ -312,7 +324,7 @@ if (!isset($_SESSION['nim'])) {
                                                 </svg>
                                                 NIM
                                             </span>
-                                            <span class="fw-semibold fs-6 mt-2">123456789</span>
+                                            <span class="fw-semibold fs-6 mt-2"><?= $data['nim']; ?></span>
                                         </div>
                                     </div>
 
@@ -329,7 +341,7 @@ if (!isset($_SESSION['nim'])) {
                                                 </svg>
                                                 Nama
                                             </span>
-                                            <span class="fw-semibold fs-6 mt-2">Franklin Sebastian Felix</span>
+                                            <span class="fw-semibold fs-6 mt-2"><?= $data['nama_user']; ?></span>
                                         </div>
                                     </div>
 
@@ -346,7 +358,7 @@ if (!isset($_SESSION['nim'])) {
                                                 </svg>
                                                 Email
                                             </span>
-                                            <span class="fw-semibold fs-6 mt-2">franklin08@gmail.com</span>
+                                            <span class="fw-semibold fs-6 mt-2"><?= $data['email']; ?></span>
                                         </div>
                                     </div>
 
@@ -380,7 +392,7 @@ if (!isset($_SESSION['nim'])) {
                                                 </svg>
                                                 Program Studi
                                             </span>
-                                            <span class="fw-semibold fs-6 mt-2">Teknik Informatika</span>
+                                            <span class="fw-semibold fs-6 mt-2"><?= $data['nama_prodi']; ?></span>
                                         </div>
                                     </div>
 
@@ -399,7 +411,7 @@ if (!isset($_SESSION['nim'])) {
                                                 </svg>
                                                 Kelas
                                             </span>
-                                            <span class="fw-semibold fs-6 mt-2">IF 1A - Pagi</span>
+                                            <span class="fw-semibold fs-6 mt-2"><?= $data['kode_prodi'] . " " . $data['semester'] . $data['nama_kelas'] . " - " . $data['jadwal']; ?></span>
                                         </div>
                                     </div>
 
@@ -407,30 +419,30 @@ if (!isset($_SESSION['nim'])) {
                                         <div class="d-flex flex-column">
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePassword">
-                                                Ubah Password
+                                                Ubah Kata Sandi
                                             </button>
 
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Password</h1>
+                                                            <h1 class="modal-title fs-5" id="changePasswordLabel">Ubah Kata Sandi</h1>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="" method="POST" class="needs-validation" novalidate id="changePasswordMahasiswa">
+                                                            <form method="POST" class="needs-validation" novalidate id="changePasswordMahasiswa">
                                                                 <div class="mb-3">
-                                                                    <label for="password" class="form-label">Password</label>
-                                                                    <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password mahasiswa" required>
-                                                                    <div class="invalid-feedback"></div>
+                                                                    <label for="password" class="form-label">Kata Sandi Baru</label>
+                                                                    <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan kata sandi baru" required minlength="8">
+                                                                    <div class="invalid-feedback">Password minimal 8 karakter</div>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="confirm_password" class="form-label">Konfirmasi Password</label>
-                                                                    <input type="password" class="form-control" name="confrim_password" id="confirm_password" placeholder="Masukkan Konfirmasi Password mahasiswa..." required>
-                                                                    <div class="invalid-feedback"></div>
+                                                                    <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
+                                                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Masukkan ulang  baru" required>
+                                                                    <div class="invalid-feedback">Password tidak cocok</div>
                                                                 </div>
-                                                                <div class="mb-3">
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" name="id_user" value="<?= $data['id_user'] ?>">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                                                 </div>
@@ -439,6 +451,7 @@ if (!isset($_SESSION['nim'])) {
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
