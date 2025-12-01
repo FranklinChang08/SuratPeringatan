@@ -8,9 +8,14 @@ if (!isset($_SESSION['nik'])) {
   exit;
 }
 
-
 include '../conn.php';
 // Filter dan Searching data pada data kelas
+
+$nik = $_SESSION['nik'];
+
+$query = mysqli_query($conn, "SELECT * FROM tb_user WHERE nik = '$nik'");
+$user = mysqli_fetch_assoc($query);
+
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $prodi_filter = isset($_GET['prodi']) ? $_GET['prodi'] : '';
@@ -108,8 +113,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
       <h2 class="fw-bold mb-0">Data Kelas</h2>
       <div class="account">
         <div class="account-desc">
-          <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-          <h2 class="email mb-0">gilang@gmail.com</h2>
+          <h2 class=" fs-6 mb-0 fw-bold text-end border-0"><?= $user['nama_user'] ?></h2>
+          <p class="mb-0"><?= $user['email'] ?></p>
         </div>
         <a href="./profile.php" class="text-dark">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"

@@ -10,6 +10,12 @@ if (!isset($_SESSION['nik'])) {
 
 include('../conn.php');
 
+$nik = $_SESSION['nik'];
+
+$query = mysqli_query($conn, "SELECT * FROM tb_user WHERE nik = '$nik'");
+$user = mysqli_fetch_assoc($query);
+
+
 $list_prodi = [];
 $list_kelas = [];
 
@@ -111,8 +117,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
             <h2 class="fw-bold mb-0">Data Mahasiswa</h2>
             <div class="account">
                 <div class="account-desc">
-                    <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 class="email mb-0">gilang@gmail.com</h2>
+                    <h2 class=" fs-6 mb-0 fw-bold text-end border-0"><?= $user['nama_user'] ?></h2>
+                    <p class="mb-0"><?= $user['email'] ?></p>
                 </div>
                 <a href="./profile.php" class="text-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user">
