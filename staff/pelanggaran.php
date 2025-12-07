@@ -181,7 +181,7 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                 <a href="./profile.php" class="text-dark">
                     <?php
                     if ($user['profile']) { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
                         <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
                     <?php }
@@ -193,13 +193,16 @@ function tanggalIndonesia($tanggal, $formatJam = true)
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
                 <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
-                    <button type="button" class="btn btn-primary font-poppins" id="btnCreatePelanggaranModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
-                            <path d="M5 12h14" />
-                            <path d="M12 5v14" />
-                        </svg>
-                        Tambah Pelanggaran
-                    </button>
+                    <div class="button-group mb-2 mb-md-0 ">
+                        <button type="button" class="btn btn-primary font-poppins" id="btnCreatePelanggaranModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                                <path d="M5 12h14" />
+                                <path d="M12 5v14" />
+                            </svg>
+                            Tambah Pelanggaran
+                        </button>
+                        <a href="./backend/eksport_pelanggaran.php" class="btn btn-primary">Ekspor</a>
+                    </div>
 
                     <form action="" class="form-search">
                         <label for="search">

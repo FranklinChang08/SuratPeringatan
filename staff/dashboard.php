@@ -122,7 +122,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                 <a href="./profile.php" class="text-dark">
                     <?php
                     if ($user['profile']) { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
                         <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
                     <?php }

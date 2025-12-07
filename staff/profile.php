@@ -62,7 +62,7 @@ $user = mysqli_fetch_assoc($query);
                 <a href="./profile.php" class="text-dark">
                     <?php
                     if ($user['profile']) { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="<?= $user['profile'] ?>" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
                         <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
                     <?php }
@@ -75,35 +75,43 @@ $user = mysqli_fetch_assoc($query);
             <div class="container p-3">
                 <div class="p-4 bg-white shadow-sm rounded-1">
                     <h5 class="fw-bold text-uppercase">Pengaturan Akun</h5>
-                    <form action="" class="row row-cols-1 row-cols-md-2">
+                    <form id="formUpdateProfile" method="POST" class="row row-cols-1 row-cols-md-2 needs-validation" enctype="multipart/form-data" novalidate>
                         <div class="d-flex flex-column justify-content-center align-items-center gap-2 mb-3">
-                            <img class="profile-preview" src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
+                            <?php
+                            if ($user['profile'] != null) { ?>
+                                <img class="profile-preview" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
+                            <?php } else {
+                            ?>
+                                <img class="profile-preview" src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
 
-                            <div>
-                                <label for="profile">Profil File</label>
-                                <input type="file" id="profile" name="profile" class="form-control w-100">
-                            </div>
+                            <?php } ?>
                         </div>
                         <div>
                             <div class="mb-3">
-                                <label for="nik" class="form-label">Nim</label>
-                                <input type="text" class="form-control" name="nik" id="nik"
+                                <label for="nik" class="form-label">NIK</label>
+                                <input type="text" class="form-control text-secondary" name="nik" id="nik"
                                     value="<?= $user['nik']; ?>" readonly>
 
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email"
+                                <input type="email" class="form-control text-secondary" name="email" id="email"
                                     value="<?= $user['email']; ?>" readonly>
 
                             </div>
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" name="nama" id="nama"
+                                <input type="text" class="form-control text-secondary" name="nama" id="nama"
                                     value="<?= $user['nama_user']; ?>" readonly>
+                            </div>
 
+                            <div class="mb-3">
+                                <label for="profile">Profil File</label>
+                                <input type="file" id="profile" name="profile" class="form-control w-100" required>
+                                <div class="invalid-feedback"></div>
                             </div>
                             <div>
+                                <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
                                 <button class="btn btn-primary" type="submit">Kirim</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
@@ -112,7 +120,7 @@ $user = mysqli_fetch_assoc($query);
                 </div>
                 <div class=" p-4 bg-white shadow-sm rounded-1 mt-3">
                     <h5 class="fw-bold text-uppercase">Ganti Kata Sandi</h5>
-                    <form method="POST" class="row row-cols-2" id="formChangePassword" class="needs-validation" novalidate autocomplete="off">
+                    <form method="POST" class="row row-cols-2 needs-validation" id="formChangePassword" novalidate autocomplete="off">
                         <div class="mb-3">
                             <label for="password" class="form-label">Kata Sandi Baru</label>
                             <input type="text" class="form-control" name="password" required id="password" placeholder="Masukkan Password anda...">
@@ -138,106 +146,7 @@ $user = mysqli_fetch_assoc($query);
 </body>
 <script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
-<script type="text/javascript">
-    const formChangePassword = document.getElementById('formChangePassword');
-    const passwordInput = document.getElementById('password');
-    const confirmpasswordInput = document.getElementById('confirm_password');
-
-    formChangePassword.addEventListener('submit', function(event) {
-        event.preventDefault();
-        formChangePassword.classList.add('was-validated');
-        let isValid = true;
-
-        const passwordFeedback = passwordInput.nextElementSibling;
-        passwordInput.classList.remove('is-invalid', 'is-valid');
-
-        if (passwordInput.value === '') {
-            passwordFeedback.textContent = 'Silahkan masukkan password';
-            passwordInput.classList.add('is-invalid');
-            isValid = false;
-        } else if (passwordInput.value.length < 8) {
-            passwordFeedback.textContent = 'Password harus lebih dari 8 karakter';
-            passwordInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            passwordFeedback.textContent = '';
-            passwordInput.classList.add('is-valid'); // ✅ password benar → hijau
-        }
-
-        const passwordconfirmFeedback = confirmpasswordInput.nextElementSibling;
-        confirmpasswordInput.classList.remove('is-invalid', 'is-valid');
-
-        if (confirmpasswordInput.value === '') {
-            passwordconfirmFeedback.textContent = 'Silahkan konfirmasi password anda';
-            confirmpasswordInput.classList.add('is-invalid');
-            isValid = false;
-        } else if (confirmpasswordInput.value !== passwordInput.value) {
-            passwordconfirmFeedback.textContent = 'Konfirmasi password harus sama dengan password baru';
-            confirmpasswordInput.classList.add('is-invalid');
-            isValid = false;
-        } else if (confirmpasswordInput.value.length < 8) {
-            passwordFeedback.textContent = 'Password harus lebih dari 8 karakter';
-            passwordInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            passwordconfirmFeedback.textContent = '';
-            confirmpasswordInput.classList.add('is-valid'); // ✅ cocok → hijau
-        }
-
-        if (isValid) {
-            form = new FormData(formChangePassword)
-
-            fetch('./backend/changepass/update.php', {
-                    method: 'POST',
-                    body: form
-                }).then(response => response.json())
-                .then(result => {
-                    Swal.close();
-
-                    if (result.status === "error") {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Gagal!",
-                            text: result.message
-                        });
-                        return; // stop agar tidak lanjut ke success
-                    }
-
-                    formChangePassword.reset();
-                    formChangePassword.classList.remove("was-validated");
-
-                    Swal.fire({
-                        title: "success",
-                        text: "Kata Sandi berhasil diperbaharui!",
-                        icon: "success",
-                        customClass: {
-                            title: "swal-title",
-                            htmlContainer: "swal-text",
-                            confirmButton: "swal-button",
-                        },
-                    }).then(() => {
-                        location.href = '../auth/logout.php';
-
-                        const modal = bootstrap.Modal.getInstance(
-                            document.getElementById("changePassword")
-                        );
-                        modal.hide();
-                    });
-
-                })
-                .catch(error => {
-                    Swal.close();
-
-                    Swal.fire({
-                        icon: "error",
-                        title: "Gagal!",
-                        text: "Terjadi kesalahan dalam mengirim data."
-                    });
-
-                    console.log(error);
-                });
-        }
-    });
-</script>
+<script type="text/javascript" src="../static/js/changePasswordStaff.js"></script>
+<script type="text/javascript" src="../static/js/updateProfile.js"></script>
 
 </html>
