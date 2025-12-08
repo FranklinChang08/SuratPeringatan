@@ -18,6 +18,7 @@ $query = mysqli_query($conn, "SELECT *
                               WHERE nim = '$nim'");
 
 $data = mysqli_fetch_assoc($query);
+$user = $data;
 
 ?>
 
@@ -297,15 +298,37 @@ $data = mysqli_fetch_assoc($query);
                 <div class="row justify-content-center">
                     <div class="col-12 col-lg-10 mahasiswa-data font-poppins">
                         <h2 class="bebas-neue text-uppercase fw-bold mb-4 text-center">Data Mahasiswa</h2>
-
-                        <div class="row align-items-center g-3">
+                        <div class="row align-items-start g-3">
                             <!-- FOTO MAHASISWA -->
-                            <div class="col-12 col-md-4 d-flex justify-content-center">
-                                <img
-                                    src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg"
-                                    alt="Foto Mahasiswa"
-                                    class="object-fit-cover border border-1 rounded-2 shadow"
-                                    style="width: 300px; height: 300px; object-fit: cover; object-position: top;" />
+                            <div class="col-12 col-md-4 d-flex flex-column align-items-center gap-3">
+                                <?php if (!empty($user['profile'])) { ?>
+                                    <img
+                                        src="./static/img/profile_user/<?= htmlspecialchars($user['profile']) ?>"
+                                        alt="Foto Mahasiswa"
+                                        class="object-fit-cover border border-1 rounded-2 shadow"
+                                        style="width: 300px; height: 300px; object-fit: cover; object-position: top;" />
+                                <?php } else { ?>
+                                    <img
+                                        src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg"
+                                        alt="Foto Mahasiswa"
+                                        class="object-fit-cover border border-1 rounded-2 shadow"
+                                        style="width: 300px; height: 300px; object-fit: cover; object-position: top;" />
+                                <?php } ?>
+
+                                <!-- FORM UPDATE PROFILE -->
+                                <div class="w-100" style="max-width: 300px;">
+                                    <form action="./staff/backend/update_profile.php" id="formUpdateProfile" method="POST" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="profile" class="form-label">Ubah Foto Profil</label>
+                                            <input type="file" id="profile" name="profile" class="form-control" accept="image/*">
+                                        </div>
+                                        <input type="hidden" name="id_user" value="<?= htmlspecialchars($user['id_user']) ?>">
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-primary flex-grow-1" type="submit">Kirim</button>
+                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
 
                             <!-- DATA MAHASISWA -->
@@ -414,13 +437,13 @@ $data = mysqli_fetch_assoc($query);
                                             <span class="fw-semibold fs-6 mt-2"><?= $data['kode_prodi'] . " " . $data['semester'] . $data['nama_kelas'] . " - " . $data['jadwal']; ?></span>
                                         </div>
                                     </div>
-
                                     <div class="col">
                                         <div class="d-flex flex-column">
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePassword">
                                                 Ubah Kata Sandi
                                             </button>
+
 
                                             <div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
@@ -438,7 +461,7 @@ $data = mysqli_fetch_assoc($query);
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
-                                                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Masukkan ulang  baru" required>
+                                                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Masukkan ulang kata sandi baru" required>
                                                                     <div class="invalid-feedback">Password tidak cocok</div>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -529,5 +552,6 @@ $data = mysqli_fetch_assoc($query);
 <link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script src="./static/js/changePasswordMahasiswa.js"></script>
 <script src="./static/js/confirmLogout.js"></script>
+<script type="text/javascript" src="../static/js/updateProfile.js"></script>
 
 </html>
