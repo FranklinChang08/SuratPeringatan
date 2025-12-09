@@ -153,7 +153,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
         </div>
       </div>
       <div class="container poppins p-3">
-        <div class="row mb-2">
+        <div class="row mb-2 px-2">
           <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-start align-items-center">
             <p class="mb-0">
               <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>

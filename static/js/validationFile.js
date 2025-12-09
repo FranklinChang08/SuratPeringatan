@@ -2,50 +2,75 @@ const formImportMahasiswa = document.getElementById("formImportMahasiswa");
 const fileInput = document.getElementById("file");
 
 formImportMahasiswa.addEventListener("submit", function (event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    let isValid = true;
-    const fileFeedback = fileInput.nextElementSibling;
-    const file = fileInput.files[0];
+  let isValid = true;
+  const fileFeedback = fileInput.nextElementSibling;
+  const file = fileInput.files[0];
 
+  fileFeedback.textContent = "";
+  fileInput.classList.remove("is-invalid", "is-valid");
+
+  if (!file) {
+    fileFeedback.textContent = "Silakan pilih file untuk diunggah.";
+    fileInput.classList.add("is-invalid");
+    isValid = false;
+  } else if (!file.name.endsWith(".xlsx")) {
+    fileFeedback.textContent = "File harus berformat .xlsx!";
+    fileInput.classList.add("is-invalid");
+    isValid = false;
+  } else {
     fileFeedback.textContent = "";
-    fileInput.classList.remove("is-invalid", 'is-valid');
+    fileInput.classList.add("is-valid");
+  }
 
-    if (!file) {
-        fileFeedback.textContent = "Silakan pilih file untuk diunggah.";
-        fileInput.classList.add("is-invalid");
-        isValid = false;
-    } else if (!file.name.endsWith(".xlsx")) {
-        fileFeedback.textContent = "File harus berformat .xlsx!";
-        fileInput.classList.add("is-invalid");
-        isValid = false;
-    } else if (file.size > 2 * 1024 * 1024) {
-        fileFeedback.textContent = "Ukuran file maksimal 2MB!";
-        fileInput.classList.add("is-invalid");
-        isValid = false;
-    } else {
-        fileFeedback.textContent = "";
-        fileInput.classList.add("is-valid");
-    }
+  // Ambil semua data dari form
+  const formData = new FormData(formImportMahasiswa);
 
-    if (isValid) {
-        const modal = bootstrap.Modal.getInstance(
-            document.getElementById("ImportMahasiswa")
-        );
-        modal.hide();
+  Swal.fire({
+    title: "Menyimpan data...",
+    text: "Mohon tunggu",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
 
-        Swal.fire({
-            title: "Success!",
-            text: "Data Mahasiswa berhasil diimpor!",
-            icon: "success",
-            customClass: {
-                title: "swal-title",
-                htmlContainer: "swal-text",
-                confirmButton: "swal-button",
-            },
-        });
+  if (isValid) {
+    fetch("./backend/mahasiswa/import.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.text()) // bisa response.json() jika PHP return json
+      .then((result) => {
+        Swal.close();
 
+        // Reset form setelah sukses
         formImportMahasiswa.reset();
         formImportMahasiswa.classList.remove("was-validated");
-    }
+
+        // Reload table atau halaman jika diperlukan
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil!",
+          text: "Data Mahasiswa berhasil ditambahkan.",
+        }).then(() => {
+          location.reload();
+
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("ImportMahasiswa")
+          );
+          modal.hide();
+        });
+      })
+      .catch((error) => {
+        Swal.close();
+
+        Swal.fire({
+          icon: "error",
+          title: "Gagal!",
+          text: "Terjadi kesalahan dalam mengirim data.",
+        });
+
+        console.log(error);
+      });
+  }
 });
