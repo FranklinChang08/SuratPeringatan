@@ -8,6 +8,47 @@ if (!isset($_SESSION['nim'])) {
     exit;
 }
 
+function tanggalIndonesia($tanggal, $formatJam = true)
+{
+    $hari = [
+        'Sunday' => 'Minggu',
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu'
+    ];
+
+    $bulan = [
+        'January' => 'Januari',
+        'February' => 'Februari',
+        'March' => 'Maret',
+        'April' => 'April',
+        'May' => 'Mei',
+        'June' => 'Juni',
+        'July' => 'Juli',
+        'August' => 'Agustus',
+        'September' => 'September',
+        'October' => 'Oktober',
+        'November' => 'November',
+        'December' => 'Desember'
+    ];
+
+    $tgl = strtotime($tanggal);
+
+    $hasil = $hari[date('l', $tgl)] . ", "
+        . date('d', $tgl) . " "
+        . $bulan[date('F', $tgl)] . " "
+        . date('Y', $tgl);
+
+    if ($formatJam) {
+        $hasil .= " - " . date('H:i A', $tgl);
+    }
+
+    return $hasil;
+}
+
 include('conn.php');
 $nim = $_SESSION['nim'];
 
@@ -20,6 +61,7 @@ $query = mysqli_query($conn, "SELECT *
 $data = mysqli_fetch_assoc($query);
 $user = $data;
 
+$select_pelanggaran = mysqli_query($conn, "SELECT * FROM tb_pelanggaran AS p INNER JOIN tb_user as u ON u.id_user = p.mahasiswa_id WHERE u.nim = '$nim' AND u.role = 'Mahasiswa' ORDER BY jenis_sp ASC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,140 +73,100 @@ $user = $data;
 
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="./static/style/font.css">
+    <link rel="stylesheet" href="./static/style/home.css">
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
-
-    <style>
-        body {
-            background-color: #f4f5f6;
-        }
-
-        .sidebar-card {
-            padding: 0.6rem 0.8rem !important;
-            border-radius: 6px;
-            background: #fff;
-        }
-
-        .sidebar-card span.label {
-            font-size: 0.85rem;
-            color: #6c757d;
-            margin-bottom: 1px;
-        }
-
-        .sidebar-card span.value {
-            font-size: 1rem;
-            font-weight: 600;
-            line-height: 1;
-        }
-
-        .item-wrapper {
-            margin-bottom: 6px;
-        }
-
-        .btn-custom {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        .btn-custom:hover {
-            opacity: 0.8;
-        }
-    </style>
 </head>
 
 <body class="font-poppins">
-    <div class="container-fluid py-4">
+    <div class="bg-content"></div>
+    <div class="content container-fluid p-2 p-lg-5">
         <div class="row g-3">
             <!-- SIDEBAR -->
             <div class="col-lg-4">
-                <div class="p-4 rounded-3 bg-white shadow-sm h-100 position-relative">
+                <div class="p-4 rounded-3 bg-white shadow-md h-100 position-relative">
                     <div>
                         <h2 class="font-poppins text-uppercase fw-bold mb-4">DATA MAHASISWA</h2>
                     </div>
                     <!-- FOTO PROFIL -->
                     <div class="text-center">
                         <?php if (!empty($user['profile'])) { ?>
-                            <img class="rounded-circle mt-2 shadow"
+                            <img class="rounded-2 mt-2 shadow"
                                 src="./static/img/profile_user/<?= htmlspecialchars($user['profile']) ?>"
-                                alt="Foto Mahasiswa"
-                                class="object-fit-cover border border-1 rounded-2 shadow"
-                                style="width: 300px; height: 300px; object-fit: cover; object-position: top;" />
+                                alt="Foto Mahasiswa" class="object-fit-cover border border-1 rounded-2 shadow"
+                                style="width: 300px; height: 300px; object-fit: cover; object-position: center;" />
                         <?php } else { ?>
-                            <img class="rounded-circle mt-2 shadow"
+                            <img class="rounded-2 mt-2 shadow"
                                 src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg"
-                                alt="Foto Mahasiswa"
-                                class="object-fit-cover border border-1 rounded-2 shadow"
-                                style="width: 300px; height: 300px; object-fit: cover; object-position: top;" />
+                                alt="Foto Mahasiswa" class="object-fit-cover border border-1 rounded-2 shadow"
+                                style="width: 300px; height: 300px; object-fit: cover; object-position: center;" />
                         <?php } ?>
                     </div>
                     <div class="mt-3">
                         <!-- NIM -->
                         <div class="item-wrapper">
                             <div class="sidebar-card">
-                                <span class="label d-flex align-items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                <div class="label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                                         <circle cx="12" cy="7" r="4" />
                                     </svg>
-                                    NIM
-                                </span>
-                                <span class="fw-semibold fs-6 mt-2"><?= $data['nim']; ?></span>
+                                    <span>NIM</span>
+                                </div>
+                                <span class="fw-semibold fs-6"><?= $data['nim']; ?></span>
                             </div>
                         </div>
                         <!-- NAMA -->
                         <div class="item-wrapper">
                             <div class="sidebar-card">
-                                <span class="label d-flex align-items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                <div class="label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z" />
                                         <path d="M20 21a8 8 0 0 0-16 0" />
                                     </svg>
-                                    Nama
-                                </span>
-                                <span class="fw-semibold fs-6 mt-2"><?= $data['nama_user']; ?></span>
+                                    <span>Nama</span>
+                                </div>
+                                <span class="fw-semibold fs-6"><?= $data['nama_user']; ?></span>
                             </div>
                         </div>
                         <!-- EMAIL -->
                         <div class="item-wrapper">
                             <div class="sidebar-card">
-                                <span class="label d-flex align-items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                <div class="label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
                                         <polyline points="3,7 12,13 21,7" />
                                     </svg>
-                                    Email
-                                </span>
-                                <span class="fw-semibold fs-6 mt-2"><?= $data['email']; ?></span>
+                                    <span>Email</span>
+                                </div>
+                                <span class="fw-semibold fs-6"><?= $data['email']; ?></span>
                             </div>
                         </div>
                         <!-- PRODI -->
                         <div class="item-wrapper">
                             <div class="sidebar-card">
-                                <span class="label d-flex align-items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                <div class="label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path d="M2 3h6a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z" />
                                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h6z" />
                                     </svg>
-                                    Program Studi
-                                </span>
-                                <span class="fw-semibold fs-6 mt-2"><?= $data['nama_prodi']; ?></span>
+                                    <span>Program Studi</span>
+                                </div>
+                                <span class="fw-semibold fs-6"><?= $data['nama_prodi']; ?></span>
                             </div>
                         </div>
                         <!-- KELAS -->
                         <div class="item-wrapper">
                             <div class="sidebar-card">
-                                <span class="label d-flex align-items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                <div class="label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path d="M17 21v-2a4 4 0 0 0-3-3.87" />
@@ -172,9 +174,25 @@ $user = $data;
                                         <path d="M12 7a4 4 0 1 0-4 4 4 4 0 0 0 4-4Z" />
                                         <path d="M17 11a4 4 0 1 0-4-4" />
                                     </svg>
-                                    Kelas
-                                </span>
-                                <span class="fw-semibold fs-6 mt-2"><?= $data['kode_prodi'] . " " . $data['semester'] . $data['nama_kelas'] . " - " . $data['jadwal']; ?></span>
+                                    <span>Kelas</span>
+                                </div>
+                                <span
+                                    class="fw-semibold fs-6 mt-2"><?= $data['kode_prodi'] . " " . $data['semester'] . $data['nama_kelas'] . " - " . $data['jadwal']; ?></span>
+                            </div>
+                        </div>
+                        <!-- NAMA -->
+                        <div class="item-wrapper">
+                            <div class="sidebar-card">
+                                <div class="label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z" />
+                                        <path d="M20 21a8 8 0 0 0-16 0" />
+                                    </svg>
+                                    <span>Dosen Wali</span>
+                                </div>
+                                <span class="fw-semibold fs-6"><?= $data['nama_dosen']; ?></span>
                             </div>
                         </div>
                         <!-- BUTTONS -->
@@ -184,56 +202,83 @@ $user = $data;
                             <button class="btn btn-warning btn-custom" data-bs-toggle="modal"
                                 data-bs-target="#modalPassword">Ganti Kata Sandi</button>
                         </div>
+                        <div class="mt-2">
+                            <form action="./auth/logout.php" method="POST" onsubmit="confirmLogout(event, this)">
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-log-out-icon lucide-log-out">
+                                            <path d="m16 17 5-5-5-5" />
+                                            <path d="M21 12H9" />
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        </svg></span>
+                                    <span>Keluar</span>
+                                </button>
+                            </form>
+                        </div>
                         <!-- ================== MODAL GANTI PROFIL ================== -->
-                        <div class="modal fade " id="modalProfile" tabindex="-1" aria-labelledby="modalProfileLabel" aria-hidden="true">
+                        <div class="modal fade " id="modalProfile" tabindex="-1" aria-labelledby="modalProfileLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="modalProfileLabel">Ganti Profil</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <form action="./staff/backend/update_profile.php" id="formUpdateProfile" method="POST" enctype="multipart/form-data">
-                                        <div class="modal-body">
+                                    <div class="modal-body">
+                                        <form id="formUpdateProfileMahasiswa" class="needs-validation" novalidate
+                                            method="POST" enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <label class="form-label">Foto Profil</label>
-                                                <input type="file" id="profile" name="profile" class="form-control" accept="image/*">
+                                                <input type="file" id="profile" name="profile" class="form-control"
+                                                    accept="image/*">
+                                                <div class="invalid-feedback"></div>
                                             </div>
-                                        </div>
-                                        <input type="hidden" name="id_user" value="<?= htmlspecialchars($user['id_user']) ?>">
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <input type="hidden" name="id_user"
+                                                value="<?= htmlspecialchars($user['id_user']) ?>">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Batal</button>
                                             <button type="submit" class="btn btn-primary">Simpan</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- ================== MODAL GANTI PASSWORD ================== -->
-                        <div class="modal fade" id="modalPassword" tabindex="-1" aria-labelledby="modalPasswordLabel" aria-hidden="true">
+                        <div class="modal fade" id="modalPassword" tabindex="-1" aria-labelledby="modalPasswordLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="modalPasswordLabel">Ganti Kata Sandi</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <form method="POST" class="needs-validation" novalidate id="changePasswordMahasiswa">
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">Kata Sandi Baru</label>
-                                            <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan kata sandi baru" required minlength="8">
-                                            <div class="invalid-feedback">Password minimal 8 karakter</div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
-                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Masukkan ulang kata sandi baru" required>
-                                            <div class="invalid-feedback">Password tidak cocok</div>
-                                        </div>
-                                        <div class="modal-footer">
+                                    <div class="modal-body">
+                                        <form method="POST" class="needs-validation" novalidate
+                                            id="changePasswordMahasiswa">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Kata Sandi Baru</label>
+                                                <input type="password" class="form-control" name="password"
+                                                    id="password" placeholder="Masukkan kata sandi baru" required
+                                                    minlength="8">
+                                                <div class="invalid-feedback">Password minimal 8 karakter</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirm_password" class="form-label">Konfirmasi Kata
+                                                    Sandi</label>
+                                                <input type="password" class="form-control" name="confirm_password"
+                                                    id="confirm_password" placeholder="Masukkan ulang kata sandi baru"
+                                                    required>
+                                                <div class="invalid-feedback">Password tidak cocok</div>
+                                            </div>
                                             <input type="hidden" name="id_user" value="<?= $data['id_user'] ?>">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Tutup</button>
                                             <button type="submit" class="btn btn-primary">Simpan</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -246,33 +291,44 @@ $user = $data;
                 <div class="p-4 shadow-sm bg-white rounded-3 h-100">
                     <h2 class="fw-bold text-uppercase mb-4">Data Pelanggaran</h2>
 
-                    <?php for ($i = 1; $i <= 3; $i++) { ?>
+                    <?php while ($row = mysqli_fetch_array($select_pelanggaran)) { ?>
                         <div class="card bg-light shadow-sm p-3 mb-3">
-                            <h4 class="fw-bold text-uppercase">Surat Peringatan <?= $i ?></h4>
-                            <p class="mt-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur voluptates corporis quam quas aspernatur enim quidem, saepe similique minus repudiandae consequuntur natus nisi magni ipsum repellendus vel amet, adipisci omnis.</p>
-                            <p class="mt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, ea porro sequi quas nesciunt quod voluptatum repellendus recusandae, consequuntur, ipsum culpa amet obcaecati sint architecto reiciendis eius modi minus sit?</p>
-                            <p class="mt-1">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, similique debitis ut mollitia dolore iure! Commodi, reiciendis. Aliquam ullam pariatur quos cupiditate, cum, ipsum est quia, consequatur iure rerum facere?</p>
+                            <div class="w-100 row">
+                                <?php
+                                $mapJenis = [
+                                    "SP 1" => "Surat Peringatan 1",
+                                    "SP 2" => "Surat Peringatan 2",
+                                    "SP 3" => "Surat Peringatan 3"
+                                ];
+
+                                $jenisLengkap = $mapJenis[$row['jenis_sp']] ?? $row['jenis_sp'];
+                                ?>
+                                <h4 class="col-12 col-lg-6 mb-0 fw-bold text-uppercase"><?= $jenisLengkap ?></h4>
+                                <p class="col-12 col-lg-6 mb-0 text-start text-lg-end p-lg-0"><?= tanggalIndonesia($row['tanggal']) ?></p>
+                            </div>
+                            <p class="fs-6 mt-2"><?= $row['keterangan'] ?></p>
+                            <div class="alert alert-warning mb-0 d-flex align-items-center gap-2" role="alert">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
+                                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                    <path d="M12 9v4" />
+                                    <path d="M12 17h.01" />
+                                </svg>
+                                <span>Silahkan hubungi wali kelas segera!!!</span>
+                            </div>
                         </div>
                     <?php } ?>
                 </div>
             </div>
         </div>
     </div>
-    <form action="./auth/logout.php" class="position-fixed bottom-0 end-0 p-3" onsubmit="confirmLogout(event, this)">
-        <button class="btn btn-danger shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
-                <path d="m16 17 5-5-5-5" />
-                <path d="M21 12H9" />
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            </svg>
-        </button>
-    </form>
 </body>
 
 <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script src="./static/js/changePasswordMahasiswa.js"></script>
 <script src="./static/js/confirmLogout.js"></script>
-<script type="text/javascript" src="../static/js/updateProfile.js"></script>
+<script type="text/javascript" src="./static/js/updateProfileMahasiswa.js"></script>
 
 </html>

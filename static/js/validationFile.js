@@ -24,24 +24,35 @@ formImportMahasiswa.addEventListener("submit", function (event) {
     fileInput.classList.add("is-valid");
   }
 
-  // Ambil semua data dari form
-  const formData = new FormData(formImportMahasiswa);
 
-  Swal.fire({
-    title: "Menyimpan data...",
-    text: "Mohon tunggu",
-    allowOutsideClick: false,
-    didOpen: () => Swal.showLoading(),
-  });
 
   if (isValid) {
+    // Ambil semua data dari form
+    const formData = new FormData(formImportMahasiswa);
+
+    Swal.fire({
+      title: "Menyimpan data...",
+      text: "Mohon tunggu",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
     fetch("./backend/mahasiswa/import.php", {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.text()) // bisa response.json() jika PHP return json
+      .then((response) => response.json()) // bisa response.json() jika PHP return json
       .then((result) => {
         Swal.close();
+
+        if (result.status === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: result.message
+          })
+          return; // stop agar tidak lanjut ke success
+        }
 
         // Reset form setelah sukses
         formImportMahasiswa.reset();

@@ -49,7 +49,7 @@ $user = mysqli_fetch_assoc($query);
 <body class="bg-light-subtle font-poppins">
     <?php
     include('../component/sidebar.php')
-    ?>
+        ?>
 
     <div class="main-content">
         <header class="header">
@@ -62,9 +62,11 @@ $user = mysqli_fetch_assoc($query);
                 <a href="./profile.php" class="text-dark">
                     <?php
                     if ($user['profile']) { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover"
+                            src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black"
+                            src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
                     <?php }
                     ?>
                 </a>
@@ -75,14 +77,17 @@ $user = mysqli_fetch_assoc($query);
             <div class="container p-3">
                 <div class="p-4 bg-white shadow-sm rounded-1">
                     <h5 class="fw-bold text-uppercase">Pengaturan Akun</h5>
-                    <form id="formUpdateProfile" method="POST" class="row row-cols-1 row-cols-md-2 needs-validation" enctype="multipart/form-data" novalidate>
+                    <form id="formUpdateProfileStaff" method="POST"
+                        class="row row-cols-1 row-cols-md-2 needs-validation" enctype="multipart/form-data" novalidate>
                         <div class="d-flex flex-column justify-content-center align-items-center gap-2 mb-3">
                             <?php
                             if ($user['profile'] != null) { ?>
-                                <img class="profile-preview" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
+                                <img class="profile-preview" src="../static/img/profile_user/<?= $user['profile'] ?>"
+                                    alt="">
                             <?php } else {
-                            ?>
-                                <img class="profile-preview" src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
+                                ?>
+                                <img class="profile-preview"
+                                    src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
 
                             <?php } ?>
                         </div>
@@ -120,16 +125,19 @@ $user = mysqli_fetch_assoc($query);
                 </div>
                 <div class=" p-4 bg-white shadow-sm rounded-1 mt-3">
                     <h5 class="fw-bold text-uppercase">Ganti Kata Sandi</h5>
-                    <form method="POST" class="row row-cols-2 needs-validation" id="formChangePassword" novalidate autocomplete="off">
+                    <form method="POST" class="row row-cols-2 needs-validation" id="formChangePassword" novalidate
+                        autocomplete="off">
                         <div class="mb-3">
                             <label for="password" class="form-label">Kata Sandi Baru</label>
-                            <input type="text" class="form-control" name="password" required id="password" placeholder="Masukkan Password anda...">
+                            <input type="text" class="form-control" name="password" required id="password"
+                                placeholder="Masukkan Password anda...">
                             <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
-                            <input type="confirm_password" class="form-control" name="confirm_password" required id="confirm_password" placeholder="Konfirmasi Password anda...">
+                            <input type="confirm_password" class="form-control" name="confirm_password" required
+                                id="confirm_password" placeholder="Konfirmasi Password anda...">
                             <div class="invalid-feedback"></div>
                         </div>
 
@@ -147,6 +155,6 @@ $user = mysqli_fetch_assoc($query);
 <script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script type="text/javascript" src="../static/js/changePasswordStaff.js"></script>
-<script type="text/javascript" src="../static/js/updateProfile.js"></script>
+<script type="text/javascript" src="../static/js/updateProfileStaff.js"></script>
 
 </html>

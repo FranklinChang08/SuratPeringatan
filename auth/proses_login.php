@@ -26,7 +26,7 @@ if ($row) {
 
 
     if ($validPassword) {
-        if ($row['nim'] === $usernameLogin) {
+        if (isset($row['nim'])) {
             $_SESSION['nim'] = $row['nim'];
         } else {
             $_SESSION['nik'] = $row['nik'];

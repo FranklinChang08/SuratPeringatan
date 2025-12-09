@@ -421,7 +421,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="./backend/mahasiswa/import.php" novalidate enctype="multipart/form-data">
+                            <form method="POST" id="formImportMahasiswa" novalidate enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="file" class="form-label">File Data Mahasiswa</label>
                                     <input type="file" class="form-control" id="file" name="file" required>

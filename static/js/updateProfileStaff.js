@@ -1,7 +1,7 @@
-const formUpdateProfile = document.getElementById("formUpdateProfile");
+const formUpdateProfileStaff = document.getElementById("formUpdateProfileStaff");
 const profileInput = document.getElementById("profile");
 
-formUpdateProfile.addEventListener("submit", function (event) {
+formUpdateProfileStaff.addEventListener("submit", function (event) {
     event.preventDefault();
 
     let isValid = true;
@@ -34,7 +34,7 @@ formUpdateProfile.addEventListener("submit", function (event) {
 
     // Jika valid → show modal sukses
     if (isValid) {
-        form = new FormData(formUpdateProfile)
+        form = new FormData(formUpdateProfileStaff)
 
         fetch('./backend/update_profile.php', {
             method: 'POST',
@@ -52,8 +52,8 @@ formUpdateProfile.addEventListener("submit", function (event) {
                     return; // stop agar tidak lanjut ke success
                 }
 
-                formUpdateProfile.reset();
-                formUpdateProfile.classList.remove("was-validated");
+                formUpdateProfileStaff.reset();
+                formUpdateProfileStaff.classList.remove("was-validated");
 
                 Swal.fire({
                     title: "success",
