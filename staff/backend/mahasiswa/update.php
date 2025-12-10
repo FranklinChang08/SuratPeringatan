@@ -10,14 +10,14 @@ if (!isset($_SESSION['nik'])) {
 
 include_once("../../../conn.php");
 
-$nim         = $_POST['nim'] ?? null;
-$nama_user   = $_POST['nama_user'] ?? null;
-$email       = $_POST['email'] ?? null;
-$prodi_id    = $_POST['prodi_id'] ?? null;
-$kelas_id    = $_POST['kelas_id'] ?? null;
-$profile     = $_POST['profile'] ?? null;
+$id_user = $_POST['id_user'] ?? null;
+$nim = $_POST['nim'] ?? null;
+$nama_user = $_POST['nama_user'] ?? null;
+$email = $_POST['email'] ?? null;
+$prodi_id = $_POST['prodi_id'] ?? null;
+$kelas_id = $_POST['kelas_id'] ?? null;
 
-$cek_user = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email' OR nim = '$nim'");
+$cek_user = mysqli_query($conn, "SELECT * FROM tb_user WHERE (email = '$email' OR nim = '$nim') AND id_user != '$id_user'");
 if (mysqli_num_rows($cek_user) > 0) {
     echo json_encode([
         "status" => "error",
@@ -32,7 +32,7 @@ if (mysqli_num_rows($cek_user) > 0) {
 $query = mysqli_query(
     $conn,
     "UPDATE tb_user SET 
-     nim = '$nim', null, nama_user = '$nama_user', email = '$email', prodi_id = '$prodi_id', kelas_id = '$kelas_id', profile = '$profile', 'Mahasiswa' WHERE id_user = '$id_user'"
+     nim = '$nim', nama_user = '$nama_user', email = '$email', prodi_id = '$prodi_id', kelas_id = '$kelas_id' WHERE id_user = '$id_user' AND role = 'Mahasiswa'"
 );
 
 if ($query) {

@@ -25,21 +25,6 @@ formCreatePelanggaran.addEventListener('submit', function (event) {
     jenisSuratInputCreate.classList.add('is-invalid')
     isValid = false
   }
-  const tanggalFeedbackCreate = tanggalInputCreate.nextElementSibling;
-  tanggalInputCreate.classList.remove('is-invalid')
-  if (tanggalInputCreate.value === '') {
-    tanggalFeedbackCreate.textContent = 'Silahkan pilih tanggal'
-    tanggalInputCreate.classList.add('is-invalid')
-    isValid = false
-  }
-
-  // const statusFeedbackCreate = statusInputCreate.nextElementSibling;
-  // statusInputCreate.classList.remove('is-invalid')
-  // if (statusInputCreate.value === '') {
-  //   statusFeedbackCreate.textContent = 'Silahkan pilih status'
-  //   statusInputCreate.classList.add('is-invalid')
-  //   isValid = false
-  // }
 
   const keteranganFeedbackCreate = keteranganInputCreate.nextElementSibling;
   keteranganInputCreate.classList.remove('is-invalid')
@@ -131,21 +116,6 @@ formEditPelanggaran.addEventListener('submit', function (event) {
     jenisSuratInputEdit.classList.add('is-invalid')
     isValid = false
   }
-  const tanggalFeedbackEdit = tanggalInputEdit.nextElementSibling;
-  tanggalInputEdit.classList.remove('is-invalid')
-  if (tanggalInputEdit.value === '') {
-    tanggalFeedbackEdit.textContent = 'Silahkan pilih tanggal'
-    tanggalInputEdit.classList.add('is-invalid')
-    isValid = false
-  }
-
-  // const statusFeedbackEdit = statusInputEdit.nextElementSibling;
-  // statusInputEdit.classList.remove('is-invalid')
-  // if (statusInputEdit.value === '') {
-  //   statusFeedbackEdit.textContent = 'Silahkan pilih status'
-  //   statusInputEdit.classList.add('is-invalid')
-  //   isValid = false
-  // }
 
   const keteranganFeedbackEdit = keteranganInputEdit.nextElementSibling;
   keteranganInputEdit.classList.remove('is-invalid')

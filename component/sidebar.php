@@ -12,7 +12,7 @@ function activeSidebar($urlLink)
     <div class="wrapper">
         <div class="sidebar-title py-2">
             <img src="../static/img/logo.png" alt="">
-            <h2 class="fw-bold">Surat Peringatan</h2>
+            <h2 class="fw-bold">NotiCampus</h2>
         </div>
         <ul class="mt-4 p-0 pe-3">
             <li>

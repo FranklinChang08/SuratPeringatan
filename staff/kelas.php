@@ -61,7 +61,7 @@ $end = min($total_page, $start + $range - 1);
 $start = max(1, $end - $range + 1);
 
 $start_asc = ($page - 1) * $limit + 1;
-$end_asc   = $page * $limit;
+$end_asc = $page * $limit;
 
 if ($end_asc > $total_data) {
   $end_asc = $total_data;
@@ -119,9 +119,11 @@ while ($row = mysqli_fetch_assoc($prodi)) {
         <a href="./profile.php" class="text-dark">
           <?php
           if ($user['profile']) { ?>
-            <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
+            <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover"
+              src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
           <?php } else { ?>
-            <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+            <img style="width: 40px; height: 40px;" class="rounded-circle border border-black"
+              src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
           <?php }
           ?>
         </a>
@@ -133,9 +135,9 @@ while ($row = mysqli_fetch_assoc($prodi)) {
         <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
           <button type="button" class="btn btn-primary font-poppins" data-bs-toggle="modal"
             data-bs-target="#createKelas">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-plus-icon lucide-plus">
               <path d="M5 12h14" />
               <path d="M12 5v14" />
             </svg>
@@ -143,12 +145,14 @@ while ($row = mysqli_fetch_assoc($prodi)) {
 
           <form action="" class="form-search">
             <label for="search">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-search-icon lucide-search">
                 <path d="m21 21-4.34-4.34" />
                 <circle cx="11" cy="11" r="8" />
               </svg>
             </label>
-            <input type="text" name="search" id="search" placeholder="Cari...">
+            <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari...">
           </form>
         </div>
       </div>
@@ -159,24 +163,27 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
             </p>
           </div>
-          <form action="" class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+          <form action=""
+            class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2"
+            autocomplete="off">
             <select name="prodi" id="" class="form-select">
               <option value="">Program Studi</option>
               <?php
-              foreach ($data_prodi as $row) { ?>
-                <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+              foreach ($list_prodi as $row) { ?>
+                <option <?= $prodi_filter == $row['id_prodi'] ? "selected" : "" ?> value="<?= $row['id_prodi'] ?>">
+                  <?= $row['nama_prodi'] ?></option>
               <?php } ?>
             </select>
             <select name="semester" id="" class="form-select">
               <option value="">Semester</option>
-              <option value="1">Semester 1</option>
-              <option value="2">Semester 2</option>
-              <option value="3">Semester 3</option>
-              <option value="4">Semester 4</option>
-              <option value="5">Semester 5</option>
-              <option value="6">Semester 6</option>
-              <option value="7">Semester 7</option>
-              <option value="8">Semester 8</option>
+              <option <?= $semester_filter == "1" ? "selected" : "" ?> value="1">Semester 1</option>
+              <option <?= $semester_filter == "2" ? "selected" : "" ?> value="2">Semester 2</option>
+              <option <?= $semester_filter == "3" ? "selected" : "" ?> value="3">Semester 3</option>
+              <option <?= $semester_filter == "4" ? "selected" : "" ?> value="4">Semester 4</option>
+              <option <?= $semester_filter == "5" ? "selected" : "" ?> value="5">Semester 5</option>
+              <option <?= $semester_filter == "6" ? "selected" : "" ?> value="6">Semester 6</option>
+              <option <?= $semester_filter == "7" ? "selected" : "" ?> value="7">Semester 7</option>
+              <option <?= $semester_filter == "8" ? "selected" : "" ?> value="8">Semester 8</option>
             </select>
             <button type="submit" class="btn btn-primary">Filter</button>
           </form>
@@ -198,7 +205,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <?php
               $no = $offset + 1;
               while ($row = mysqli_fetch_array($select_kelas)) {
-              ?>
+                ?>
                 <tr>
                   <td><?= $no++ ?></td>
                   <td><?= $row['nama_prodi'] ?></td>
@@ -212,9 +219,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                       data-prodi="<?= $row['prodi_id'] ?>" data-semester="<?= $row['semester'] ?>"
                       data-nama="<?= $row['nama_kelas'] ?>" data-jadwal="<?= $row['jadwal'] ?>"
                       data-dosen="<?= $row['nama_dosen'] ?>">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="lucide lucide-square-pen-icon lucide-square-pen">
                         <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                         <path
@@ -222,14 +228,11 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                       </svg>
                     </button>
 
-                    <form action="./backend/kelas/delete.php" method="POST"
-                      onsubmit="return confirmRemove(event)">
+                    <form action="./backend/kelas/delete.php" method="POST" onsubmit="return confirmRemove(event)">
                       <input type="hidden" name="id_kelas" value="<?= $row['id_kelas'] ?>">
-                      <button class="btn btn-danger py-1 px-2" type="submit" name="submit"
-                        value="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <button class="btn btn-danger py-1 px-2" type="submit" name="submit" value="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="M10 11v6" />
                           <path d="M14 11v6" />
                           <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
@@ -264,8 +267,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <div class="d-flex justify-content-center align-items-center gap-2">
                 <!-- range halaman -->
                 <?php for ($i = $start; $i <= $end; $i++): ?>
-                  <a href="?page=<?= $i ?>"
-                    class="btn
+                  <a href="?page=<?= $i ?>" class="btn
            <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
                     <?= $i ?>
                   </a>
@@ -293,8 +295,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form method="POST" class="needs-validation" novalidate id="FormCreateKelas" autocomplete="off"
-                onsubmit="return validateCreate(event)">
+              <form method="POST" class="needs-validation" novalidate id="FormCreateKelas" autocomplete="off">
                 <div class="mb-3">
                   <label for="prodi" class="form-label">Program Studi</label>
                   <select class="form-select" name="prodi_id" id="programstudi" required>
@@ -304,19 +305,22 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                       <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
                     <?php } ?>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="mb-3 row">
                   <div class="col">
                     <label for="semester" class="form-label">Semester</label>
-                    <input type="number" min="1" max="8" name="semester"
-                      class="form-control" id="semester" required placeholder="Masukkan semester...">
+                    <input type="number" min="1" max="8" name="semester" class="form-control" id="semester" required
+                      placeholder="Masukkan semester...">
+                    <div class="invalid-feedback"></div>
                   </div>
 
                   <div class="col">
                     <label for="kelas" class="form-label">Nama Kelas</label>
                     <input type="text" class="form-control" name="nama_kelas" id="kelas" required
                       placeholder="Masukkan nama kelas...">
+                    <div class="invalid-feedback"></div>
                   </div>
                 </div>
 
@@ -327,18 +331,19 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                     <option value="Pagi">Pagi</option>
                     <option value="Malam">Malam</option>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="mb-3">
                   <label for="walidosen" class="form-label">Wali Dosen</label>
                   <input type="text" class="form-control" name="nama_dosen" id="walidosen" required
                     placeholder="Masukkan wali dosen...">
+                  <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                  <input type="button" name="submit" class="btn btn-primary" onclick="createKelas()"
-                    value="Kirim">
+                  <input type="submit" name="submit" class="btn btn-primary" value="Kirim">
                 </div>
               </form>
             </div>
@@ -355,8 +360,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="" method="POST" class="needs-validation" novalidate id="FormEditKelas"
-                autocomplete="off">
+              <form id="FormUpdateKelas" method="POST" class="needs-validation" novalidate autocomplete="off">
                 <div class="mb-3">
                   <label for="prodi" class="form-label">Program Studi</label>
                   <select class="form-select" name="prodi_id" id="editprogramstudi" required>
@@ -366,20 +370,22 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                       <option value="<?= $prodi['id_prodi'] ?>"><?= $prodi['nama_prodi'] ?></option>
                     <?php } ?>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="row mb-3">
                   <div class="col">
                     <label for="semester" class="form-label">Semester</label>
-                    <input type="number" name="semester" min="1" max="8"
-                      class="form-control" id="editsemester" value="" required
-                      placeholder="Masukkan semester...">
+                    <input type="number" name="semester" min="1" max="8" class="form-control" id="editsemester" value=""
+                      required placeholder="Masukkan semester...">
+                    <div class="invalid-feedback"></div>
                   </div>
 
                   <div class="col">
                     <label for="kelas" class="form-label">Nama Kelas</label>
-                    <input type="text" name="nama_kelas" class="form-control" id="editkelas"
-                      value="" required placeholder="Masukkan nama kelas...">
+                    <input type="text" name="nama_kelas" class="form-control" id="editkelas" value="" required
+                      placeholder="Masukkan nama kelas...">
+                    <div class="invalid-feedback"></div>
                   </div>
                 </div>
 
@@ -390,19 +396,20 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                     <option value="Pagi">Pagi</option>
                     <option value="Malam">Malam</option>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="mb-3">
                   <label for="walidosen" class="form-label">Wali Dosen</label>
-                  <input type="text" name="nama_dosen" class="form-control" id="editwalidosen"
-                    value="" required placeholder="Masukkan wali dosen...">
+                  <input type="text" name="nama_dosen" class="form-control" id="editwalidosen" value="" required
+                    placeholder="Masukkan wali dosen...">
+                  <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                   <input type="hidden" name="id_kelas" id="id_kelas" value="">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                  <input type="button" name="submit" class="btn btn-warning" onclick="editKelas()"
-                    value="Simpan">
+                  <input type="submit" name="submit" class="btn btn-warning" value="Simpan">
                 </div>
               </form>
             </div>
@@ -418,7 +425,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
 <script src="../static/js/validationFormKelas.js"></script>
 <script src="../static/js/confirmLogout.js"></script>
 <script>
-  document.getElementById('editKelas').addEventListener('show.bs.modal', function(event) {
+  document.getElementById('editKelas').addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget; // tombol yang diklik
 
     // Ambil data dari tombol

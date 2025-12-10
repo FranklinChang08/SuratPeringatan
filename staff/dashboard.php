@@ -56,7 +56,7 @@ $total_data = $mahasiswa_count_data['total'];
 
 // Pagination
 $limit = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
 $offset = ($page - 1) * $limit;
 $total_page = ceil($total_data / $limit);
@@ -64,12 +64,12 @@ $range = 3;
 
 // Hitungan range pagination
 $start = max(1, $page - floor($range / 2));
-$end   = min($total_page, $start + $range - 1);
+$end = min($total_page, $start + $range - 1);
 $start = max(1, $end - $range + 1);
 
 // Info data (1–10 dari total)
 $start_asc = ($page - 1) * $limit + 1;
-$end_asc   = min($page * $limit, $total_data);
+$end_asc = min($page * $limit, $total_data);
 
 $mahasiswa_query .= " AND u.role = 'Mahasiswa' ORDER BY nim ASC LIMIT $offset, $limit";
 
@@ -96,7 +96,9 @@ while ($data = mysqli_fetch_assoc($kelas)) {
     <title>Data Mahasiswa | Polibatam Surat Peringatan</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
@@ -122,9 +124,11 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                 <a href="./profile.php" class="text-dark">
                     <?php
                     if ($user['profile']) { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover"
+                            src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black"
+                            src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
                     <?php }
                     ?>
                 </a>
@@ -133,17 +137,24 @@ while ($data = mysqli_fetch_assoc($kelas)) {
 
         <section id="tableMahasiswa" class="tableMahasiswa">
             <div class="container">
-                <div class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
+                <div
+                    class="button d-flex justify-content-center justify-content-md-between flex-column flex-lg-row gap-2">
                     <div class="button-group mb-2 mb-md-0 ">
                         <button type="button" id="btnCreateMahasiswaModal" class="btn btn-primary font-poppins">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                                 <path d="M5 12h14" />
                                 <path d="M12 5v14" />
                             </svg>
                             Tambah Mahasiswa</button>
-                        <button class="btn btn-primary font-poppins " data-bs-toggle="modal" data-bs-target="#ImportMahasiswa">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-output-icon lucide-folder-output">
-                                <path d="M2 7.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-1.5" />
+                        <button class="btn btn-primary font-poppins " data-bs-toggle="modal"
+                            data-bs-target="#ImportMahasiswa">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-folder-output-icon lucide-folder-output">
+                                <path
+                                    d="M2 7.5V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-1.5" />
                                 <path d="M2 13h10" />
                                 <path d="m5 10-3 3 3 3" />
                             </svg>
@@ -151,11 +162,14 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                     </div>
 
                     <form action="" class="form-search">
-                        <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+                        <label for="search"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-search-icon lucide-search">
                                 <path d="m21 21-4.34-4.34" />
                                 <circle cx="11" cy="11" r="8" />
                             </svg></label>
-                        <input type="text" name="search" id="search" placeholder="Cari...">
+                        <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari...">
                     </form>
                 </div>
             </div>
@@ -167,31 +181,34 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
                         </p>
                     </div>
-                    <form action="" class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+                    <form action=""
+                        class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2"
+                        autocomplete="off">
                         <select name="prodi" id="" class="form-select">
                             <option value="">Program Studi</option>
                             <?php
                             foreach ($list_prodi as $row) { ?>
-                                <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                                <option <?= $prodi_filter == $row['id_prodi'] ? "selected" : "" ?>
+                                    value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
                             <?php } ?>
                         </select>
                         <select name="semester" id="" class="form-select">
                             <option value="">Semester</option>
-                            <option value="1">Semester 1</option>
-                            <option value="2">Semester 2</option>
-                            <option value="3">Semester 3</option>
-                            <option value="4">Semester 4</option>
-                            <option value="5">Semester 5</option>
-                            <option value="6">Semester 6</option>
-                            <option value="7">Semester 7</option>
-                            <option value="8">Semester 8</option>
+                            <option <?= $semester_filter == "1" ? "selected" : "" ?> value="1">Semester 1</option>
+                            <option <?= $semester_filter == "2" ? "selected" : "" ?> value="2">Semester 2</option>
+                            <option <?= $semester_filter == "3" ? "selected" : "" ?> value="3">Semester 3</option>
+                            <option <?= $semester_filter == "4" ? "selected" : "" ?> value="4">Semester 4</option>
+                            <option <?= $semester_filter == "5" ? "selected" : "" ?> value="5">Semester 5</option>
+                            <option <?= $semester_filter == "6" ? "selected" : "" ?> value="6">Semester 6</option>
+                            <option <?= $semester_filter == "7" ? "selected" : "" ?> value="7">Semester 7</option>
+                            <option <?= $semester_filter == "8" ? "selected" : "" ?> value="8">Semester 8</option>
                         </select>
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>
                 </div>
                 <?php
                 if ($total_data > 0) {
-                ?>
+                    ?>
                     <table>
                         <thead>
                             <tr>
@@ -207,28 +224,36 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <?php
                             $no = $offset + 1;
                             while ($row = mysqli_fetch_array($select_mahasiswa)) {
-                            ?>
+                                ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
-                                    <td><?= $row['nama_user']  ?></td>
-                                    <td><?= $row['email']  ?></td>
-                                    <td><?= $row['nama_prodi']  ?></td>
-                                    <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal']  ?></td>
+                                    <td><?= $row['nama_user'] ?></td>
+                                    <td><?= $row['email'] ?></td>
+                                    <td><?= $row['nama_prodi'] ?></td>
+                                    <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal'] ?>
+                                    </td>
                                     <td class="d-flex align-items-center">
-                                        <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMahasiswa"
+                                        <button type="button" class="btn btn-warning me-2 py-1 px-2" class="btn btn-primary"
+                                            data-bs-toggle="modal" data-bs-target="#editMahasiswa"
                                             data-id="<?= $row['id_user'] ?>" data-nim="<?= $row['nim'] ?>"
-                                            data-prodi="<?= $row['prodi_id'] ?>" data-kelas="<?= $row['kelas_id'] ?>" data-nama="<?= $row['nama_user'] ?>"
-                                            data-email="<?= $row['email'] ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
+                                            data-prodi="<?= $row['prodi_id'] ?>" data-kelas="<?= $row['kelas_id'] ?>"
+                                            data-nama="<?= $row['nama_user'] ?>" data-email="<?= $row['email'] ?>">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
                                                 <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                                                <path
+                                                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
                                             </svg>
                                         </button>
 
-                                        <form action="./backend/mahasiswa/delete.php" method="POST" onsubmit="return confirmRemove(event)">
+                                        <form action="./backend/mahasiswa/delete.php" method="POST"
+                                            onsubmit="return confirmRemove(event)">
                                             <input type="hidden" name="id_user" value="<?= $row['id_user'] ?>">
                                             <button class="btn btn-danger py-1 px-2" type="submit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round">
                                                     <path d="M10 11v6" />
                                                     <path d="M14 11v6" />
                                                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
@@ -242,7 +267,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <?php } ?>
                         </tbody>
                     </table>
-                <?php
+                    <?php
                 } else { ?>
                     <div class="container mb-0 p-0 shadow-none">
                         <div class="alert alert-primary  mb-0" role="alert">
@@ -265,8 +290,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <!-- range halaman -->
                                 <?php for ($i = $start; $i <= $end; $i++): ?>
-                                    <a href="?page=<?= $i ?>"
-                                        class="btn
+                                    <a href="?page=<?= $i ?>" class="btn
                             <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
                                         <?= $i ?>
                                     </a>
@@ -287,7 +311,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
 
 
             <!-- Modal -->
-            <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
+            <div class="modal fade" id="createMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="createMahasiswaLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -298,17 +323,20 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <form method="POST" class="needs-validation" novalidate id="FormCreateMahasiswa">
                                 <div class="mb-3">
                                     <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
-                                    <input type="number" name="nim" class="form-control" id="nimCreate" placeholder="Masukkan nim mahasiswa..." required>
+                                    <input type="number" name="nim" class="form-control" id="nimCreate"
+                                        placeholder="Masukkan nim mahasiswa..." required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="namaCreate" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" name="nama_user" class="form-control" id="namaCreate" placeholder="Masukkan nama mahasiswa" required>
+                                    <input type="text" name="nama_user" class="form-control" id="namaCreate"
+                                        placeholder="Masukkan nama mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="emailCreate" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" id="emailCreate" placeholder="Masukkan email mahasiswa" required>
+                                    <input type="email" name="email" class="form-control" id="emailCreate"
+                                        placeholder="Masukkan email mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <!-- <div class="mb-3">
@@ -324,7 +352,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                 </div> -->
                                 <div class="mb-3">
                                     <label for="prodiCreate" class="form-label">Program Studi</label>
-                                    <select class="form-select" name="prodi_id" id="prodiCreate" aria-label="Default select example" required>
+                                    <select class="form-select" name="prodi_id" id="prodiCreate"
+                                        aria-label="Default select example" required>
                                         <option value="" selected>Pilih Program Studi Mahasiswa</option>
                                         <?php
                                         foreach ($list_prodi as $row) { ?>
@@ -339,13 +368,17 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                         <option value="">Pilih Kelas</option>
                                         <?php
                                         foreach ($list_kelas as $kelas) { ?>
-                                            <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
+                                            <option value="<?= $kelas['id_kelas'] ?>"
+                                                data-prodi="<?= $kelas['prodi_id'] ?>">
+                                                <?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal'] ?>
+                                            </option>
                                         <?php } ?>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-primary">Kirim</button>
                                 </div>
                             </form>
@@ -355,7 +388,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                 </div>
             </div>
 
-            <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editMahasiswaLabel" aria-hidden="true">
+            <div class="modal fade" id="editMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="editMahasiswaLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -366,26 +400,31 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                             <form action="" method="POST" class="needs-validation" novalidate id="FormEditMahasiswa">
                                 <div class="mb-3">
                                     <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
-                                    <input type="text" name="nim" class="form-control" id="nimEdit" placeholder="Masukkan nim mahasiswa..." required>
+                                    <input type="text" name="nim" class="form-control" id="nimEdit"
+                                        placeholder="Masukkan nim mahasiswa..." required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="namaEdit" class="form-label">Nama Mahasiswa</label>
-                                    <input type="text" name="nama_user" class="form-control" id="namaEdit" placeholder="Masukkan nama mahasiswa" required>
+                                    <input type="text" name="nama_user" class="form-control" id="namaEdit"
+                                        placeholder="Masukkan nama mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="emailEdit" class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" id="emailEdit" placeholder="Masukkan email mahasiswa" required>
+                                    <input type="email" name="email" class="form-control" id="emailEdit"
+                                        placeholder="Masukkan email mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="prodiEdit" class="form-label">Program Studi</label>
-                                    <select class="form-select" name="prodi_id" id="prodiEdit" aria-label="Default select example" required>
+                                    <select class="form-select" name="prodi_id" id="prodiEdit"
+                                        aria-label="Default select example" required>
                                         <option value="" selected>Pilih Program Studi Mahasiswa</option>
                                         <?php
                                         foreach ($list_prodi as $row) { ?>
                                             <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+
                                         <?php }
                                         ?>
                                     </select>
@@ -397,14 +436,18 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                         <option value="">Pilih Kelas</option>
                                         <?php
                                         foreach ($list_kelas as $kelas) { ?>
-                                            <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal']  ?></option>
+                                            <option value="<?= $kelas['id_kelas'] ?>"
+                                                data-prodi="<?= $kelas['prodi_id'] ?>">
+                                                <?= $kelas['kode_prodi'] . " " . $kelas['semester'] . $kelas['nama_kelas'] . " - " . $kelas['jadwal'] ?>
+                                            </option>
                                         <?php } ?>
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
                                     <input type="hidden" name="id_user" id="idEdit" value="">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-primary">Kirim</button>
                                 </div>
                             </form>
@@ -413,7 +456,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                 </div>
             </div>
 
-            <div class="modal fade" id="ImportMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ImportMahasiswaLabel" aria-hidden="true">
+            <div class="modal fade" id="ImportMahasiswa" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="ImportMahasiswaLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -428,7 +472,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-primary">Kirim</button>
                                 </div>
                             </form>
@@ -448,8 +493,48 @@ while ($data = mysqli_fetch_assoc($kelas)) {
 <script src="../static/js/validationFormMahasiswa.js"></script>
 <script src="../static/js/confirmLogout.js"></script>
 
+
 <script>
-    document.getElementById('btnCreateMahasiswaModal').addEventListener('click', function() {
+    const prodiSelectCreate = document.getElementById("prodiCreate");
+    const kelasSelectCreate = document.getElementById("kelasCreate");
+    const allKelasOptionsCreate = Array.from(kelasSelectCreate.querySelectorAll("option"));
+
+    prodiSelectCreate.addEventListener("change", function () {
+        const selectedProdi = this.value;
+
+        // Reset kelas
+        kelasSelectCreate.innerHTML = '<option value="">Pilih Kelas</option>';
+
+        // Filter option berdasarkan data-prodi
+        allKelasOptionsCreate.forEach(opt => {
+            if (opt.dataset.prodi === selectedProdi) {
+                kelasSelectCreate.appendChild(opt);
+            }
+        });
+    });
+
+    const prodiSelectEdit = document.getElementById("prodiEdit");
+    const kelasSelectEdit = document.getElementById("kelasEdit");
+    const allKelasOptionsEdit = Array.from(kelasSelectEdit.querySelectorAll("option"));
+
+    prodiSelectEdit.addEventListener("change", function () {
+        const selectedProdi = this.value;
+
+        // Reset kelas
+        kelasSelectEdit.innerHTML = '<option value="">Pilih Kelas</option>';
+
+        // Filter option berdasarkan data-prodi
+        allKelasOptionsEdit.forEach(opt => {
+            if (opt.dataset.prodi === selectedProdi) {
+                kelasSelectEdit.appendChild(opt);
+            }
+        });
+    });
+
+</script>
+
+<script>
+    document.getElementById('btnCreateMahasiswaModal').addEventListener('click', function () {
 
         let kelasCount = <?php echo $kelasCount ?>; // ambil dari PHP
 
@@ -467,7 +552,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
         }
     });
 
-    document.getElementById('editMahasiswa').addEventListener('show.bs.modal', function(event) {
+    document.getElementById('editMahasiswa').addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget; // tombol yang diklik
 
         // Ambil data dari tombol

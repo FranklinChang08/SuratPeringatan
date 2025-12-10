@@ -41,8 +41,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
 }
 
 // Ambil semua data pelanggaran + nama mahasiswa
-$pelanggaran_query = "SELECT * FROM tb_pelanggaran p INNER JOIN tb_user u ON p.mahasiswa_id = u.id_user INNER JOIN tb_kelas k ON k.id_kelas = u.kelas_id INNER JOIN tb_prodi s ON s.id_prodi = k.prodi_id WHERE 1=1";
-$pelanggaran_count_query = "SELECT COUNT(*) AS total FROM tb_pelanggaran p INNER JOIN tb_user u ON p.mahasiswa_id = u.id_user INNER JOIN tb_kelas k ON k.id_kelas = u.kelas_id INNER JOIN tb_prodi s ON s.id_prodi = k.prodi_id WHERE 1=1";
+$pelanggaran_query = "SELECT * FROM tb_pelanggaran p INNER JOIN tb_user u ON p.mahasiswa_id = u.id_user INNER JOIN tb_kelas k ON k.id_kelas = u.kelas_id INNER JOIN tb_prodi s ON s.id_prodi = u.prodi_id WHERE 1=1";
+$pelanggaran_count_query = "SELECT COUNT(*) AS total FROM tb_pelanggaran p INNER JOIN tb_user u ON p.mahasiswa_id = u.id_user INNER JOIN tb_kelas k ON k.id_kelas = u.kelas_id INNER JOIN tb_prodi s ON s.id_prodi = u.prodi_id WHERE 1=1";
 
 if ($search) {
     $pelanggaran_query .= " AND (u.nama_user LIKE '%$search%') OR (u.nim = '$search') OR (u.email LIKE '%$search%')";
@@ -78,7 +78,7 @@ $end = min($total_page, $start + $range - 1);
 $start = max(1, $end - $range + 1);
 
 $start_asc = ($page - 1) * $limit + 1;
-$end_asc   = $page * $limit;
+$end_asc = $page * $limit;
 
 if ($end_asc > $total_data) {
     $end_asc = $total_data;
@@ -181,9 +181,11 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                 <a href="./profile.php" class="text-dark">
                     <?php
                     if ($user['profile']) { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover" src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover"
+                            src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black"
+                            src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
                     <?php }
                     ?>
                 </a>
@@ -195,7 +197,9 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                 <div class="button d-flex justify-content-between flex-column flex-lg-row gap-2">
                     <div class="button-group mb-2 mb-md-0 ">
                         <button type="button" class="btn btn-primary font-poppins" id="btnCreatePelanggaranModal">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
                                 <path d="M5 12h14" />
                                 <path d="M12 5v14" />
                             </svg>
@@ -206,12 +210,14 @@ function tanggalIndonesia($tanggal, $formatJam = true)
 
                     <form action="" class="form-search">
                         <label for="search">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-search-icon lucide-search">
                                 <path d="m21 21-4.34-4.34" />
                                 <circle cx="11" cy="11" r="8" />
                             </svg>
                         </label>
-                        <input type="text" name="search" id="search" placeholder="Cari...">
+                        <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari...">
                     </form>
                 </div>
             </div>
@@ -223,24 +229,27 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                             <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
                         </p>
                     </div>
-                    <form action="" class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2" autocomplete="off">
+                    <form action=""
+                        class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-center align-items-center gap-2"
+                        autocomplete="off">
                         <select name="prodi" id="" class="form-select">
                             <option value="">Program Studi</option>
                             <?php
                             foreach ($list_prodi as $row) { ?>
-                                <option value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
+                                <option <?= $prodi_filter == $row['id_prodi'] ? "selected" : "" ?>
+                                    value="<?= $row['id_prodi'] ?>"><?= $row['nama_prodi'] ?></option>
                             <?php } ?>
                         </select>
                         <select name="semester" id="" class="form-select">
                             <option value="">Semester</option>
-                            <option value="1">Semester 1</option>
-                            <option value="2">Semester 2</option>
-                            <option value="3">Semester 3</option>
-                            <option value="4">Semester 4</option>
-                            <option value="5">Semester 5</option>
-                            <option value="6">Semester 6</option>
-                            <option value="7">Semester 7</option>
-                            <option value="8">Semester 8</option>
+                            <option <?= $semester_filter == "1" ? "selected" : "" ?> value="1">Semester 1</option>
+                            <option <?= $semester_filter == "2" ? "selected" : "" ?> value="2">Semester 2</option>
+                            <option <?= $semester_filter == "3" ? "selected" : "" ?> value="3">Semester 3</option>
+                            <option <?= $semester_filter == "4" ? "selected" : "" ?> value="4">Semester 4</option>
+                            <option <?= $semester_filter == "5" ? "selected" : "" ?> value="5">Semester 5</option>
+                            <option <?= $semester_filter == "6" ? "selected" : "" ?> value="6">Semester 6</option>
+                            <option <?= $semester_filter == "7" ? "selected" : "" ?> value="7">Semester 7</option>
+                            <option <?= $semester_filter == "8" ? "selected" : "" ?> value="8">Semester 8</option>
                         </select>
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>
@@ -266,7 +275,7 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                 // // Tentukan badge class berdasarkan jenis SP
                                 // $badge_class = '';
                                 // $jenis_sp_text = $row['jenis_sp'];
-
+                        
                                 // if ($row['jenis_sp'] == 'SP 1') {
                                 //     $badge_class = 'badge-sp1';
                                 // } elseif ($row['jenis_sp'] == 'SP 2') {
@@ -274,13 +283,14 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                 // } elseif ($row['jenis_sp'] == 'SP 3') {
                                 //     $badge_class = 'badge-sp3';
                                 // }
-                            ?>
+                                ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
                                     <td><?= $row['nim'] ?> - <?= $row['nama_user'] ?></td>
                                     <td><?= $row['nama_prodi'] ?></td>
                                     <td><?= $row['jenis_sp'] ?></td>
-                                    <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal']  ?></td>
+                                    <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal'] ?>
+                                    </td>
                                     <td class="text-wrap">
                                         <?= strlen($row['keterangan']) > 50
                                             ? substr($row['keterangan'], 0, 50) . "..."
@@ -289,25 +299,27 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                     </td>
                                     <td><?= tanggalIndonesia($row['tanggal']); ?></td>
                                     <td class="d-flex align-items-center">
-                                        <button type="button"
-                                            class="btn btn-warning me-2 py-1 px-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editPelanggaran"
-                                            data-id="<?= $row['id_pelanggaran'] ?>"
-                                            data-mahasiswa="<?= $row['mahasiswa_id'] ?>"
-                                            data-jenis="<?= $row['jenis_sp'] ?>"
+                                        <button type="button" class="btn btn-warning me-2 py-1 px-2" data-bs-toggle="modal"
+                                            data-bs-target="#editPelanggaran" data-id="<?= $row['id_pelanggaran'] ?>"
+                                            data-mahasiswa="<?= $row['mahasiswa_id'] ?>" data-jenis="<?= $row['jenis_sp'] ?>"
                                             data-tanggal="<?= date('Y-m-d', strtotime($row['tanggal'])) ?>"
                                             data-keterangan="<?= htmlspecialchars($row['keterangan']) ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen">
                                                 <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                                                <path
+                                                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
                                             </svg>
                                         </button>
 
-                                        <form action="./backend/pelanggaran/delete.php" method="POST" onsubmit="return confirmRemove(event)">
+                                        <form action="./backend/pelanggaran/delete.php" method="POST"
+                                            onsubmit="return confirmRemove(event)">
                                             <input type="hidden" name="id_pelanggaran" value="<?= $row['id_pelanggaran'] ?>">
                                             <button class="btn btn-danger py-1 px-2" type="submit" name="submit" value="submit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round">
                                                     <path d="M10 11v6" />
                                                     <path d="M14 11v6" />
                                                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
@@ -342,8 +354,7 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <!-- range halaman -->
                                 <?php for ($i = $start; $i <= $end; $i++): ?>
-                                    <a href="?page=<?= $i ?>"
-                                        class="btn <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
+                                    <a href="?page=<?= $i ?>" class="btn <?= $page == $i ? 'btn-dark' : 'btn-outline-dark' ?>">
                                         <?= $i ?>
                                     </a>
                                 <?php endfor; ?>
@@ -362,7 +373,8 @@ function tanggalIndonesia($tanggal, $formatJam = true)
 
 
             <!-- Modal Create -->
-            <div class="modal fade" id="createPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createPelanggaranLabel" aria-hidden="true">
+            <div class="modal fade" id="createPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="createPelanggaranLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -370,15 +382,18 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" id="formCreatePelanggaran" class="needs-validation" novalidate autocomplete="off">
+                            <form method="POST" id="formCreatePelanggaran" class="needs-validation" novalidate
+                                autocomplete="off">
                                 <div class="mb-3">
                                     <label for="mahasiswaCreate" class="form-label">Mahasiswa</label>
                                     <select class="form-select" name="mahasiswa_id" id="mahasiswaCreate" required>
                                         <option value="" selected>Pilih Mahasiswa</option>
                                         <?php
                                         foreach ($list_mahasiswa as $mhs) {
-                                        ?>
-                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> - <?= $mhs['nama_user'] ?></option>
+                                            ?>
+                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> -
+                                                <?= $mhs['nama_user'] ?>
+                                            </option>
                                         <?php } ?>
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -394,17 +409,14 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="tanggalCreate" class="form-label">Tanggal</label>
-                                    <input type="date" name="tanggal" class="form-control" id="tanggalCreate" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="mb-3">
                                     <label for="keteranganCreate" class="form-label">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" id="keteranganCreate" rows="3" required></textarea>
+                                    <textarea class="form-control" name="keterangan" id="keteranganCreate" rows="3"
+                                        required></textarea>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
                                 </div>
                             </form>
@@ -414,7 +426,8 @@ function tanggalIndonesia($tanggal, $formatJam = true)
             </div>
 
             <!-- Modal Edit -->
-            <div class="modal fade" id="editPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editPelanggaranLabel" aria-hidden="true">
+            <div class="modal fade" id="editPelanggaran" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="editPelanggaranLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -422,7 +435,8 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="./backend/pelanggaran/update.php" id="formEditPelanggaran" class="needs-validation" novalidate autocomplete="off">
+                            <form method="POST" action="./backend/pelanggaran/update.php" id="formEditPelanggaran"
+                                class="needs-validation" novalidate autocomplete="off">
                                 <input type="hidden" name="id_pelanggaran" id="id_pelanggaran">
                                 <div class="mb-3">
                                     <label for="mahasiswaEdit" class="form-label">Mahasiswa</label>
@@ -430,8 +444,10 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                         <option value="" selected>Pilih Mahasiswa</option>
                                         <?php
                                         foreach ($list_mahasiswa as $mhs) {
-                                        ?>
-                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> - <?= $mhs['nama_user'] ?></option>
+                                            ?>
+                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> -
+                                                <?= $mhs['nama_user'] ?>
+                                            </option>
                                         <?php } ?>
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -447,18 +463,15 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="tanggalEdit" class="form-label">Tanggal</label>
-                                    <input type="date" name="tanggal" class="form-control" id="tanggalEdit" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="mb-3">
                                     <label for="keteranganEdit" class="form-label">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" id="keteranganEdit" rows="3" required></textarea>
+                                    <textarea class="form-control" name="keterangan" id="keteranganEdit" rows="3"
+                                        required></textarea>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div>
                                     <input type="hidden" name="id_pelanggaran" id="id_pelanggaranEdit" value="">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <input type="submit" name="submit" value="Kirim" class="btn btn-primary">
                                 </div>
                             </form>
@@ -479,7 +492,7 @@ function tanggalIndonesia($tanggal, $formatJam = true)
 
 <script>
     // Button Create Modal dengan validasi mahasiswa count
-    document.getElementById('btnCreatePelanggaranModal').addEventListener('click', function() {
+    document.getElementById('btnCreatePelanggaranModal').addEventListener('click', function () {
         let mahasiswaCount = <?php echo $mahasiswaCount ?>;
         if (mahasiswaCount === 0) {
             Swal.fire({
@@ -495,20 +508,18 @@ function tanggalIndonesia($tanggal, $formatJam = true)
     });
 
     // Edit Modal - Populate Data
-    document.getElementById('editPelanggaran').addEventListener('show.bs.modal', function(event) {
+    document.getElementById('editPelanggaran').addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
 
         const id = button.getAttribute('data-id');
         const mahasiswa = button.getAttribute('data-mahasiswa');
         const jenis = button.getAttribute('data-jenis');
-        const tanggal = button.getAttribute('data-tanggal');
         const keterangan = button.getAttribute('data-keterangan');
 
         document.getElementById('id_pelanggaranEdit').value = id;
         document.getElementById('mahasiswaEdit').value = mahasiswa;
         document.getElementById('jenis_suratEdit').value = jenis;
-        document.getElementById('tanggalEdit').value = tanggal;
-        document.getElementById('keteranganEdit').value = keterangan;
+        document.getElementById("keteranganEdit").value = keterangan;
     });
 </script>
 
