@@ -95,8 +95,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
     integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="../framework/node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="../framework/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 
   <link rel="stylesheet" href="../static/style/font.css">
   <link rel="stylesheet" href="../static/style/sidebar.css">

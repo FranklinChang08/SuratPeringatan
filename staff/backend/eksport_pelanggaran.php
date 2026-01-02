@@ -4,7 +4,7 @@ while (ob_get_level()) {
     ob_end_clean();
 }
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../framework/vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;

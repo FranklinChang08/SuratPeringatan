@@ -290,32 +290,53 @@ $select_pelanggaran = mysqli_query($conn, "SELECT * FROM tb_pelanggaran AS p INN
             <div class="col-lg-8">
                 <div class="p-4 shadow-sm bg-white rounded-3 h-100">
                     <h2 class="fw-bold text-uppercase mb-4">Data Pelanggaran</h2>
+                    <?php if (mysqli_num_rows($select_pelanggaran) > 0) {
+                        while ($row = mysqli_fetch_array($select_pelanggaran)) { ?>
+                            <div class="card bg-light shadow-sm p-3 mb-3">
+                                <div class="w-100 row">
+                                    <?php
+                                    $mapJenis = [
+                                        "SP 1" => "Surat Peringatan 1",
+                                        "SP 2" => "Surat Peringatan 2",
+                                        "SP 3" => "Surat Peringatan 3"
+                                    ];
 
-                    <?php while ($row = mysqli_fetch_array($select_pelanggaran)) { ?>
-                        <div class="card bg-light shadow-sm p-3 mb-3">
-                            <div class="w-100 row">
-                                <?php
-                                $mapJenis = [
-                                    "SP 1" => "Surat Peringatan 1",
-                                    "SP 2" => "Surat Peringatan 2",
-                                    "SP 3" => "Surat Peringatan 3"
-                                ];
-
-                                $jenisLengkap = $mapJenis[$row['jenis_sp']] ?? $row['jenis_sp'];
-                                ?>
-                                <h4 class="col-12 col-lg-6 mb-0 fw-bold text-uppercase"><?= $jenisLengkap ?></h4>
-                                <p class="col-12 col-lg-6 mb-0 text-start text-lg-end p-lg-0"><?= tanggalIndonesia($row['tanggal']) ?></p>
+                                    $jenisLengkap = $mapJenis[$row['jenis_sp']] ?? $row['jenis_sp'];
+                                    ?>
+                                    <h4 class="col-12 col-lg-6 mb-0 fw-bold text-uppercase"><?= $jenisLengkap ?></h4>
+                                    <p class="col-12 col-lg-6 mb-0 text-start text-lg-end p-lg-0">
+                                        <?= tanggalIndonesia($row['tanggal']) ?>
+                                    </p>
+                                </div>
+                                <p class="fs-6 mt-2"><?= $row['keterangan'] ?></p>
+                                <div class="alert alert-warning mb-0 d-flex align-items-center gap-2" role="alert">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
+                                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                        <path d="M12 9v4" />
+                                        <path d="M12 17h.01" />
+                                    </svg>
+                                    <span>Silahkan hubungi wali kelas segera!!!</span>
+                                </div>
                             </div>
-                            <p class="fs-6 mt-2"><?= $row['keterangan'] ?></p>
-                            <div class="alert alert-warning mb-0 d-flex align-items-center gap-2" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        <?php }
+                    } else { ?>
+                        <div class="alert alert-primary mb-0" role="alert">
+                            <div class="d-flex gap-4 align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
                                     <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
                                     <path d="M12 9v4" />
                                     <path d="M12 17h.01" />
                                 </svg>
-                                <span>Silahkan hubungi wali kelas segera!!!</span>
+                                <div>
+                                    <h4 class="fw-bold mb-0">Tidak terdapat surat peringatan untuk Mahasiswa ini.</h4>
+                                    <p class="mb-0 fs-6">Mahasiswa tercatat tidak memiliki pelanggaran dan berada dalam
+                                        status
+                                        baik.</p>
+                                </div>
                             </div>
                         </div>
                     <?php } ?>

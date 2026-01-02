@@ -14,8 +14,8 @@ formChangePassword.addEventListener('submit', function (event) {
         passwordFeedback.textContent = 'Silahkan masukkan password';
         passwordInput.classList.add('is-invalid');
         isValid = false;
-    } else if (passwordInput.value.length < 8) {
-        passwordFeedback.textContent = 'Password harus lebih dari 8 karakter';
+    } else if (passwordInput.value.length < 6) {
+        passwordFeedback.textContent = 'Password harus lebih dari 6 karakter';
         passwordInput.classList.add('is-invalid');
         isValid = false;
     } else {
@@ -34,8 +34,8 @@ formChangePassword.addEventListener('submit', function (event) {
         passwordconfirmFeedback.textContent = 'Konfirmasi password harus sama dengan password baru';
         confirmpasswordInput.classList.add('is-invalid');
         isValid = false;
-    } else if (confirmpasswordInput.value.length < 8) {
-        passwordFeedback.textContent = 'Password harus lebih dari 8 karakter';
+    } else if (confirmpasswordInput.value.length < 6) {
+        passwordFeedback.textContent = 'Password harus lebih dari 6 karakter';
         passwordInput.classList.add('is-invalid');
         isValid = false;
     } else {

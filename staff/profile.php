@@ -26,8 +26,8 @@ $user = mysqli_fetch_assoc($query);
     <title>Profile Page | Polibatam Surat Peringatan</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../framework/node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../framework/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
@@ -129,14 +129,14 @@ $user = mysqli_fetch_assoc($query);
                         autocomplete="off">
                         <div class="mb-3">
                             <label for="password" class="form-label">Kata Sandi Baru</label>
-                            <input type="text" class="form-control" name="password" required id="password"
+                            <input type="password" class="form-control" name="password" required id="password"
                                 placeholder="Masukkan Password anda...">
                             <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
-                            <input type="confirm_password" class="form-control" name="confirm_password" required
+                            <input type="password" class="form-control" name="confirm_password" required
                                 id="confirm_password" placeholder="Konfirmasi Password anda...">
                             <div class="invalid-feedback"></div>
                         </div>

@@ -20,9 +20,9 @@ document.getElementById('formLogin').addEventListener('submit', async function (
         document.getElementById('passwordMessage').style.display = 'block';
         document.getElementById('passwordMessage').textContent = "Silahkan isi password anda";
         value = false;
-    } else if (password.length < 8) {
+    } else if (password.length < 6) {
         document.getElementById('passwordMessage').style.display = 'block';
-        document.getElementById('passwordMessage').textContent = "Password anda harus lebih dari 8 karakter";
+        document.getElementById('passwordMessage').textContent = "Password anda harus lebih dari 6 karakter";
         value = false;
     } else {
         document.getElementById('passwordMessage').style.display = 'none';

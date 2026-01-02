@@ -140,8 +140,8 @@ function tanggalIndonesia($tanggal, $formatJam = true)
     <title>Data Pelanggaran | Polibatam Surat Peringatan</title>
     <link rel="icon" href="../static/img/logo.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../framework/node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../framework/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="../static/style/font.css">
     <link rel="stylesheet" href="../static/style/sidebar.css">
@@ -222,8 +222,8 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                 </div>
             </div>
 
-            <div class="container poppins mb-5 p-3">
-                <div class="row mb-2 px-2">
+            <div class="position-relative container poppins mb-5 p-3">
+                <div class="position-sticky top-0 start-0 row mb-2 w-100">
                     <div class="col-12 col-lg-6 mb-3 mb-lg-0 px-0 d-flex justify-content-start align-items-center">
                         <p class="mb-0">
                             <?= $start_asc ?> - <?= $end_asc ?> dari <?= $total_data ?>
@@ -291,7 +291,7 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                     <td><?= $row['jenis_sp'] ?></td>
                                     <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal'] ?>
                                     </td>
-                                    <td class="text-wrap">
+                                    <td  class="text-nowrap">
                                         <?= strlen($row['keterangan']) > 50
                                             ? substr($row['keterangan'], 0, 50) . "..."
                                             : $row['keterangan'];
