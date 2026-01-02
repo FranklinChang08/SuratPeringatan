@@ -27,6 +27,12 @@ if (isset($_FILES['file']['tmp_name'])) {
                 continue;
             }
 
+            $cek_user = mysqli_query($conn, "SELECT * FROM tb_user WHERE (email = '$email' OR nim = '$nim') AND role!='Staf'");
+            if (mysqli_num_rows($cek_user) > 0) {
+                $errors[] = "Baris $i: Data Mahasiswa sudah ada silahkan masukkan data mahasiswa yang lain!";
+                continue;
+            }
+
             $prodiQuery = $conn->query("SELECT id_prodi FROM tb_prodi WHERE nama_prodi = '$prodi'");
             $prodiData = $prodiQuery->fetch_assoc();
             if (!$prodiData) {

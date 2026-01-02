@@ -9,18 +9,18 @@ if (!isset($_SESSION['nik'])) {
 }
 include_once("../../../conn.php");
 
-$nim         = $_POST['nim'] ?? null;
-$nama_user   = $_POST['nama_user'] ?? null;
-$email       = $_POST['email'] ?? null;
-$prodi_id    = $_POST['prodi_id'] ?? null;
-$kelas_id    = $_POST['kelas_id'] ?? null;
-$profile     = $_POST['profile'] ?? null;
+$nim = $_POST['nim'] ?? null;
+$nama_user = $_POST['nama_user'] ?? null;
+$email = $_POST['email'] ?? null;
+$prodi_id = $_POST['prodi_id'] ?? null;
+$kelas_id = $_POST['kelas_id'] ?? null;
+$profile = $_POST['profile'] ?? null;
 
-$cek_user = mysqli_query($conn, "SELECT * FROM tb_user WHERE email = '$email' OR nim = '$nim'");
+$cek_user = mysqli_query($conn, "SELECT * FROM tb_user WHERE (email = '$email' OR nim = '$nim') AND role!='Staf'");
 if (mysqli_num_rows($cek_user) > 0) {
     echo json_encode([
         "status" => "error",
-        "message" => "Email sudah digunakan!"
+        "message" => "Data Mahasiswa sudah ada silahkan masukkan data mahasiswa yang lain!"
     ]);
     exit;
 }
