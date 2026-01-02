@@ -152,7 +152,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 <circle cx="11" cy="11" r="8" />
               </svg>
             </label>
-            <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari...">
+            <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari">
           </form>
         </div>
       </div>
@@ -262,7 +262,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
             <?php endif; ?>
 
             <div class="d-flex justify-content-center align-items-center">
-              <!-- jika halaman awal > 1, tampilkan ... -->
+              <!-- jika halaman awal > 1, tampilkan  -->
 
               <div class="d-flex justify-content-center align-items-center gap-2">
                 <!-- range halaman -->
@@ -312,14 +312,14 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                   <div class="col">
                     <label for="semester" class="form-label">Semester</label>
                     <input type="number" min="1" max="8" name="semester" class="form-control" id="semester" required
-                      placeholder="Masukkan semester...">
+                      placeholder="Masukkan semester">
                     <div class="invalid-feedback"></div>
                   </div>
 
                   <div class="col">
                     <label for="kelas" class="form-label">Nama Kelas</label>
                     <input type="text" class="form-control" name="nama_kelas" id="kelas" required
-                      placeholder="Masukkan nama kelas...">
+                      placeholder="Masukkan nama kelas">
                     <div class="invalid-feedback"></div>
                   </div>
                 </div>
@@ -337,7 +337,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 <div class="mb-3">
                   <label for="walidosen" class="form-label">Wali Dosen</label>
                   <input type="text" class="form-control" name="nama_dosen" id="walidosen" required
-                    placeholder="Masukkan wali dosen...">
+                    placeholder="Masukkan wali dosen">
                   <div class="invalid-feedback"></div>
                 </div>
 
@@ -377,14 +377,14 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                   <div class="col">
                     <label for="semester" class="form-label">Semester</label>
                     <input type="number" name="semester" min="1" max="8" class="form-control" id="editsemester" value=""
-                      required placeholder="Masukkan semester...">
+                      required placeholder="Masukkan semester">
                     <div class="invalid-feedback"></div>
                   </div>
 
                   <div class="col">
                     <label for="kelas" class="form-label">Nama Kelas</label>
                     <input type="text" name="nama_kelas" class="form-control" id="editkelas" value="" required
-                      placeholder="Masukkan nama kelas...">
+                      placeholder="Masukkan nama kelas">
                     <div class="invalid-feedback"></div>
                   </div>
                 </div>
@@ -402,7 +402,7 @@ while ($row = mysqli_fetch_assoc($prodi)) {
                 <div class="mb-3">
                   <label for="walidosen" class="form-label">Wali Dosen</label>
                   <input type="text" name="nama_dosen" class="form-control" id="editwalidosen" value="" required
-                    placeholder="Masukkan wali dosen...">
+                    placeholder="Masukkan wali dosen">
                   <div class="invalid-feedback"></div>
                 </div>
 
@@ -419,8 +419,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
     </section>
   </div>
 </body>
-<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../framework/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../framework/node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script src="../static/js/confirmRemove.js"></script>
 <script src="../static/js/validationFormKelas.js"></script>
 <script src="../static/js/confirmLogout.js"></script>

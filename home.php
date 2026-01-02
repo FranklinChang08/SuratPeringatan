@@ -70,6 +70,7 @@ $select_pelanggaran = mysqli_query($conn, "SELECT * FROM tb_pelanggaran AS p INN
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home | Polibatam Surat Peringatan</title>
+      <link rel="icon" href="./static/img/logo.png" type="image/x-icon">
 
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="./static/style/font.css">

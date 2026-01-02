@@ -14,12 +14,12 @@ if ($row) {
 
         $validPassword = ($row['password'] == "")
             ? $row['nim'] == $passwordLogin
-            : $row['password'] == $passwordLogin;
+            : password_verify($passwordLogin, $row['password']);
     } elseif ($row['nik'] === $usernameLogin or $row['email'] === $usernameLogin) {
 
         $validPassword = ($row['password'] == "")
             ? $row['nik'] == $passwordLogin
-            : $row['password'] == $passwordLogin;
+            : password_verify($passwordLogin, $row['password']);
     } else {
         $validPassword = false;
     }

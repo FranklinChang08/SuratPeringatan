@@ -130,14 +130,14 @@ $user = mysqli_fetch_assoc($query);
                         <div class="mb-3">
                             <label for="password" class="form-label">Kata Sandi Baru</label>
                             <input type="password" class="form-control" name="password" required id="password"
-                                placeholder="Masukkan Password anda...">
+                                placeholder="Masukkan Password anda">
                             <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
                             <input type="password" class="form-control" name="confirm_password" required
-                                id="confirm_password" placeholder="Konfirmasi Password anda...">
+                                id="confirm_password" placeholder="Konfirmasi Password anda">
                             <div class="invalid-feedback"></div>
                         </div>
 
@@ -152,8 +152,8 @@ $user = mysqli_fetch_assoc($query);
         </section>
     </div>
 </body>
-<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../framework/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../framework/node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script type="text/javascript" src="../static/js/changePasswordStaff.js"></script>
 <script type="text/javascript" src="../static/js/updateProfileStaff.js"></script>
 

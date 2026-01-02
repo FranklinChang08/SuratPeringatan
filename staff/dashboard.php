@@ -169,7 +169,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                 <path d="m21 21-4.34-4.34" />
                                 <circle cx="11" cy="11" r="8" />
                             </svg></label>
-                        <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari...">
+                        <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" placeholder="Cari">
                     </form>
                 </div>
             </div>
@@ -285,7 +285,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                         <?php endif; ?>
 
                         <div class="d-flex justify-content-center align-items-center">
-                            <!-- jika halaman awal > 1, tampilkan ... -->
+                            <!-- jika halaman awal > 1, tampilkan  -->
 
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <!-- range halaman -->
@@ -324,7 +324,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                 <div class="mb-3">
                                     <label for="nimCreate" class="form-label">Nomor Induk Mahasiswa</label>
                                     <input type="number" name="nim" class="form-control" id="nimCreate"
-                                        placeholder="Masukkan nim mahasiswa..." required>
+                                        placeholder="Masukkan nim mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
@@ -401,7 +401,7 @@ while ($data = mysqli_fetch_assoc($kelas)) {
                                 <div class="mb-3">
                                     <label for="nimEdit" class="form-label">Nomor Induk Mahasiswa</label>
                                     <input type="text" name="nim" class="form-control" id="nimEdit"
-                                        placeholder="Masukkan nim mahasiswa..." required>
+                                        placeholder="Masukkan nim mahasiswa" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
@@ -485,8 +485,8 @@ while ($data = mysqli_fetch_assoc($kelas)) {
         </section>
     </div>
 </body>
-<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../framework/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../framework/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
 <script src="../static/js/validationFile.js"></script>
 <script src="../static/js/confirmRemove.js"></script>

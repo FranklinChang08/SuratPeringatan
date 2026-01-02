@@ -291,7 +291,7 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                     <td><?= $row['jenis_sp'] ?></td>
                                     <td><?= $row['kode_prodi'] . " " . $row['semester'] . $row['nama_kelas'] . " - " . $row['jadwal'] ?>
                                     </td>
-                                    <td  class="text-nowrap">
+                                    <td class="text-nowrap">
                                         <?= strlen($row['keterangan']) > 50
                                             ? substr($row['keterangan'], 0, 50) . "..."
                                             : $row['keterangan'];
@@ -483,8 +483,8 @@ function tanggalIndonesia($tanggal, $formatJam = true)
     </div>
 </body>
 
-<script src="../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="../node_modules/sweetalert2/dist/sweetalert2.min.css">
+<script src="../framework/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="../framework/node_modules/sweetalert2/dist/sweetalert2.min.css">
 
 <script src="../static/js/validationFormPelanggaran.js"></script>
 <script src="../static/js/confirmRemove.js"></script>

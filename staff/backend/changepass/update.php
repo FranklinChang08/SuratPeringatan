@@ -6,7 +6,8 @@ $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 
 if ($password == $confirm_password) {
-    $changePassword = mysqli_query($conn, "UPDATE tb_user SET password = '$password' WHERE id_user = '$id_user'");
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $changePassword = mysqli_query($conn, "UPDATE tb_user SET password = '$hashed_password' WHERE id_user = '$id_user'");
 
     if ($changePassword) {
         echo json_encode(["status" => "success"]);
