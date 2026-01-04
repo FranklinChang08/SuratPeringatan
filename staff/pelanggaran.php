@@ -164,6 +164,98 @@ function tanggalIndonesia($tanggal, $formatJam = true)
         .modal-backdrop {
             transition: opacity 0.3s ease;
         }
+
+        .select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-display {
+            border: 1px solid #ccc;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .select-dropdown {
+            display: none;
+            position: absolute;
+            top: 110%;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            z-index: 10;
+        }
+
+        .select-dropdown input {
+            width: 100%;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            outline: none;
+        }
+
+        .select-dropdown ul {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .select-dropdown ul::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .select-dropdown ul::-webkit-scrollbar-track {
+            background: transparent;
+            width: 4px;
+        }
+
+        .select-dropdown ul::-webkit-scrollbar-thumb {
+            background-color: #adb5bd;
+            border-radius: 10px;
+            width: 2px;
+        }
+
+        .select-dropdown ul::-webkit-scrollbar-thumb:hover {
+            background-color: #6c757d;
+        }
+
+        .select-dropdown li {
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 0.5rem;
+        }
+
+        .select-dropdown li:hover {
+            background: #f0f0f0;
+        }
+
+        .custom-search {
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: .375rem;
+        }
+
+        .custom-search:focus {
+            outline: none;
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+        }
+
+        .invalid-feedback.show {
+            display: block;
+        }
+
+        .select-dropdown ul li.selected {
+            background-color: #0d6efd;
+            color: #fff;
+            border-radius: 0.5rem;
+        }
     </style>
 </head>
 
@@ -384,20 +476,39 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                         <div class="modal-body">
                             <form method="POST" id="formCreatePelanggaran" class="needs-validation" novalidate
                                 autocomplete="off">
+
                                 <div class="mb-3">
-                                    <label for="mahasiswaCreate" class="form-label">Mahasiswa</label>
-                                    <select class="form-select" name="mahasiswa_id" id="mahasiswaCreate" required>
-                                        <option value="" selected>Pilih Mahasiswa</option>
-                                        <?php
-                                        foreach ($list_mahasiswa as $mhs) {
-                                            ?>
-                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> -
-                                                <?= $mhs['nama_user'] ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                    <div class="invalid-feedback"></div>
+                                    <label for="mahasiswaCreate" class="form-label">
+                                        Mahasiswa
+                                    </label>
+
+                                    <div class="select-wrapper">
+                                        <div class="form-select" id="selectDisplay" tabindex="0">
+                                            Pilih Mahasiswa
+                                        </div>
+
+                                        <div class="select-dropdown p-2" id="selectDropdown">
+                                            <input type="text" class="custom-search mb-2" id="searchInput"
+                                                placeholder="Cari berdasarkan NIM atau Nama...">
+
+
+                                            <ul id="optionList">
+                                                <?php foreach ($list_mahasiswa as $mhs): ?>
+                                                    <li data-id="<?= $mhs['id_user']; ?>" data-nim="<?= $mhs['nim']; ?>"
+                                                        data-nama="<?= $mhs['nama_user']; ?>">
+                                                        <?= $mhs['nim']; ?> - <?= $mhs['nama_user']; ?>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="mahasiswaCreate" name="mahasiswa_id" required>
+
+                                    <div class="invalid-feedback">
+                                    </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="jenis_suratCreate" class="form-label">Jenis Surat Peringatan</label>
                                     <select class="form-select" name="jenis_sp" id="jenis_suratCreate" required>
@@ -439,19 +550,35 @@ function tanggalIndonesia($tanggal, $formatJam = true)
                                 class="needs-validation" novalidate autocomplete="off">
                                 <input type="hidden" name="id_pelanggaran" id="id_pelanggaran">
                                 <div class="mb-3">
-                                    <label for="mahasiswaEdit" class="form-label">Mahasiswa</label>
-                                    <select class="form-select" name="mahasiswa_id" id="mahasiswaEdit" required>
-                                        <option value="" selected>Pilih Mahasiswa</option>
-                                        <?php
-                                        foreach ($list_mahasiswa as $mhs) {
-                                            ?>
-                                            <option value="<?= $mhs['id_user'] ?>"><?= $mhs['nim'] ?> -
-                                                <?= $mhs['nama_user'] ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
+                                    <label for="mahasiswaEdit" class="form-label">
+                                        Mahasiswa
+                                    </label>
+
+                                    <div class="select-wrapper">
+                                        <div class="form-select" id="selectDisplayEdit" tabindex="0">
+                                            Pilih Mahasiswa
+                                        </div>
+
+                                        <div class="select-dropdown p-2" id="selectDropdownEdit">
+                                            <input type="text" class="custom-search mb-2" id="searchInputEdit"
+                                                placeholder="Cari berdasarkan NIM atau Nama...">
+
+                                            <ul id="optionListEdit">
+                                                <?php foreach ($list_mahasiswa as $mhs): ?>
+                                                    <li data-id="<?= $mhs['id_user']; ?>" data-nim="<?= $mhs['nim']; ?>"
+                                                        data-nama="<?= $mhs['nama_user']; ?>">
+                                                        <?= $mhs['nim']; ?> - <?= $mhs['nama_user']; ?>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="mahasiswaEdit" name="mahasiswa_id" required>
+
                                     <div class="invalid-feedback"></div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="jenis_suratEdit" class="form-label">Jenis Surat Peringatan</label>
                                     <select class="form-select" name="jenis_sp" id="jenis_suratEdit" required>
@@ -491,6 +618,183 @@ function tanggalIndonesia($tanggal, $formatJam = true)
 <script src="../static/js/confirmLogout.js"></script>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const display = document.getElementById("selectDisplay");
+        const dropdown = document.getElementById("selectDropdown");
+        const search = document.getElementById("searchInput");
+        const options = [...document.querySelectorAll("#optionList li")];
+        const hidden = document.getElementById("mahasiswaCreate");
+        const label = document.querySelector('label[for="mahasiswaCreate"]');
+
+        label.addEventListener("click", () => {
+            dropdown.style.display = "block";
+            display.focus();
+        });
+
+        display.addEventListener("click", (e) => {
+            e.stopPropagation();
+
+            dropdown.style.display =
+                dropdown.style.display === "block" ? "none" : "block";
+        });
+
+
+        function showDefault() {
+            options.forEach((opt, i) => {
+                opt.style.display = i < 5 ? "block" : "none";
+            });
+        }
+        showDefault();
+
+        dropdown.addEventListener("click", e => e.stopPropagation());
+
+        search.addEventListener("input", function () {
+            const keyword = this.value.toLowerCase();
+
+            if (!keyword) {
+                showDefault();
+                return;
+            }
+
+            options.forEach(opt => {
+                const match =
+                    opt.dataset.nim.toLowerCase().includes(keyword) ||
+                    opt.dataset.nama.toLowerCase().includes(keyword);
+
+                opt.style.display = match ? "block" : "none";
+            });
+        });
+
+        options.forEach(option => {
+            option.addEventListener("click", function (e) {
+                e.stopPropagation();
+
+                display.textContent =
+                    `${this.dataset.nim} - ${this.dataset.nama}`;
+
+                hidden.value = this.dataset.id;
+
+                display.classList.remove('is-invalid');
+                display.classList.add('is-valid');
+                mahasiswaFeedbackCreate.classList.remove('show');
+
+                dropdown.style.display = "none";
+            });
+        });
+
+
+        document.addEventListener("click", function () {
+            dropdown.style.display = "none";
+        });
+
+        document.querySelector("form").addEventListener("submit", function (e) {
+            if (!hidden.value) {
+                e.preventDefault();
+                display.classList.add("is-invalid");
+            }
+        });
+
+        document.addEventListener("click", e => {
+            if (!e.target.closest(".select-wrapper")) {
+                dropdown.style.display = "none";
+            }
+        });
+
+        function setMahasiswaEditById(id) {
+            hiddenEdit.value = id;
+
+            // reset search
+            searchEdit.value = '';
+
+            optionsEdit.forEach(li => {
+                li.style.display = 'block';
+
+                if (li.dataset.id === String(id)) {
+                    // set display dari data LI
+                    displayEdit.textContent =
+                        `${li.dataset.nim} - ${li.dataset.nama}`;
+
+                    li.classList.add('selected');
+                    displayEdit.classList.remove('is-invalid');
+                    displayEdit.classList.add('is-valid');
+                } else {
+                    li.classList.remove('selected');
+                }
+            });
+        }
+
+        document.querySelectorAll('[data-bs-target="#editPelanggaran"]')
+            .forEach(btn => {
+                btn.addEventListener('click', function () {
+
+                    const mahasiswaId = this.dataset.mahasiswa;
+
+                    // 🔥 INI KUNCINYA
+                    setMahasiswaEditById(mahasiswaId);
+
+                });
+            });
+
+        const displayEdit = document.getElementById('selectDisplayEdit');
+        const dropdownEdit = document.getElementById('selectDropdownEdit');
+        const searchEdit = document.getElementById('searchInputEdit');
+        const hiddenEdit = document.getElementById('mahasiswaEdit');
+        const optionListEdit = document.getElementById('optionListEdit');
+        const optionsEdit = optionListEdit.querySelectorAll('li');
+        const feedbackEdit = hiddenEdit.nextElementSibling;
+
+        displayEdit.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdownEdit.style.display =
+                dropdownEdit.style.display === 'block' ? 'none' : 'block';
+        });
+
+        dropdownEdit.addEventListener('click', e => e.stopPropagation());
+
+        optionsEdit.forEach(option => {
+            option.addEventListener("click", function (e) {
+                e.stopPropagation();
+
+                optionsEdit.forEach(li => li.classList.remove('selected'));
+
+                this.classList.add('selected');
+
+                displayEdit.textContent =
+                    `${this.dataset.nim} - ${this.dataset.nama}`;
+
+                hiddenEdit.value = this.dataset.id;
+
+                displayEdit.classList.remove('is-invalid');
+                displayEdit.classList.add('is-valid');
+                feedbackEdit.classList.remove('show');
+
+                dropdownEdit.style.display = 'none';
+            });
+        });
+
+        searchEdit.addEventListener('input', function () {
+            const val = this.value.toLowerCase();
+
+            optionsEdit.forEach(li => {
+                const text =
+                    (li.dataset.nim + ' ' + li.dataset.nama).toLowerCase();
+
+                li.style.display = text.includes(val) ? 'block' : 'none';
+            });
+        });
+
+        document.addEventListener('click', function () {
+            dropdownEdit.style.display = 'none';
+        });
+
+    });
+</script>
+
+
+<script>
+
+
     // Button Create Modal dengan validasi mahasiswa count
     document.getElementById('btnCreatePelanggaranModal').addEventListener('click', function () {
         let mahasiswaCount = <?php echo $mahasiswaCount ?>;

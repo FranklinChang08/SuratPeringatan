@@ -1,5 +1,6 @@
 const formCreatePelanggaran = document.getElementById('formCreatePelanggaran');
 const mahasiswaInputCreate = document.getElementById('mahasiswaCreate');
+const mahasiswaDisplayCreate = document.getElementById('selectDisplay');
 const jenisSuratInputCreate = document.getElementById('jenis_suratCreate');
 const tanggalInputCreate = document.getElementById('tanggalCreate');
 const statusInputCreate = document.getElementById('statusCreate');
@@ -10,12 +11,20 @@ formCreatePelanggaran.addEventListener('submit', function (event) {
   formCreatePelanggaran.classList.add('was-validated')
   let isValid = true
 
-  const mahasiswaFeedbackCreate = mahasiswaInputCreate.nextElementSibling;
-  mahasiswaInputCreate.classList.remove('is-invalid')
+  const mahasiswaInputCreate = document.getElementById('mahasiswaCreate');
+  const mahasiswaDisplayCreate = document.getElementById('selectDisplay');
+  const mahasiswaFeedbackCreate =
+    mahasiswaInputCreate.nextElementSibling;
+
+  // reset
+  mahasiswaDisplayCreate.classList.remove('is-invalid');
+  mahasiswaFeedbackCreate.classList.remove('show');
+
   if (mahasiswaInputCreate.value === '') {
-    mahasiswaFeedbackCreate.textContent = 'Silahkan masukkan atau pilih nama mahasiswa'
-    mahasiswaInputCreate.classList.add('is-invalid')
-    isValid = false
+    mahasiswaDisplayCreate.classList.add('is-invalid');
+    mahasiswaFeedbackCreate.textContent = 'Mahasiswa wajib dipilih';
+    mahasiswaFeedbackCreate.classList.add('show');
+    isValid = false;
   }
 
   const jenisSuratFeedbackCreate = jenisSuratInputCreate.nextElementSibling;
