@@ -1,25 +1,35 @@
 <?php
-include_once("../../conn.php");
+// Halaman ini merupakan fitur tambahan untuk pengupdate profile user masing masing
 
-$id_user    = $_POST['id_user'] ?? null;
+session_start();
 
-$profile = $_FILES['profile']['name'];
-$tmp_name = $_FILES['profile']['tmp_name'];
-$target_dir = '../../static/img/profile_user/';
+if (!isset($_SESSION['nik'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
 
-$target_file = $target_dir . $profile;
+try {
+    include_once("../../conn.php");
 
-move_uploaded_file($tmp_name, $target_file);
+    $id_user = $_POST['id_user'] ?? null;
 
-// insert to database
-$query = "UPDATE tb_user SET profile = '$profile' WHERE id_user = $id_user";
-$result = mysqli_query($conn, $query);
+    $profile = $_FILES['profile']['name'];
+    $tmp_name = $_FILES['profile']['tmp_name'];
+    $target_dir = '../../static/img/profile_user/';
 
-if ($query) {
+    $target_file = $target_dir . $profile;
+
+    move_uploaded_file($tmp_name, $target_file);
+
+    // Update profile user dengan id user
+    $query = "UPDATE tb_user SET profile = '$profile' WHERE id_user = $id_user";
+    $result = mysqli_query($conn, $query);
+
     echo json_encode(["status" => "success"]);
-} else {
+
+} catch (Exception $e) {
     echo json_encode([
         "status" => "error",
-        "message" => mysqli_error($conn)
+        "message" => $e->getMessage()
     ]);
 }

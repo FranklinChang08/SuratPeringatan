@@ -1,61 +1,57 @@
 <?php
+// Halaman ini digunakan untuk membuat data pelanggaran baru
+
 session_start();
 
 if (!isset($_SESSION['nik'])) {
-    echo "<script>location.href = '../auth/login.php';</script>";
-    session_unset();
-    session_destroy();
+    header("Location: ../auth/login.php");
     exit;
 }
 
-include_once("../../../conn.php");
+try {
 
-$mahasiswa_id = $_POST['mahasiswa_id'] ?? null;
-$jenis_sp = $_POST['jenis_sp'] ?? null;
-$keterangan = $_POST['keterangan'] ?? null;
+    include_once("../../../conn.php");
 
-$cek_duplikat = mysqli_query($conn, "SELECT * FROM tb_pelanggaran
+    // Mengambil data dari form yang dikirim
+    $mahasiswa_id = $_POST['mahasiswa_id'] ?? null;
+    $jenis_sp = $_POST['jenis_sp'] ?? null;
+    $keterangan = $_POST['keterangan'] ?? null;
+
+    // Cek duplikasi data
+    $cek_duplikat = mysqli_query($conn, "SELECT * FROM tb_pelanggaran
                                      WHERE mahasiswa_id = '$mahasiswa_id' 
                                      AND jenis_sp = '$jenis_sp'");
 
-if (mysqli_num_rows($cek_duplikat) > 0) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "$jenis_sp sudah pernah dibuat untuk mahasiswa ini!"
-    ]);
-    exit;
-}
+    if (mysqli_num_rows($cek_duplikat) > 0) {
+        throw new Exception("$jenis_sp sudah pernah dibuat untuk mahasiswa ini!");
+    }
 
-$sp_number = intval(str_replace("SP ", "", $jenis_sp));
+    $sp_number = intval(str_replace("SP ", "", $jenis_sp));
 
-if ($sp_number > 1) {
-    $sp_prev = "SP " . ($sp_number - 1);
+    if ($sp_number > 1) {
+        $sp_prev = "SP " . ($sp_number - 1);
 
-    $cek_prev = mysqli_query($conn, "SELECT * FROM tb_pelanggaran
+        $cek_prev = mysqli_query($conn, "SELECT * FROM tb_pelanggaran
                                      WHERE mahasiswa_id = '$mahasiswa_id' 
                                      AND jenis_sp = '$sp_prev'");
 
-    if (mysqli_num_rows($cek_prev) == 0) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "$sp_prev harus dibuat terlebih dahulu sebelum membuat $jenis_sp!"
-        ]);
-        exit;
+        if (mysqli_num_rows($cek_prev) == 0) {
+            throw new Exception("$sp_prev harus dibuat terlebih dahulu sebelum membuat $jenis_sp!");
+        }
     }
-}
 
 
-$query = mysqli_query(
-    $conn,
-    "INSERT INTO tb_pelanggaran
+    $query = mysqli_query(
+        $conn,
+        "INSERT INTO tb_pelanggaran
     VALUES (NULL, '$mahasiswa_id', '$jenis_sp', '$keterangan', NULL, NULL)"
-);
+    );
 
-if ($query) {
     echo json_encode(["status" => "success"]);
-} else {
+
+} catch (Exception $e) {
     echo json_encode([
         "status" => "error",
-        "message" => mysqli_error($conn)
+        "message" => $e->getMessage()
     ]);
 }

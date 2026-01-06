@@ -2,12 +2,9 @@
 session_start();
 
 if (!isset($_SESSION['nik'])) {
-    echo "<script>location.href = '../auth/login.php';</script>";
-    session_unset();
-    session_destroy();
+    header("Location: ../auth/login.php");
     exit;
 }
-
 include('../conn.php');
 
 $nik = $_SESSION['nik'];
@@ -793,8 +790,6 @@ function tanggalIndonesia($tanggal, $formatJam = true)
 
 
 <script>
-
-
     // Button Create Modal dengan validasi mahasiswa count
     document.getElementById('btnCreatePelanggaranModal').addEventListener('click', function () {
         let mahasiswaCount = <?php echo $mahasiswaCount ?>;
