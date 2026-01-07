@@ -2,9 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['nik'])) {
-  echo "<script>location.href = '../auth/login.php';</script>";
-  session_unset();
-  session_destroy();
+  header("Location: ../auth/login.php");
   exit;
 }
 
@@ -171,7 +169,8 @@ while ($row = mysqli_fetch_assoc($prodi)) {
               <?php
               foreach ($list_prodi as $row) { ?>
                 <option <?= $prodi_filter == $row['id_prodi'] ? "selected" : "" ?> value="<?= $row['id_prodi'] ?>">
-                  <?= $row['nama_prodi'] ?></option>
+                  <?= $row['nama_prodi'] ?>
+                </option>
               <?php } ?>
             </select>
             <select name="semester" id="" class="form-select">

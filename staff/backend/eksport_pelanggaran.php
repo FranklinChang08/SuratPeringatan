@@ -1,8 +1,18 @@
 <?php
+// Halaman ini digunakan untuk mengekport hasil data pelanggaran
+
+session_start();
+
+if (!isset($_SESSION['nik'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 // HAPUS SEMUA OUTPUT SEBELUM PDF
 while (ob_get_level()) {
     ob_end_clean();
 }
+
 
 require __DIR__ . '/../../framework/vendor/autoload.php';
 

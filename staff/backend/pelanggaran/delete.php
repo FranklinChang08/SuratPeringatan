@@ -1,29 +1,35 @@
 <?php
+// Halaman ini digunakan untuk menghapus data pelanggaran
+
 session_start();
 
 if (!isset($_SESSION['nik'])) {
-    echo "<script>location.href = '../auth/login.php';</script>";
-    session_unset();
-    session_destroy();
+    header("Location: ../auth/login.php");
     exit;
 }
 
-include_once("../../../conn.php");
+try {
 
-$id_pelanggaran = $_POST['id_pelanggaran'];
-if (!$id_pelanggaran) {
+    include_once("../../../conn.php");
+
+    $id_pelanggaran = $_POST['id_pelanggaran'] ?? null;
+
+    if (!$id_pelanggaran) {
+        throw new Exception("ID pelanggaran tidak ditemukan");
+    }
+
+    // Eksekusi delete
+    mysqli_query(
+        $conn,
+        "DELETE FROM tb_pelanggaran WHERE id_pelanggaran = '$id_pelanggaran'"
+    );
+
+    // Jika berhasil
     header('location:../../pelanggaran.php');
+    exit;
+
+} catch (Exception $e) {
+    // Bisa ditambahkan logging di sini jika perlu
+    header('location:../../pelanggaran.php');
+    exit;
 }
-
-$create_pelanggaran = mysqli_query(
-    $conn,
-    "DELETE FROM tb_pelanggaran WHERE id_pelanggaran= $id_pelanggaran"
-);
-
-if ($create_pelanggaran) {
-    header('location:../../pelanggaran.php');
-} else {
-    header('location:../../pelanggaran.php');
-}
-
-exit();
