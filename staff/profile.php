@@ -54,8 +54,12 @@ $user = mysqli_fetch_assoc($query);
             <h2 class="fw-bold fs-3 text-uppercase m-0">Profile</h2>
             <div class="account">
                 <div class="account-desc">
-                    <h2 class="nama fs-6 mb-0 fw-bold">Gilang</h2>
-                    <h2 style="font-size: 10px;" class="email mb-0">gilang@gmail.com</h2>
+                    <h2 class=" fs-6 mb-0 fw-bold text-end border-0">
+                        <?= $user['nama_user'] ?>
+                    </h2>
+                    <p style="font-size: 10px;" class="mb-0">
+                        <?= $user['email'] ?>
+                    </p>
                 </div>
                 <a href="./profile.php" class="text-dark">
                     <?php
@@ -63,8 +67,8 @@ $user = mysqli_fetch_assoc($query);
                         <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover"
                             src="../static/img/profile_user/<?= $user['profile'] ?>" alt="">
                     <?php } else { ?>
-                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black"
-                            src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="">
+                        <img style="width: 40px; height: 40px;" class="rounded-circle border border-black object-fit-cover"
+                            src="https://i.pinimg.com/736x/f6/61/ea/f661ea61616909838a9fbfeda0d2ea14.jpg" alt="">
                     <?php }
                     ?>
                 </a>

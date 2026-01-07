@@ -84,7 +84,7 @@ $select_pelanggaran = mysqli_query($conn, "SELECT * FROM tb_pelanggaran AS p INN
         <div class="row g-3">
             <!-- SIDEBAR -->
             <div class="col-lg-4">
-                <div class="p-4 rounded-3 bg-white shadow-md h-100 position-relative">
+                <div class="p-4 rounded-3 bg-white shadow-sm h-100 position-relative">
                     <div>
                         <h2 class="font-poppins text-uppercase fw-bold mb-4">DATA MAHASISWA</h2>
                     </div>

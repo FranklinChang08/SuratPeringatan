@@ -2,7 +2,7 @@
 // Halaman ini digunakan untuk melakukan import data mahasiswa menggunakan excel
 
 session_start();
-require '../../../../framework/vendor/autoload.php';
+require '../../../framework/vendor/autoload.php';
 require '../../../conn.php';
 
 use Shuchkin\SimpleXLSX;
@@ -111,17 +111,10 @@ try {
         }
     }
 
-    // RESPON AKHIR
-    if (count($errors) > 0) {
-        echo json_encode([
-            "status" => "error",
-            "message" => $errors[0]
-        ]);
-    } else {
-        echo json_encode([
-            "status" => "success"
-        ]);
-    }
+
+    echo json_encode([
+        "status" => "success"
+    ]);
 
 } catch (Exception $e) {
     echo json_encode([
