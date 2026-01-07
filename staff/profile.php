@@ -156,5 +156,6 @@ $user = mysqli_fetch_assoc($query);
 <link rel="stylesheet" href="../framework/node_modules/sweetalert2/dist/sweetalert2.min.css">
 <script type="text/javascript" src="../static/js/changePasswordStaff.js"></script>
 <script type="text/javascript" src="../static/js/updateProfileStaff.js"></script>
+<script src="../static/js/confirmLogout.js"></script>
 
 </html>
